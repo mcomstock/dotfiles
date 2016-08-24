@@ -25,7 +25,7 @@
 ;; Package management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; el-get stuff
+;; el-get
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
       (url-retrieve-synchronously
@@ -47,17 +47,18 @@
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'p4)
 (require 'fzf)
+(require 'js2-mode)
 (require 'js3-mode)
-(require 'mustache-mode)
 (require 'less-css-mode)
+(require 'mustache-mode)
+(require 'p4)
+(require 'rainbow-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Custom set variables/faces
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; CUSTOM SET VARIABLES
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -65,7 +66,6 @@
  ;; If there is more than one, they won't work right.
  '(fzf/executable "fzfc"))
 
-;; CUSTOM SET FACES
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -189,6 +189,7 @@ DIRECTORY indicates where to start the search."
 (add-hook 'mustache-mode-hook 'tab-indent-setup)
 
 ;; CSS/less settings
+(add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
 (add-hook 'less-css-mode-hook 'tab-indent-setup)
 (add-hook 'css-mode-hook 'tab-indent-setup)
 
