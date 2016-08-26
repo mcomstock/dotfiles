@@ -118,6 +118,34 @@ DIRECTORY indicates where to start the search."
                (window-height   . 0.4)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; File type associatons
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
+(add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
+(add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
+
+(setq auto-mode-alist
+      (append '(("\\.esp$" . cperl-mode)
+                ("\\.pl$" . cperl-mode)
+                ("\\.pm$" . cperl-mode)
+                ("\\.rt$" . cperl-mode)
+                ("\\.rule$" . cperl-mode)
+                ("\\.mi\\'" . cperl-mode)
+                ("\\.mc\\'" . cperl-mode)
+                ("\\.\\([pP][Llm]\\|al\\)\\'" . cperl-mode)
+                ("\\.css$" . css-mode)
+                ("\\.json\\'" . js3-mode)
+                ("\\.tex'" . LaTeX-mode)
+                ("\\.less$". less-css-mode)
+                ("\\.lua$" . lua-mode)
+                ("\\.whiskers\\'" . mustache-mode)
+                ("\\.sql$" . sql-mode)
+                ("\\.tbl$" . sql-mode))
+              auto-mode-alist))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Language modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -136,62 +164,40 @@ DIRECTORY indicates where to start the search."
       cperl-indent-parens-as-block t
       cperl-tab-always-indent t
       cperl-highlight-variables-indiscriminately t)
-(add-to-list 'auto-mode-alist '("\\.\\([pP][Llm]\\|al\\)\\'" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
 
 (global-set-key [home] 'beginning-of-buffer)
 (global-set-key [select] 'end-of-buffer)
 (global-set-key [end] 'end-of-buffer)
 
-(add-to-list 'auto-mode-alist '("\\.mi\\'" . cperl-mode))
-(add-to-list 'auto-mode-alist '("\\.mc\\'" . cperl-mode))
-
 (define-key text-mode-map (kbd "<tab>") 'tab-to-tab-stop)
 
-(setq auto-mode-alist
-      (append '(("\\.esp$" . cperl-mode)
-        ("\\.pl$" . cperl-mode)
-        ("\\.pm$" . cperl-mode)
-        ("\\.rt$" . cperl-mode)
-        ("\\.rule$" . cperl-mode)
-        ("\\.sql$" . sql-mode)
-        ("\\.tbl$" . sql-mode)
-        ("\\.less$". css-mode)
-        ("\\.css$" . css-mode))
-          auto-mode-alist))
+;; CSS settings
+(add-hook 'less-css-mode-hook 'tab-indent-setup)
+
+;; Haskell mode
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
 ;; js3-mode
 (add-hook 'js3-mode-hook 'tab-indent-setup)
 (setq js3-indent-level 4
       js3-consistent-level-indent-inner-bracket t)
-(add-to-list 'auto-mode-alist '("\\.json\\'" . js3-mode))
-
-;; Haskell mode
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-
-;; Lua mode
-(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
-(setq lua-indent-level 4)
-(add-hook 'lua-mode-hook 'spaces-indent-setup)
 
 ;; Latex mode
-(add-to-list 'auto-mode-alist '("\\.tex'" . LaTeX-mode))
 (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
 (setq-default LaTeX-default-offset 2)
 (setq-default TeX-newline-function 'newline-and-indent)
 
-(add-to-list 'auto-mode-alist '("\\.whiskers\\'" . mustache-mode))
+;; LESS mode
+(add-hook 'css-mode-hook 'tab-indent-setup)
+
+;; Lua mode
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(setq lua-indent-level 4)
+(add-hook 'lua-mode-hook 'spaces-indent-setup)
+
+;; Mustache mode
 (setq-default mustache-basic-offset 4)
 (add-hook 'mustache-mode-hook 'tab-indent-setup)
-
-;; CSS/less settings
-(add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
-(add-hook 'less-css-mode-hook 'tab-indent-setup)
-(add-hook 'css-mode-hook 'tab-indent-setup)
 
 
 ;; Get emacs to highlight this file correctly
