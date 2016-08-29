@@ -178,7 +178,8 @@ DIRECTORY indicates where to start the search."
       cperl-continued-statement-offset 0
       cperl-indent-parens-as-block t
       cperl-tab-always-indent t
-      cperl-highlight-variables-indiscriminately t)
+      cperl-highlight-variables-indiscriminately t
+      cperl-invalid-face nil)
 
 (global-set-key [home] 'beginning-of-buffer)
 (global-set-key [select] 'end-of-buffer)
@@ -190,12 +191,15 @@ DIRECTORY indicates where to start the search."
 (add-hook 'less-css-mode-hook 'tab-indent-setup)
 
 ;; Haskell mode
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(add-hook 'haskell-mode-hook 'tab-indent-setup)
+
+;; js2-mode
+(add-hook 'js2-mode-hook 'tab-indent-setup)
 
 ;; js3-mode
 (add-hook 'js3-mode-hook 'tab-indent-setup)
-(setq js3-indent-level 4
-      js3-consistent-level-indent-inner-bracket t)
+(setq-default js3-indent-level 4
+              js3-consistent-level-indent-inner-bracket t)
 
 ;; Latex mode
 (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
