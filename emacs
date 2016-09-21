@@ -72,6 +72,7 @@
 (require 'fzf)
 (require 'js2-mode)
 (require 'js3-mode)
+(require 'json-mode)
 (require 'less-css-mode)
 (require 'mustache-mode)
 (require 'p4)
@@ -80,6 +81,7 @@
 (require 'rich-minority)
 (require 'smart-mode-line)
 (require 'smart-mode-line-powerline-theme)
+(require 'yaml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package settings
@@ -151,7 +153,6 @@ DIRECTORY indicates where to start the search."
                 ("\\.mc\\'" . cperl-mode)
                 ("\\.\\([pP][Llm]\\|al\\)\\'" . cperl-mode)
                 ("\\.css$" . css-mode)
-                ("\\.json\\'" . js3-mode)
                 ("\\.tex'" . LaTeX-mode)
                 ("\\.less$". less-css-mode)
                 ("\\.lua$" . lua-mode)
