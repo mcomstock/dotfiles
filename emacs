@@ -219,6 +219,9 @@ DIRECTORY indicates where to start the search."
 (setq-default mustache-basic-offset 4)
 (add-hook 'mustache-mode-hook 'tab-indent-setup)
 
+;; Ruby mode
+(setq ruby-deep-indent-paren nil)
+
 
 ;; Get emacs to highlight this file correctly
 ;; Local Variables:
