@@ -38,7 +38,7 @@
   (menu-bar-mode 0)
 )
 ;; Custom theme
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/color-to-the-max-theme")
 (load-theme 'color-to-the-max t)
 ;; Load paths
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
