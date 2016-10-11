@@ -10,7 +10,10 @@
  '(custom-safe-themes
    (quote
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
- '(fzf/executable "fzfc"))
+ '(fzf/executable "fzfc")
+ '(package-selected-packages
+   (quote
+    (haskell-mode yaml-mode smart-mode-line-powerline-theme rainbow-mode p4 mustache-mode less-css-mode json-mode js3-mode js2-mode fzf))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -70,6 +73,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'fzf)
+(require 'haskell-mode)
 (require 'js2-mode)
 (require 'js3-mode)
 (require 'json-mode)
