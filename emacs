@@ -224,7 +224,9 @@ DIRECTORY indicates where to start the search."
 (add-hook 'mustache-mode-hook 'tab-indent-setup)
 
 ;; Ruby mode
-(setq ruby-deep-indent-paren nil)
+(setq ruby-use-smie t)
+(setq ruby-align-to-stmt-keywords t)
+(setq ruby-align-chained-calls t)
 
 
 ;; Get emacs to highlight this file correctly
