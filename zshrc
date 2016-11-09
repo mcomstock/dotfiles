@@ -47,6 +47,10 @@ zstyle ':completion:*' menu select
 # autocomplete aliases
 setopt COMPLETE_ALIASES
 
+# select and traverse words like bash
+autoload -U select-word-style
+select-word-style bash
+
 # These are set in bashrc (or not at all at work)
 if [[ $AX_HOME != *athenax* ]]; then
     # ls uses colors correctly with urxvt
