@@ -18,19 +18,28 @@ setopt SHARE_HISTORY
 setopt promptsubst
 
 autoload -Uz colors && colors
-local username='%{%f$fg[red]%}%n%{%f%}'
-local machine='%{%f$fg[green]%}%m%{%f%}'
-local dir='%{%f$fg[cyan]%}%~%{%f%}'
-local input='%{%f$fg[magenta]%}>%{%f%}'
 local newline=$'\n'
+local username='%{%f%F{33}%}%n%{%f%}'
+local machine='%{%f%F{130}%}%m%{%f%}'
+local dir='%{%f%F{144}%}%~%{%f%}'
+# the input prompt is green if the last exit code was 0, red otherwise
+local input='%{%f%}%(?.%{$fg[green]%}.%{$fg[red]%})>%{%f%}'
+local time='%{%f%F{105}%}%D{%T}%{%f%}'
+local date='%{%f%F{125}%}%D{%F}%{%f%}'
+local exit_code='%(?.%{$fg[green]%}.%{$fg[red]%})%?%{%f%}'
+local gray_at='%{%F{246}%}@%{%f%}'
+local gray_lb='%{%F{246}%}[%{%f%}'
+local gray_rb='%{%F{246}%}]%{%f%}'
+local rprompt_string="${time} ${date} ${gray_lb}${exit_code}${gray_rb}"
+local prompt_string="${username}${gray_at}${machine} ${dir}${newline}${input} "
 if [[ -n $BUILDNAME || -n $MASTER_ROOT_INSTANCE ]]; then
-    local bname='%{$fg[cyan]%}$BUILDNAME%{$reset_color%}'
-    local master_root='%{$fg[red]%}$MASTER_ROOT_INSTANCE%{$reset_color%}'
-    local prompt_string="%{%f$fg[green]%}[${bname} ${master_root}%{$fg[green]%}] %{$fg_bold[magenta]%}%n@%m %{$fg_bold[yellow]%}%~${newline}%{%b$fg[green]%}> %{%f%}"
-else
-    local prompt_string="${username}@${machine} [${dir}]${newline}${input} "
+    local bname='%{$fg[cyan]%}$BUILDNAME%{%f%}'
+    local master_root='%{$fg[red]%}$MASTER_ROOT_INSTANCE%{%f%}'
+    local prompt_string="${gray_lb}${bname} ${master_root}${gray_rb} ${prompt_string}"
 fi
 PROMPT="${prompt_string}"
+
+RPROMPT="${rprompt_string}"
 
 # up/down arrow only shows commands matching the current line
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
