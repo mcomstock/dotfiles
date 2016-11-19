@@ -13,7 +13,7 @@
  '(fzf/executable "fzfc")
  '(package-selected-packages
    (quote
-    (haskell-mode yaml-mode smart-mode-line-powerline-theme rainbow-mode p4 mustache-mode less-css-mode json-mode js3-mode js2-mode fzf))))
+    (rust-mode haskell-mode yaml-mode smart-mode-line-powerline-theme rainbow-mode p4 mustache-mode less-css-mode json-mode js3-mode js2-mode fzf))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -83,6 +83,7 @@
 (require 'powerline)
 (require 'rainbow-mode)
 (require 'rich-minority)
+(require 'rust-mode)
 (require 'smart-mode-line)
 (require 'smart-mode-line-powerline-theme)
 (require 'yaml-mode)
