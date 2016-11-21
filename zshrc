@@ -19,6 +19,10 @@ setopt promptsubst
 
 autoload -Uz colors && colors
 local newline=$'\n'
+local _lineup=$'\e[1A'
+local _linedown=$'\e[1B'
+local lineup='%{${_lineup}%}'
+local linedown='%{${_linedown}%}'
 local username='%{%f%F{33}%}%n%{%f%}'
 local machine='%{%f%F{130}%}%m%{%f%}'
 local dir='%{%f%F{144}%}%~%{%f%}'
@@ -30,7 +34,7 @@ local exit_code='%(?.%{$fg[green]%}.%{$fg[red]%})%?%{%f%}'
 local gray_at='%{%F{246}%}@%{%f%}'
 local gray_lb='%{%F{246}%}[%{%f%}'
 local gray_rb='%{%F{246}%}]%{%f%}'
-local rprompt_string="${time} ${date} ${gray_lb}${exit_code}${gray_rb}"
+local rprompt_string="${lineup}${time} ${date} ${gray_lb}${exit_code}${gray_rb}${linedown}"
 local prompt_string="${username}${gray_at}${machine} ${dir}${newline}${input} "
 if [[ -n $BUILDNAME || -n $MASTER_ROOT_INSTANCE ]]; then
     local bname='%{$fg[cyan]%}$BUILDNAME%{%f%}'
