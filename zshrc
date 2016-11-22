@@ -27,20 +27,23 @@ local username='%{%f%F{33}%}%n%{%f%}'
 local machine='%{%f%F{130}%}%m%{%f%}'
 local dir='%{%f%F{144}%}%~%{%f%}'
 # the input prompt is green if the last exit code was 0, red otherwise
-local input='%{%f%}%(?.%{$fg[green]%}.%{$fg[red]%})>%{%f%}'
+local input='%{%f%}%(?.%{$fg[green]%}.%{$fg[red]%})❯%{%f%}'
 local time='%{%f%F{105}%}%D{%T}%{%f%}'
 local date='%{%f%F{125}%}%D{%F}%{%f%}'
 local exit_code='%(?.%{$fg[green]%}.%{$fg[red]%})%?%{%f%}'
 local gray_at='%{%F{246}%}@%{%f%}'
 local gray_lb='%{%F{246}%}[%{%f%}'
 local gray_rb='%{%F{246}%}]%{%f%}'
+
 local rprompt_string="${lineup}${time} ${date} ${gray_lb}${exit_code}${gray_rb}${linedown}"
 local prompt_string="${username}${gray_at}${machine} ${dir}${newline}${input} "
+
 if [[ -n $BUILDNAME || -n $MASTER_ROOT_INSTANCE ]]; then
     local bname='%{$fg[cyan]%}$BUILDNAME%{%f%}'
     local master_root='%{$fg[red]%}$MASTER_ROOT_INSTANCE%{%f%}'
     local prompt_string="${gray_lb}${bname} ${master_root}${gray_rb} ${prompt_string}"
 fi
+
 PROMPT="${prompt_string}"
 
 RPROMPT="${rprompt_string}"
