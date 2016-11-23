@@ -27,7 +27,7 @@ local username='%{%f%F{33}%}%n%{%f%}'
 local machine='%{%f%F{130}%}%m%{%f%}'
 local dir='%{%f%F{144}%}%~%{%f%}'
 # the input prompt is green if the last exit code was 0, red otherwise
-local input='%{%f%}%(?.%{$fg[green]%}.%{$fg[red]%})❯%{%f%}'
+local input='%{%f%}%(?.%{$fg[green]%}.%{$fg[red]%})❯❯%{%f%}'
 local time='%{%f%F{105}%}%D{%T}%{%f%}'
 local date='%{%f%F{125}%}%D{%F}%{%f%}'
 local exit_code='%(?.%{$fg[green]%}.%{$fg[red]%})%?%{%f%}'
