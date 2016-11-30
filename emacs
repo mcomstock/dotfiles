@@ -35,7 +35,6 @@
 (setq column-number-mode t)
 (setq split-height-threshold 200)
 (show-paren-mode 1)
-(global-set-key "\C-xg" 'goto-line)
 ;; for text consoles - don't need menu bar
 (unless window-system
   (menu-bar-mode 0)
@@ -142,6 +141,9 @@ DIRECTORY indicates where to start the search."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Goto line
+(global-set-key "\C-xg" 'goto-line)
 
 ;; Jump 5 lines
 (global-set-key (kbd "M-n")
