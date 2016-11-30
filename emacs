@@ -140,6 +140,16 @@ DIRECTORY indicates where to start the search."
                (window-height   . 0.4)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Key bindings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Jump 5 lines
+(global-set-key (kbd "M-n")
+                (lambda () (interactive) (forward-line 5)))
+(global-set-key (kbd "M-p")
+                (lambda () (interactive) (forward-line -5)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File type associatons
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
