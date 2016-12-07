@@ -35,6 +35,7 @@
 (setq column-number-mode t)
 (setq split-height-threshold 200)
 (show-paren-mode 1)
+(global-hl-line-mode)
 ;; for text consoles - don't need menu bar
 (unless window-system
   (menu-bar-mode 0)
