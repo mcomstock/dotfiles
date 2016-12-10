@@ -72,14 +72,11 @@
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'fzf)
 (require 'haskell-mode)
 (require 'js2-mode)
 (require 'js3-mode)
 (require 'json-mode)
 (require 'less-css-mode)
-(require 'mustache-mode)
-(require 'p4)
 (require 'powerline)
 (require 'rainbow-mode)
 (require 'rich-minority)
@@ -87,6 +84,13 @@
 (require 'smart-mode-line)
 (require 'smart-mode-line-powerline-theme)
 (require 'yaml-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load local settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(when (file-readable-p "~/.emacs-local.el")
+  (load "~/.emacs-local.el"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package settings
@@ -106,38 +110,6 @@
 ;; Add to hooks for modes that should indent using spaces
 (defun spaces-indent-setup ()
   (setq indent-tabs-mode nil))
-
-;; Fuzzy file finding
-;; Open fzf window across the bottom of the emacs session rather than the top of
-;; the current window. This also makes `fzf/window-height' ineffective.
-(defun fzf/start (directory)
-  "Start an fzf session.
-DIRECTORY indicates where to start the search."
-  (let ((default-directory directory))
-    (require 'term)
-    (window-configuration-to-register :fzf-windows)
-    (advice-add 'term-handle-exit :after #'fzf/after-term-handle-exit)
-    (let ((buf (get-buffer-create "*fzf*")))
-      (display-buffer "*fzf*")
-      (select-window (get-buffer-window "*fzf*"))
-      (if fzf/args
-          (apply 'make-term "fzf" fzf/executable nil (split-string fzf/args " "))
-        (make-term "fzf" fzf/executable))
-      (switch-to-buffer buf)
-
-      ;; disable various settings known to cause artifacts, see #1 for more details
-      (setq-local scroll-margin 0)
-      (setq-local scroll-conservatively 0)
-      (setq-local term-suppress-hard-newline t) ;for paths wider than the window
-      (face-remap-add-relative 'mode-line '(:box nil))
-
-      (term-char-mode)
-      (setq mode-line-format (format "   FZF  %s" directory)))))
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*fzf*" eos)
-               (display-buffer-in-side-window)
-               (side            . bottom)
-               (window-height   . 0.4)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key bindings
@@ -174,7 +146,6 @@ DIRECTORY indicates where to start the search."
                 ("\\.tex'" . LaTeX-mode)
                 ("\\.less$". less-css-mode)
                 ("\\.lua$" . lua-mode)
-                ("\\.whiskers\\'" . mustache-mode)
                 ("\\.sql$" . sql-mode)
                 ("\\.tbl$" . sql-mode))
               auto-mode-alist))
@@ -232,10 +203,6 @@ DIRECTORY indicates where to start the search."
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
 (setq lua-indent-level 4)
 (add-hook 'lua-mode-hook 'spaces-indent-setup)
-
-;; Mustache mode
-(setq-default mustache-basic-offset 4)
-(add-hook 'mustache-mode-hook 'tab-indent-setup)
 
 ;; Ruby mode
 (setq ruby-use-smie t)
