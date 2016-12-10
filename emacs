@@ -13,7 +13,7 @@
  '(fzf/executable "fzfc")
  '(package-selected-packages
    (quote
-    (rust-mode haskell-mode yaml-mode smart-mode-line-powerline-theme rainbow-mode p4 mustache-mode less-css-mode json-mode js3-mode js2-mode fzf))))
+    (rainbow-delimiters rust-mode haskell-mode yaml-mode smart-mode-line-powerline-theme rainbow-mode p4 mustache-mode less-css-mode json-mode js3-mode js2-mode fzf))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -78,6 +78,7 @@
 (require 'json-mode)
 (require 'less-css-mode)
 (require 'powerline)
+(require 'rainbow-delimiters)
 (require 'rainbow-mode)
 (require 'rich-minority)
 (require 'rust-mode)
@@ -158,11 +159,13 @@
 (setq c-default-style "stroustrup"
       c-basic-offset 4)
 (add-hook 'c-mode-common-hook 'tab-indent-setup)
+(add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
 ;; Don't indent brace that opens an in-class inline method
 (c-set-offset 'inline-open 0)
 
 ;; CPerl
 (add-hook 'cperl-mode-hook 'tab-indent-setup)
+(add-hook 'cperl-mode-hook #'rainbow-delimiters-mode)
 (setq cperl-indent-level 4
       cperl-close-paren-offset -4
       cperl-continued-statement-offset 0
@@ -178,33 +181,41 @@
 (define-key text-mode-map (kbd "<tab>") 'tab-to-tab-stop)
 
 ;; CSS settings
-(add-hook 'less-css-mode-hook 'tab-indent-setup)
+(add-hook 'css-mode-hook 'tab-indent-setup)
+(add-hook 'css-mode-hook #'rainbow-delimiters-mode)
 
 ;; Haskell mode
 (add-hook 'haskell-mode-hook 'tab-indent-setup)
+(add-hook 'haskell-mode-hook #'rainbow-delimiters-mode)
 
 ;; js2-mode
 (add-hook 'js2-mode-hook 'tab-indent-setup)
+(add-hook 'js2-mode-hook #'rainbow-delimiters-mode)
 
 ;; js3-mode
 (add-hook 'js3-mode-hook 'tab-indent-setup)
+(add-hook 'js3-mode-hook #'rainbow-delimiters-mode)
 (setq-default js3-indent-level 4
               js3-consistent-level-indent-inner-bracket t)
 
 ;; Latex mode
 (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
+(add-hook 'LaTeX-mode-hook #'rainbow-delimiters-mode)
 (setq-default LaTeX-default-offset 2)
 (setq-default TeX-newline-function 'newline-and-indent)
 
 ;; LESS mode
-(add-hook 'css-mode-hook 'tab-indent-setup)
+(add-hook 'less-css-mode-hook 'tab-indent-setup)
+(add-hook 'less-css-mode-hook #'rainbow-delimiters-mode)
 
 ;; Lua mode
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
 (setq lua-indent-level 4)
 (add-hook 'lua-mode-hook 'spaces-indent-setup)
+(add-hook 'lua-mode-hook #'rainbow-delimiters-mode)
 
 ;; Ruby mode
+(add-hook 'ruby-mode-hook #'rainbow-delimiters-mode)
 (setq ruby-use-smie t)
 (setq ruby-align-to-stmt-keywords t)
 (setq ruby-align-chained-calls t)
