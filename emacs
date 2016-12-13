@@ -197,6 +197,9 @@
 (add-hook 'css-mode-hook 'tab-indent-setup)
 (add-hook 'css-mode-hook #'rainbow-delimiters-mode)
 
+;; Emacs lisp mode
+(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+
 ;; Haskell mode
 (add-hook 'haskell-mode-hook 'tab-indent-setup)
 (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode)
@@ -232,6 +235,9 @@
 (setq ruby-use-smie t)
 (setq ruby-align-to-stmt-keywords t)
 (setq ruby-align-chained-calls t)
+
+;; Rust mode
+(add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
 
 
 ;; Get emacs to highlight this file correctly
