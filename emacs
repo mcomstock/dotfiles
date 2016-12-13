@@ -13,7 +13,7 @@
  '(fzf/executable "fzfc")
  '(package-selected-packages
    (quote
-    (rainbow-delimiters rust-mode haskell-mode yaml-mode smart-mode-line-powerline-theme rainbow-mode p4 mustache-mode less-css-mode json-mode js3-mode js2-mode fzf))))
+    (spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode smart-mode-line-powerline-theme rainbow-mode p4 mustache-mode less-css-mode json-mode js3-mode js2-mode fzf))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -82,8 +82,7 @@
 (require 'rainbow-mode)
 (require 'rich-minority)
 (require 'rust-mode)
-(require 'smart-mode-line)
-(require 'smart-mode-line-powerline-theme)
+(require 'spaceline-config)
 (require 'yaml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -97,8 +96,14 @@
 ;; Package settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq sml/theme 'powerline)
-(sml/setup)
+(defface spaceline-externally-modified-face
+  '((t :background "red"))
+    "Face for denoting that the buffer has been externally modified in the spaceline."
+    :group 'spaceline)
+
+(setq powerline-default-separator 'utf-8)
+(setq spaceline-highlight-face-func 'spaceline-highlight-face-modified-externally)
+(spaceline-emacs-theme)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful functions
@@ -111,6 +116,14 @@
 ;; Add to hooks for modes that should indent using spaces
 (defun spaces-indent-setup ()
   (setq indent-tabs-mode nil))
+
+;; Check whether the buffer is read-only, has been modified, or has been saved since it was opened
+(defun spaceline-highlight-face-modified-externally ()
+  (cond
+   (buffer-read-only 'spaceline-read-only)
+   ((not (verify-visited-file-modtime)) 'spaceline-externally-modified-face)
+   ((buffer-modified-p) 'spaceline-modified)
+   (t 'spaceline-unmodified)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key bindings
