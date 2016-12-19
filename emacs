@@ -13,7 +13,7 @@
  '(fzf/executable "fzfc")
  '(package-selected-packages
    (quote
-    (spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode smart-mode-line-powerline-theme rainbow-mode p4 mustache-mode less-css-mode json-mode js3-mode js2-mode fzf))))
+    (spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -80,7 +80,6 @@
 (require 'powerline)
 (require 'rainbow-delimiters)
 (require 'rainbow-mode)
-(require 'rich-minority)
 (require 'rust-mode)
 (require 'spaceline-config)
 (require 'yaml-mode)
