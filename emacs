@@ -238,6 +238,9 @@
 ;; Rust mode
 (add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
 
+;; Shell mode
+(add-hook 'sh-mode-hook #'rainbow-delimiters-mode)
+
 
 ;; Get emacs to highlight this file correctly
 ;; Local Variables:
