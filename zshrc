@@ -38,10 +38,12 @@ local gray_rb='%{%F{246}%}]%{%f%}'
 local rprompt_string="${lineup}${time} ${date} ${gray_lb}${exit_code}${gray_rb}${linedown}"
 local prompt_string="${username}${gray_at}${machine} ${dir}${newline}${input} "
 
-if [[ -n $BUILDNAME || -n $MASTER_ROOT_INSTANCE ]]; then
-    local bname='%{$fg[cyan]%}$BUILDNAME%{%f%}'
+if [[ -n $TEAM_NAME || -n $FEATURE_NAME || -n $MASTER_ROOT_INSTANCE ]]; then
+    local gray_slash='%{%F{246}%}/%{%f%}'
+    local team_name='%{$fg[cyan]%}$TEAM_NAME%{%f%}'
+    local feature_name='%{%F{135}%}$FEATURE_NAME%{%f%}'
     local master_root='%{$fg[red]%}$MASTER_ROOT_INSTANCE%{%f%}'
-    local prompt_string="${gray_lb}${bname} ${master_root}${gray_rb} ${prompt_string}"
+    local prompt_string="${gray_lb}${team_name}${gray_slash}${feature_name} ${master_root}${gray_rb} ${prompt_string}"
 fi
 
 PROMPT="${prompt_string}"
