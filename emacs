@@ -13,7 +13,7 @@
  '(fzf/executable "fzfc")
  '(package-selected-packages
    (quote
-    (spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf))))
+    (yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -83,6 +83,7 @@
 (require 'rust-mode)
 (require 'spaceline-config)
 (require 'yaml-mode)
+(require 'yasnippet)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load local settings
@@ -103,6 +104,8 @@
 (setq powerline-default-separator 'utf-8)
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-modified-externally)
 (spaceline-emacs-theme)
+
+(yas-global-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful functions
