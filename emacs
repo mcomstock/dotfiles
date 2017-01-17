@@ -105,8 +105,6 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-modified-externally)
 (spaceline-emacs-theme)
 
-(yas-global-mode 1)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
