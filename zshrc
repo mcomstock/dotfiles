@@ -34,18 +34,18 @@ local _lineup=$'\e[1A'
 local _linedown=$'\e[1B'
 local lineup='%{${_lineup}%}'
 local linedown='%{${_linedown}%}'
-local username='%{%f%F{33}%}%n%{%f%}'
-local machine='%{%f%F{130}%}%m%{%f%}'
-local dir='%{%f%F{144}%}%~%{%f%}'
-# the input prompt is cyan if the last exit code was 0, red otherwise
-local input='%{%f%}%(?.%{$fg[cyan]%}.%{$fg[red]%})❯❯%{%f%}'
-local time='%{%f%F{105}%}%D{%T}%{%f%}'
-local date='%{%f%F{125}%}%D{%F}%{%f%}'
-local exit_code='%(?.%{$fg[cyan]%}.%{$fg[red]%})%?%{%f%}'
+local username='%{%f%F{35}%}%n%{%f%}'
+local machine='%{%f%F{75}%}%m%{%f%}'
+local dir='%{%f%F{222}%}%~%{%f%}'
+# the input prompt is blue if the last exit code was 0, red otherwise
+local input='%{%f%}%(?.%{$fg[cyan]%}.%{%F{197}%})❯❯%{%f%}'
+local time='%{%f%F{35}%}%D{%T}%{%f%}'
+local date='%{%f%F{75}%}%D{%F}%{%f%}'
+local exit_code='%(?.%{$fg[cyan]%}.%{%F{197}%})%?%{%f%}'
 local gray_at='%{%F{246}%}@%{%f%}'
 local gray_lb='%{%F{246}%}[%{%f%}'
 local gray_rb='%{%F{246}%}]%{%f%}'
-local elapsed='%{%F{35}%}$(echo $_elapsed[-1])%{%f%}'
+local elapsed='%{%F{135}%}$(echo $_elapsed[-1])%{%f%}'
 
 local rprompt_string="${lineup}${elapsed} ${time} ${date}${linedown}"
 local prompt_string="${username}${gray_at}${machine} ${dir}${newline}${exit_code} ${input} "
@@ -102,3 +102,29 @@ if [[ -e /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.
 elif [[ -e /home/mcomstock/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source /home/mcomstock/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
+
+# Enable highlighters
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+
+# Override highlighter colors
+ZSH_HIGHLIGHT_STYLES[default]=none
+ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=197
+ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=197,standout
+ZSH_HIGHLIGHT_STYLES[alias]=fg=cyan
+ZSH_HIGHLIGHT_STYLES[builtin]=fg=cyan
+ZSH_HIGHLIGHT_STYLES[function]=fg=cyan
+ZSH_HIGHLIGHT_STYLES[command]=fg=cyan
+ZSH_HIGHLIGHT_STYLES[precommand]=fg=white,underline
+ZSH_HIGHLIGHT_STYLES[commandseparator]=none
+ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=009
+ZSH_HIGHLIGHT_STYLES[path]=fg=222
+ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
+ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=white,underline
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=none
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=none
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=135
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=magenta
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=magenta
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=161
+ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=161
+ZSH_HIGHLIGHT_STYLES[assign]=none
