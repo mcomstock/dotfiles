@@ -17,6 +17,17 @@ setopt SHARE_HISTORY
 # prompt stuff
 setopt promptsubst
 
+# use preexec and precmd to record the time it takes to run each command
+preexec () {
+    (( $#_elapsed > 1000 )) && set -A _elapsed $_elapsed[-1000,-1]
+    typeset -ig _start=SECONDS
+}
+
+precmd () {
+    (( _start >= 0 )) && set -A _elapsed $_elapsed $(( SECONDS-_start ))
+    _start=-1
+}
+
 autoload -Uz colors && colors
 local newline=$'\n'
 local _lineup=$'\e[1A'
@@ -34,9 +45,10 @@ local exit_code='%(?.%{$fg[cyan]%}.%{$fg[red]%})%?%{%f%}'
 local gray_at='%{%F{246}%}@%{%f%}'
 local gray_lb='%{%F{246}%}[%{%f%}'
 local gray_rb='%{%F{246}%}]%{%f%}'
+local elapsed='%{%F{35}%}$(echo $_elapsed[-1])%{%f%}'
 
-local rprompt_string="${lineup}${time} ${date} ${gray_lb}${exit_code}${gray_rb}${linedown}"
-local prompt_string="${username}${gray_at}${machine} ${dir}${newline}${input} "
+local rprompt_string="${lineup}${elapsed} ${time} ${date}${linedown}"
+local prompt_string="${username}${gray_at}${machine} ${dir}${newline}${exit_code} ${input} "
 
 if [[ -n $BUILDNAME || -n $MASTER_ROOT_INSTANCE ]]; then
     local color_buildname='%{$fg[cyan]%}$(echo $BUILDNAME | sed -e "s/\(.*\)\/\(.*\)/\x1b[38;5;6m\1\x1b[38;5;246m\/\x1b[38;5;135m\2/g")%{%f%}'
