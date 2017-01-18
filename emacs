@@ -13,7 +13,7 @@
  '(fzf/executable "fzfc")
  '(package-selected-packages
    (quote
-    (yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf))))
+    (mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -77,6 +77,7 @@
 (require 'js3-mode)
 (require 'json-mode)
 (require 'less-css-mode)
+(require 'mic-paren)
 (require 'powerline)
 (require 'rainbow-delimiters)
 (require 'rainbow-mode)
@@ -104,6 +105,9 @@
 (setq powerline-default-separator 'utf-8)
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-modified-externally)
 (spaceline-emacs-theme)
+
+;; Activate mic-paren
+(paren-activate)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful functions
