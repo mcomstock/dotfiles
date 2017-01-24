@@ -120,8 +120,8 @@ ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=009
 ZSH_HIGHLIGHT_STYLES[path]=fg=222
 ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
 ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=white,underline
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=none
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=none
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=35
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=35
 ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=135
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=magenta
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=magenta
