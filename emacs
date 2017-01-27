@@ -28,7 +28,7 @@
  '(cperl-indent-parens-as-block t)
  '(cperl-tab-always-indent t)
  '(cperl-highlight-variables-indiscriminately t)
- '(cperl-invalid-face nil)
+ '(cperl-invalid-face 'trailing-whitespace)
  ;; Lua
  '(lua-indent-level 4)
  ;; Ruby
@@ -52,6 +52,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq-default fill-column 100)
+(setq-default show-trailing-whitespace t)
 (setq line-number-display-limit-width 2000000)
 (setq column-number-mode t)
 (setq split-height-threshold 200)
