@@ -13,7 +13,7 @@
  '(fzf/executable "fzfc")
  '(package-selected-packages
    (quote
-    (mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf))))
+    (flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -28,7 +28,6 @@
 (setq-default indent-level 4)
 (setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
 (setq-default indent-tabs-mode nil)
-(setq default-tab-width 4)
 (setq-default tab-width 4)
 (setq-default fill-column 100)
 (setq line-number-display-limit-width 2000000)
@@ -72,6 +71,7 @@
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'flycheck)
 (require 'haskell-mode)
 (require 'js2-mode)
 (require 'js3-mode)
@@ -108,6 +108,9 @@
 
 ;; Activate mic-paren
 (paren-activate)
+
+;; Activate flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful functions
