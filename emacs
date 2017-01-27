@@ -1,3 +1,10 @@
+;;; emacs --- My emacs configuration file.
+
+;;; Commentary:
+;;; The .emacs file in the home directory should symlink to this file.
+
+;;; Code:
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Custom set variables/faces
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -13,7 +20,22 @@
  '(fzf/executable "fzfc")
  '(package-selected-packages
    (quote
-    (flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf))))
+    (flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+ ;; CPerl
+ '(cperl-indent-level 4)
+ '(cperl-close-paren-offset -4)
+ '(cperl-continued-statement-offset 0)
+ '(cperl-indent-parens-as-block t)
+ '(cperl-tab-always-indent t)
+ '(cperl-highlight-variables-indiscriminately t)
+ '(cperl-invalid-face nil)
+ ;; Lua
+ '(lua-indent-level 4)
+ ;; Ruby
+ '(ruby-use-smie t)
+ '(ruby-align-to-stmt-keywords t)
+ '(ruby-align-chained-calls t)
+ )
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -48,17 +70,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; el-get
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
-
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
-(el-get 'sync)
 
 ;; ELPA additional repositories
 (require 'package)
@@ -118,14 +129,17 @@
 
 ;; Add to hooks for modes that should indent using tabs
 (defun tab-indent-setup ()
+  "Set the indentation style for the buffer to use tabs."
   (setq indent-tabs-mode 't))
 
 ;; Add to hooks for modes that should indent using spaces
 (defun spaces-indent-setup ()
+  "Set the indentation style for the buffer to use spaces."
   (setq indent-tabs-mode nil))
 
 ;; Check whether the buffer is read-only, has been modified, or has been saved since it was opened
 (defun spaceline-highlight-face-modified-externally ()
+  "Set the color of the spaceline based on the status of the current buffer."
   (cond
    (buffer-read-only 'spaceline-read-only)
    ((not (verify-visited-file-modtime)) 'spaceline-externally-modified-face)
@@ -186,13 +200,6 @@
 ;; CPerl
 (add-hook 'cperl-mode-hook 'tab-indent-setup)
 (add-hook 'cperl-mode-hook #'rainbow-delimiters-mode)
-(setq cperl-indent-level 4
-      cperl-close-paren-offset -4
-      cperl-continued-statement-offset 0
-      cperl-indent-parens-as-block t
-      cperl-tab-always-indent t
-      cperl-highlight-variables-indiscriminately t
-      cperl-invalid-face nil)
 
 (global-set-key [home] 'beginning-of-buffer)
 (global-set-key [select] 'end-of-buffer)
@@ -233,15 +240,11 @@
 
 ;; Lua mode
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-(setq lua-indent-level 4)
 (add-hook 'lua-mode-hook 'spaces-indent-setup)
 (add-hook 'lua-mode-hook #'rainbow-delimiters-mode)
 
 ;; Ruby mode
 (add-hook 'ruby-mode-hook #'rainbow-delimiters-mode)
-(setq ruby-use-smie t)
-(setq ruby-align-to-stmt-keywords t)
-(setq ruby-align-chained-calls t)
 
 ;; Rust mode
 (add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
@@ -254,3 +257,5 @@
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
+
+;;; emacs ends here
