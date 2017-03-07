@@ -2,7 +2,14 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-source .bash_profile
+# command completion
+autoload -Uz compinit && compinit
+
+# enable bash completions
+# must be after compinit and before running the bash script
+autoload -U +X bashcompinit && bashcompinit
+
+source ~/.bash_profile
 
 # save history
 HISTSIZE=1000000
@@ -69,9 +76,6 @@ bindkey "^[[B" down-line-or-beginning-search
 bindkey "^P" up-line-or-beginning-search
 bindkey "^N" down-line-or-beginning-search
 
-# command completion
-autoload -Uz compinit
-compinit
 # tab twice to use arrow keys
 zstyle ':completion:*' menu select
 # autocomplete aliases
