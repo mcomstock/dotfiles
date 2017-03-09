@@ -27,6 +27,7 @@
  '(cperl-continued-statement-offset 0)
  '(cperl-indent-parens-as-block t)
  '(cperl-tab-always-indent t)
+ '(cperl-font-lock t)
  '(cperl-highlight-variables-indiscriminately t)
  '(cperl-invalid-face 'trailing-whitespace)
  ;; Lua
@@ -58,6 +59,7 @@
 (setq split-height-threshold 200)
 (show-paren-mode 1)
 (global-hl-line-mode)
+(electric-indent-mode -1)
 ;; for text consoles - don't need menu bar
 (unless window-system
   (menu-bar-mode 0)
