@@ -14,29 +14,26 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(async-bytecomp-package-mode 1)
+ '(cperl-close-paren-offset -4)
+ '(cperl-continued-statement-offset 0)
+ '(cperl-font-lock t)
+ '(cperl-highlight-variables-indiscriminately t)
+ '(cperl-indent-level 4)
+ '(cperl-indent-parens-as-block t)
+ '(cperl-invalid-face (quote trailing-whitespace))
+ '(cperl-tab-always-indent t)
  '(custom-safe-themes
    (quote
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(fzf/executable "fzfc")
+ '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
- ;; CPerl
- '(cperl-indent-level 4)
- '(cperl-close-paren-offset -4)
- '(cperl-continued-statement-offset 0)
- '(cperl-indent-parens-as-block t)
- '(cperl-tab-always-indent t)
- '(cperl-font-lock t)
- '(cperl-highlight-variables-indiscriminately t)
- '(cperl-invalid-face 'trailing-whitespace)
- ;; Lua
- '(lua-indent-level 4)
- ;; Ruby
- '(ruby-use-smie t)
- '(ruby-align-to-stmt-keywords t)
+    (auto-complete helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
- )
+ '(ruby-align-to-stmt-keywords t)
+ '(ruby-use-smie t))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -85,8 +82,11 @@
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'async)
+(require 'auto-complete)
 (require 'flycheck)
 (require 'haskell-mode)
+(require 'helm-config)
 (require 'js2-mode)
 (require 'js3-mode)
 (require 'json-mode)
@@ -111,6 +111,16 @@
 ;; Package settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; auto-complete
+(ac-config-default)
+
+;; flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; mic-paren
+(paren-activate)
+
+;; spaceline
 (defface spaceline-externally-modified-face
   '((t :background "red"))
     "Face for denoting that the buffer has been externally modified in the spaceline."
@@ -119,12 +129,6 @@
 (setq powerline-default-separator 'utf-8)
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-modified-externally)
 (spaceline-emacs-theme)
-
-;; Activate mic-paren
-(paren-activate)
-
-;; Activate flycheck
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful functions
