@@ -113,6 +113,13 @@
 
 ;; auto-complete
 (ac-config-default)
+(add-to-list 'ac-modes 'haskell-mode)
+(add-to-list 'ac-modes 'js2-mode)
+(add-to-list 'ac-modes 'js3-mode)
+(add-to-list 'ac-modes 'json-mode)
+(add-to-list 'ac-modes 'less-css-mode)
+(add-to-list 'ac-modes 'rust-mode)
+(add-to-list 'ac-modes 'yaml-mode)
 
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
