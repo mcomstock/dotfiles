@@ -27,11 +27,18 @@ setopt promptsubst
 # use preexec and precmd to record the time it takes to run each command
 preexec () {
     (( $#_elapsed > 1000 )) && set -A _elapsed $_elapsed[-1000,-1]
+    (( $#_elapsed_formatted > 1000 )) && set -A _elapsed[-1000,-1]
     typeset -ig _start=SECONDS
 }
 
 precmd () {
-    (( _start >= 0 )) && set -A _elapsed $_elapsed $(( SECONDS-_start ))
+    if (( _start >= 0 )); then
+       set -A _elapsed $_elapsed $(( SECONDS-_start ))
+       _prev_seconds=$_elapsed[-1]
+       ((_sec=_prev_seconds%60, _prev_seconds/=60, _min=_prev_seconds%60, _hrs=_prev_seconds/60))
+       _timestamp=$(printf "%d:%02d:%02d" $_hrs $_min $_sec)
+       set -A _elapsed_formatted $_elapsed_formatted $_timestamp
+    fi
     _start=-1
 }
 
@@ -52,7 +59,7 @@ local exit_code='%(?.%{$fg[cyan]%}.%{%F{197}%})%?%{%f%}'
 local gray_at='%{%F{246}%}@%{%f%}'
 local gray_lb='%{%F{246}%}[%{%f%}'
 local gray_rb='%{%F{246}%}]%{%f%}'
-local elapsed='%{%F{135}%}$(echo $_elapsed[-1])%{%f%}'
+local elapsed='%{%F{135}%}$(echo $_elapsed_formatted[-1])%{%f%}'
 
 local rprompt_string="${lineup}${elapsed} ${time} ${date}${linedown}"
 local prompt_string="${username}${gray_at}${machine} ${dir}${newline}${exit_code} ${input} "
