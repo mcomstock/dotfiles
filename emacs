@@ -66,6 +66,8 @@
 (load-theme 'color-to-the-max t)
 ;; Load paths
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+;; Recompile any files that have been changed
+(byte-recompile-directory (expand-file-name "~/.emacs.d") 0)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package management
