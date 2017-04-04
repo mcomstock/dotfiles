@@ -66,8 +66,6 @@
 (load-theme 'color-to-the-max t)
 ;; Load paths
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-;; Recompile any files that have been changed
-(byte-recompile-directory (expand-file-name "~/.emacs.d") 0)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package management
@@ -105,6 +103,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load local settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Recompile any files that have been changed
+(async-start
+ (let ((inhibit-message t))
+   (byte-recompile-directory (expand-file-name "~/.emacs.d") 0))
+ (lambda (result)
+   (message "%s" result)))
 
 (when (file-readable-p "~/.emacs-local.el")
   (load "~/.emacs-local.el"))
