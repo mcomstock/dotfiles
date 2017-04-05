@@ -30,7 +30,7 @@
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (auto-complete helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+    (auto-async-byte-compile auto-complete helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t))
@@ -61,11 +61,10 @@
 (unless window-system
   (menu-bar-mode 0)
 )
+
 ;; Custom theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/color-to-the-max-theme")
 (load-theme 'color-to-the-max t)
-;; Load paths
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package management
@@ -83,6 +82,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'async)
+(require 'auto-async-byte-compile)
 (require 'auto-complete)
 (require 'flycheck)
 (require 'haskell-mode)
@@ -104,19 +104,16 @@
 ;; Load local settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Recompile any files that have been changed
-(async-start
- (let ((inhibit-message t))
-   (byte-recompile-directory (expand-file-name "~/.emacs.d") 0))
- (lambda (result)
-   (message "%s" result)))
-
 (when (file-readable-p "~/.emacs-local.el")
   (load "~/.emacs-local.el"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; async dired commands
+(autoload 'dired-async-mode "dired-async.el" nil t)
+(dired-async-mode 1)
 
 ;; auto-complete
 (ac-config-default)
@@ -234,6 +231,8 @@
 
 ;; Emacs lisp mode
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+;; Asyncronously compile emacs lisp files on save
+(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
 
 ;; Haskell mode
 (add-hook 'haskell-mode-hook 'tab-indent-setup)
