@@ -30,7 +30,7 @@
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (auto-async-byte-compile auto-complete helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+    (company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t))
@@ -83,7 +83,7 @@
 
 (require 'async)
 (require 'auto-async-byte-compile)
-(require 'auto-complete)
+(require 'company)
 (require 'flycheck)
 (require 'haskell-mode)
 (require 'helm-config)
@@ -115,15 +115,8 @@
 (autoload 'dired-async-mode "dired-async.el" nil t)
 (dired-async-mode 1)
 
-;; auto-complete
-(ac-config-default)
-(add-to-list 'ac-modes 'haskell-mode)
-(add-to-list 'ac-modes 'js2-mode)
-(add-to-list 'ac-modes 'js3-mode)
-(add-to-list 'ac-modes 'json-mode)
-(add-to-list 'ac-modes 'less-css-mode)
-(add-to-list 'ac-modes 'rust-mode)
-(add-to-list 'ac-modes 'yaml-mode)
+;; company
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
