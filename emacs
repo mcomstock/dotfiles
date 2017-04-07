@@ -100,15 +100,18 @@
 (require 'yasnippet)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Load local settings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(when (file-readable-p "~/.emacs-local.el")
-  (load "~/.emacs-local.el"))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; spaceline
+(defface spaceline-externally-modified-face
+  '((t :background "red"))
+    "Face for denoting that the buffer has been externally modified in the spaceline."
+    :group 'spaceline)
+
+(setq powerline-default-separator 'utf-8)
+(setq spaceline-highlight-face-func 'spaceline-highlight-face-modified-externally)
+(spaceline-emacs-theme)
 
 ;; async dired commands
 (autoload 'dired-async-mode "dired-async.el" nil t)
@@ -123,15 +126,12 @@
 ;; mic-paren
 (paren-activate)
 
-;; spaceline
-(defface spaceline-externally-modified-face
-  '((t :background "red"))
-    "Face for denoting that the buffer has been externally modified in the spaceline."
-    :group 'spaceline)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load local settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq powerline-default-separator 'utf-8)
-(setq spaceline-highlight-face-func 'spaceline-highlight-face-modified-externally)
-(spaceline-emacs-theme)
+(when (file-readable-p "~/.emacs-local.el")
+  (load "~/.emacs-local.el"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful functions
