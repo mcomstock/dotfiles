@@ -18,7 +18,6 @@
  '(cperl-close-paren-offset -4)
  '(cperl-continued-statement-offset 0)
  '(cperl-font-lock t)
- '(cperl-highlight-variables-indiscriminately t)
  '(cperl-indent-level 4)
  '(cperl-indent-parens-as-block t)
  '(cperl-invalid-face (quote trailing-whitespace))
