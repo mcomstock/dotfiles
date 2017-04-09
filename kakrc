@@ -1,0 +1,1 @@
+colorscheme color_to_the_max
