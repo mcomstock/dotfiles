@@ -58,6 +58,10 @@ def -docstring 'p4 revert the current file' p4-revert %{ echo %sh{ p4 revert $ka
 # Hooks
 #######################################
 
+hook global WinCreate ^[^*]+$ %{
+    add-highlighter line '%val{cursor_line}' default,rgb:1c1c1c
+}
+
 hook global WinSetOption filetype=perl %{
     set buffer tabstop 4
     set buffer indentwidth 0
