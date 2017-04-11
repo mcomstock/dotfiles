@@ -1,4 +1,18 @@
+#######################################
+# Theme settings
+#######################################
+ 
 colorscheme color_to_the_max
+
+#######################################
+# Basic options
+#######################################
+
+set global tabstop 4
+
+#######################################
+# Commands
+#######################################
 
 def -docstring 'invoke fzf to open a file' \
     fzf-file %{ %sh{
@@ -39,3 +53,22 @@ def -docstring 'invoke fzf to select a buffer' \
 def -docstring 'p4 open the current file' p4-open %{ echo %sh{ p4 open $kak_bufname }}
 def -docstring 'p4 add the current file' p4-add %{ echo %sh{ p4 add $kak_bufname }}
 def -docstring 'p4 revert the current file' p4-revert %{ echo %sh{ p4 revert $kak_bufname }}
+
+#######################################
+# Hooks
+#######################################
+
+hook global WinSetOption filetype=perl %{
+    set buffer tabstop 4
+    set buffer indentwidth 0
+}
+
+hook global WinSetOption filetype=javascript %{
+    set buffer tabstop 4
+    set buffer indentwidth 0
+}
+
+hook global WinSetOption filetype=ruby %{
+    set buffer tabstop 2
+    set buffer indentwidth 2
+}
