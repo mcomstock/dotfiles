@@ -98,7 +98,7 @@ if [[ $AX_HOME != *athenax* ]]; then
     alias ls='ls --color=auto'
 
     # emacs in terminal
-    alias emacs='emacs -nw'
+    alias emacs='TERM=xterm-termite emacs -nw'
 
     # tmux uses more colors
     alias tmux='tmux -2'
