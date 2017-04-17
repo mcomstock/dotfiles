@@ -11,6 +11,11 @@ colorscheme color_to_the_max
 set global tabstop 4
 set global ui_options ncurses_enable_mouse=false
 
+map global normal '/' %{/(?i)}
+map global normal '<a-/>' %{<a-/>(?i)}
+map global normal '?' %{?(?i)}
+map global normal '<a-?>' %{<a-?>(?i)}
+
 #######################################
 # Commands
 #######################################
