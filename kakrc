@@ -84,3 +84,26 @@ hook global WinSetOption filetype=ruby %{
     set buffer tabstop 2
     set buffer indentwidth 2
 }
+
+#######################################
+# Mode line formatting
+#######################################
+
+face PowerLineTerminator rgb:1c1c1c,black
+face BufferName rgb:ffdf00,rgb:1c1c1c
+face NameFileTypeSeparator rgb:444444,rgb:1c1c1c
+face FileType default,rgb:444444
+face FileTypeLineInfoSeparator rgb:1c1c1c,rgb:444444
+face LineInfo default,rgb:1c1c1c
+face LineInfoStatusInfoSeparator black,rgb:1c1c1c
+face StatusInfoGap default,black
+face UserInfoSeparator rgb:1c1c1c,black
+face UserInfo rgb:585858,rgb:1c1c1c
+
+set global modelinefmt %{
+{PowerLineTerminator}{BufferName} %sh{basename $kak_bufname}
+{NameFileTypeSeparator}{FileType} %opt{filetype}
+{FileTypeLineInfoSeparator}{LineInfo} %val{cursor_line}:%val{cursor_char_column}
+{LineInfoStatusInfoSeparator}{StatusInfoGap}{{context_info}} {{mode_info}}
+{UserInfoSeparator}{UserInfo} %val{client}@[%val{session}]
+}
