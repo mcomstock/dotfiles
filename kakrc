@@ -17,8 +17,25 @@ map global normal '?' %{?(?i)}
 map global normal '<a-?>' %{<a-?>(?i)}
 
 #######################################
+# Line flags
+#######################################
+
+decl line-flags p4_diff_flags
+
+#######################################
 # Commands
 #######################################
+
+def -hidden my-kak-indent-on-new-line %{
+    eval -draft -itersel %{
+        # preserve previous line indent
+        try %{ exec -draft \; K <a-&> }
+        # cleanup trailing whitespaces from previous line
+        try %{ exec -draft k <a-x> s \h+$ <ret> d }
+        # indent after line ending with %[[:punct:]]
+        try %{ exec -draft k <a-x> <a-k> \%[[:punct:]]$ <ret> j <a-gt> }
+    }
+}
 
 def -docstring 'invoke fzf to open a file' \
     fzf-file %{ %sh{
@@ -76,6 +93,31 @@ def -docstring 'p4 diff the current file' \
         }"
 }}
 
+def -docstring 'Show flags for added lines' \
+    p4-line-flags %{ %sh{
+        echo 'try %{ add-highlighter flag_lines GitDiffFlags p4_diff_flags }'
+        p4 diff -du0 $kak_buffile | awk '
+            BEGIN {
+                line=0
+                flags=ENVIRON["kak_timestamp"]
+            }
+            /^---.*/ {}
+            /^@@ -[0-9]+(,[0-9]+)? \+[0-9]+(,[0-9]+)? @@.*/ {
+                if ((x=index($3, ",")) > 0) {
+                    line=substr($3, 2, x-2)
+                } else {
+                    line=substr($3, 2)
+                }
+            }
+            /^\+/ {
+                flags=flags ":" line "|{green}+"
+                line++
+            }
+            /^\-/ { flags=flags ":" line "|{red}-" }
+            END { print "set buffer p4_diff_flags ", flags }
+        '
+}}
+
 def -docstring 'Run mannotate on the selected region of a file.' \
     mannotate %{ %sh{
         if [ -z "$TMUX" ]; then
@@ -93,6 +135,14 @@ hook global WinCreate ^[^*]+$ %{
     add-highlighter line '%val{cursor_line}' default,rgb:1c1c1c
     add-highlighter show_matching
     add-highlighter number_lines -relative
+}
+
+hook global WinSetOption filetype=kak %{
+    set buffer tabstop 4
+    set buffer indentwidth 4
+    remove-hooks window kak-indent
+    hook window InsertChar \n -group kak-indent my-kak-indent-on-new-line
+    hook window InsertEnd .* -group kak-indent %{ try %{ exec -draft \; <a-x> s ^\h+$ <ret> d } }
 }
 
 hook global WinSetOption filetype=perl %{
