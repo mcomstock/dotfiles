@@ -60,6 +60,31 @@ def -docstring 'p4 open the current file' p4-open %{ echo %sh{ p4 open $kak_bufn
 def -docstring 'p4 add the current file' p4-add %{ echo %sh{ p4 add $kak_bufname }}
 def -docstring 'p4 revert the current file' p4-revert %{ echo %sh{ p4 revert $kak_bufname }}
 
+def -docstring 'p4 diff the current file' \
+    p4-diff %{ %sh{
+        output=$(mktemp -d -t kak-p4.XXXXXXXX)/fifo
+        mkfifo ${output}
+        ( p4 diff -du $kak_buffile > ${output} 2>&1 ) > /dev/null 2>&1 < /dev/null &
+
+        printf %s "eval -try-client '$kak_opt_docsclient' %{
+            edit! -fifo ${output} *p4-diff*
+            set buffer filetype 'diff'
+            hook -group fifo buffer BufCloseFifo .* %{
+                nop %sh{ rm -r $(dirname ${output}) }
+                remove-hooks buffer fifo
+            }
+        }"
+}}
+
+def -docstring 'Run mannotate on the selected region of a file.' \
+    mannotate %{ %sh{
+        if [ -z "$TMUX" ]; then
+            echo echo Only works inside tmux
+        else
+            echo "nop %sh{ ~/kak_scripts/mannotate_kak_selections.pl $kak_buffile $kak_selections_desc }"
+        fi
+}}
+
 #######################################
 # Hooks
 #######################################
