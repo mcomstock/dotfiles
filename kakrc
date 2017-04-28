@@ -176,6 +176,17 @@ face UserInfoSeparator rgb:1c1c1c,black
 face UserInfo rgb:585858,rgb:1c1c1c
 
 set global modelinefmt %{
+%sh{
+    if which p4 1>/dev/null; then
+        if action=$(p4 fstat -T action $kak_buffile); then
+            action=$(echo $action | awk '{print $3}')
+            echo "P4:${action}"
+        elif revision=$(p4 fstat -T haveRev $kak_buffile); then
+            revision=$(echo $revision | awk '{print $3}')
+            echo "P4:${revision}"
+        fi
+    fi
+}
 {PowerLineTerminator}{BufferName} %sh{basename $kak_bufname}
 {NameFileTypeSeparator}{FileType} %opt{filetype}
 {FileTypeLineInfoSeparator}{LineInfo} %val{cursor_line}:%val{cursor_char_column}
