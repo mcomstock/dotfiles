@@ -175,23 +175,37 @@ face StatusInfoGap default,black
 face UserInfoSeparator rgb:1c1c1c,black
 face UserInfo rgb:585858,rgb:1c1c1c
 
-set global modelinefmt %{
-%sh{
-    if which p4 1>/dev/null; then
-        if action=$(p4 fstat -T action $kak_buffile); then
-            action=$(echo $action | awk '{print $3}')
-            echo "P4:${action}"
-        elif revision=$(p4 fstat -T haveRev $kak_buffile); then
-            revision=$(echo $revision | awk '{print $3}')
-            echo "P4:${revision}"
-        fi
-    fi
-}
-{PowerLineTerminator}{BufferName} %sh{basename $kak_bufname}
-{NameFileTypeSeparator}{FileType} %opt{filetype}
-{FileTypeLineInfoSeparator}{LineInfo} %val{cursor_line}:%val{cursor_char_column}
-{LineInfoStatusInfoSeparator}{StatusInfoGap}{{context_info}} {{mode_info}}
-{UserInfoSeparator}{UserInfo} %val{client}@[%val{session}]
+#set global modelinefmt %{
+#%sh{
+    #if which p4 1>/dev/null; then
+        #if action=$(p4 fstat -T action $kak_buffile); then
+            #action=$(echo $action | awk '{print $3}')
+            #echo "P4:${action}"
+        #elif revision=$(p4 fstat -T haveRev $kak_buffile); then
+            #revision=$(echo $revision | awk '{print $3}')
+            #echo "P4:${revision}"
+        #fi
+    #fi
+#}
+#{PowerLineTerminator}{BufferName} %sh{basename $kak_bufname}
+#{NameFileTypeSeparator}{FileType} %opt{filetype}
+#{FileTypeLineInfoSeparator}{LineInfo} %val{cursor_line}:%val{cursor_char_column}
+#{LineInfoStatusInfoSeparator}{StatusInfoGap}{{context_info}} {{mode_info}}
+#{UserInfoSeparator}{UserInfo} %val{client}@[%val{session}]
+#}
+
+hook global BufCreate .*/?[^*].+ %{
+    %sh{
+        filename=$(basename $kak_bufname)
+        buffer_fmt="{PowerLineTerminator}{BufferName} ${filename}"
+        filetype_fmt="{NameFileTypeSeparator}{FileType} $kak_opt_filetype"
+        cursor_fmt='{FileTypeLineInfoSeparator}{LineInfo} %val{cursor_line}:%val{cursor_char_column}'
+        status_fmt='{LineInfoStatusInfoSeparator}{StatusInfoGap}{{context_info}} {{mode_info}}'
+        user_fmt='{UserInfoSeparator}{UserInfo} %val{client}@[%val{session}]'
+
+        fmt_line="${buffer_fmt} ${filetype_fmt} ${cursor_fmt} ${status_fmt} ${user_fmt}"
+        echo "set buffer modelinefmt %{${fmt_line}}"
+    }
 }
 
 #######################################
