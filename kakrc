@@ -198,7 +198,7 @@ hook global BufCreate .*/?[^*].+ %{
     %sh{
         filename=$(basename $kak_bufname)
         buffer_fmt="{PowerLineTerminator}{BufferName} ${filename}"
-        filetype_fmt="{NameFileTypeSeparator}{FileType} $kak_opt_filetype"
+        filetype_fmt='{NameFileTypeSeparator}{FileType} %opt{filetype}'
         cursor_fmt='{FileTypeLineInfoSeparator}{LineInfo} %val{cursor_line}:%val{cursor_char_column}'
         status_fmt='{LineInfoStatusInfoSeparator}{StatusInfoGap}{{context_info}} {{mode_info}}'
         user_fmt='{UserInfoSeparator}{UserInfo} %val{client}@[%val{session}]'
