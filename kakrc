@@ -175,25 +175,6 @@ face StatusInfoGap default,black
 face UserInfoSeparator rgb:1c1c1c,black
 face UserInfo rgb:585858,rgb:1c1c1c
 
-#set global modelinefmt %{
-#%sh{
-    #if which p4 1>/dev/null; then
-        #if action=$(p4 fstat -T action $kak_buffile); then
-            #action=$(echo $action | awk '{print $3}')
-            #echo "P4:${action}"
-        #elif revision=$(p4 fstat -T haveRev $kak_buffile); then
-            #revision=$(echo $revision | awk '{print $3}')
-            #echo "P4:${revision}"
-        #fi
-    #fi
-#}
-#{PowerLineTerminator}{BufferName} %sh{basename $kak_bufname}
-#{NameFileTypeSeparator}{FileType} %opt{filetype}
-#{FileTypeLineInfoSeparator}{LineInfo} %val{cursor_line}:%val{cursor_char_column}
-#{LineInfoStatusInfoSeparator}{StatusInfoGap}{{context_info}} {{mode_info}}
-#{UserInfoSeparator}{UserInfo} %val{client}@[%val{session}]
-#}
-
 hook global BufCreate .*/?[^*].+ %{
     %sh{
         filename=$(basename $kak_bufname)
@@ -204,6 +185,41 @@ hook global BufCreate .*/?[^*].+ %{
         user_fmt='{UserInfoSeparator}{UserInfo} %val{client}@[%val{session}]'
 
         fmt_line="${buffer_fmt} ${filetype_fmt} ${cursor_fmt} ${status_fmt} ${user_fmt}"
+
+        if which p4 &>/dev/null; then
+            if p4 fstat $kak_buffile &>/dev/null; then
+                echo "decl str modeline_p4_info"
+                echo 'hook global NormalIdle .* %{
+                    %sh{
+                        if action=$(p4 fstat -T action $kak_buffile 2>/dev/null); then
+                            action=$(echo $action | awk "{print \$3}")
+                            echo "set buffer modeline_p4_info %{${action}}"
+                        elif revision=$(p4 fstat -T haveRev $kak_buffile 2>/dev/null); then
+                            revision=$(echo $revision | awk "{print \$3}")
+                            echo "set buffer modeline_p4_info %{${revision}}"
+                        fi
+                    }
+                }'
+
+                fmt_line="P4:%opt{modeline_p4_info} ${fmt_line}"
+            fi
+        fi
+
+        if which git &>/dev/null; then
+            if cd $(readlink -e $(dirname $kak_buffile)) && git rev-parse --abbrev-ref HEAD &>/dev/null; then
+                echo "decl str modeline_git_info"
+                echo 'hook global NormalIdle .* %{
+                    %sh{
+                        if branch=$(cd $(readlink -e $(dirname $kak_buffile)) && git rev-parse --abbrev-ref HEAD 2>/dev/null); then
+                            echo "set buffer modeline_git_info %{${branch}}"
+                        fi
+                    }
+                }'
+
+                fmt_line="%opt{modeline_git_info} ${fmt_line}"
+            fi
+        fi
+
         echo "set buffer modelinefmt %{${fmt_line}}"
     }
 }
