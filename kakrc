@@ -17,9 +17,10 @@ map global normal '?' %{?(?i)}
 map global normal '<a-?>' %{<a-?>(?i)}
 
 #######################################
-# Line flags
+# Declare options 
 #######################################
 
+decl str modeline_file_position
 decl line-flags p4_diff_flags
 
 #######################################
@@ -175,12 +176,27 @@ face StatusInfoGap default,black
 face UserInfoSeparator rgb:1c1c1c,black
 face UserInfo rgb:585858,rgb:1c1c1c
 
-hook global BufCreate .*/?[^*].+ %{
+hook global WinCreate .* %{
+    hook window NormalIdle .* %{
+        %sh{
+            if [ -f $kak_buffile ]; then
+            echo "set window modeline_file_position '$(($kak_cursor_line * 100 / $(wc -l < $kak_buffile)))'"
+            else
+                echo "eval -save-regs 'm' %{
+                    exec -draft '%<a-s>:reg m %reg{#}<ret>'
+                    set window modeline_file_position %sh{echo \$((\$kak_cursor_line *100 / \$kak_reg_m))}
+                }"
+            fi
+        }
+    }
+}
+
+hook global BufCreate .* %{
     %sh{
         filename=$(basename $kak_bufname)
         buffer_fmt="{PowerLineTerminator}{BufferName} ${filename}"
         filetype_fmt='{NameFileTypeSeparator}{FileType} %opt{filetype}'
-        cursor_fmt='{FileTypeLineInfoSeparator}{LineInfo} %val{cursor_line}:%val{cursor_char_column}'
+        cursor_fmt='{FileTypeLineInfoSeparator}{LineInfo} %val{cursor_line}:%val{cursor_char_column} %opt{modeline_file_position}\%'
         status_fmt='{LineInfoStatusInfoSeparator}{StatusInfoGap}{{context_info}} {{mode_info}}'
         user_fmt='{UserInfoSeparator}{UserInfo} %val{client}@[%val{session}]'
 
