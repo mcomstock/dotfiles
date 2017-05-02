@@ -24,6 +24,14 @@ setopt SHARE_HISTORY
 # prompt stuff
 setopt promptsubst
 
+# version control information
+autoload -Uz vcs_info
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes false
+zstyle ':vcs_info:git*' formats '(%b)'
+zstyle ':vcs_info:git*' actionformats '(%b - %a)'
+
 # use preexec and precmd to record the time it takes to run each command
 preexec () {
     (( $#_elapsed > 1000 )) && set -A _elapsed $_elapsed[-1000,-1]
@@ -32,12 +40,14 @@ preexec () {
 }
 
 precmd () {
+    vcs_info
+
     if (( _start >= 0 )); then
-       set -A _elapsed $_elapsed $(( SECONDS-_start ))
-       _prev_seconds=$_elapsed[-1]
-       ((_sec=_prev_seconds%60, _prev_seconds/=60, _min=_prev_seconds%60, _hrs=_prev_seconds/60))
-       _timestamp=$(printf "%d:%02d:%02d" $_hrs $_min $_sec)
-       set -A _elapsed_formatted $_elapsed_formatted $_timestamp
+        set -A _elapsed $_elapsed $(( SECONDS-_start ))
+        _prev_seconds=$_elapsed[-1]
+        ((_sec=_prev_seconds%60, _prev_seconds/=60, _min=_prev_seconds%60, _hrs=_prev_seconds/60))
+        _timestamp=$(printf "%d:%02d:%02d" $_hrs $_min $_sec)
+        set -A _elapsed_formatted $_elapsed_formatted $_timestamp
     fi
     _start=-1
 }
@@ -51,6 +61,7 @@ local linedown='%{${_linedown}%}'
 local username='%{%f%F{35}%}$(whoami)%{%f%}'
 local machine='%{%f%F{75}%}%m%{%f%}'
 local dir='%{%f%F{222}%}%~%{%f%}'
+local vc_info='%{%f%F{63}%}${vcs_info_msg_0_}%{%f%}'
 # the input prompt is blue if the last exit code was 0, red otherwise
 local input='%{%f%}%(?.%{$fg[cyan]%}.%{%F{197}%})❯❯%{%f%}'
 local time='%{%f%F{75}%}%D{%T}%{%f%}'
@@ -62,7 +73,7 @@ local gray_rb='%{%F{246}%}]%{%f%}'
 local elapsed='%{%F{135}%}$(echo $_elapsed_formatted[-1])%{%f%}'
 
 local rprompt_string="${lineup}${elapsed} ${time} ${date}${linedown}"
-local prompt_string="${username}${gray_at}${machine} ${dir}${newline}${exit_code} ${input} "
+local prompt_string="${username}${gray_at}${machine} ${dir} ${vc_info}${newline}${exit_code} ${input} "
 
 if [[ -n $BUILDNAME || -n $MASTER_ROOT_INSTANCE ]]; then
     local color_buildname='%{$fg[cyan]%}$(echo $BUILDNAME | sed -e "s/\(.*\)\/\(.*\)/\x1b[38;5;6m\1\x1b[38;5;246m\/\x1b[38;5;135m\2/g")%{%f%}'
