@@ -15,6 +15,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(async-bytecomp-package-mode 1)
+ '(company-dabbrev-code-modes
+   (quote
+    (prog-mode batch-file-mode csharp-mode css-mode erlang-mode haskell-mode jde-mode lua-mode python-mode js2-mode js3-mode)))
+ '(company-dabbrev-downcase 0)
+ '(company-idle-delay 0)
  '(cperl-close-paren-offset -4)
  '(cperl-continued-statement-offset 0)
  '(cperl-font-lock t)
