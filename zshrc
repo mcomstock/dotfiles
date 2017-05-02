@@ -48,7 +48,7 @@ local _lineup=$'\e[1A'
 local _linedown=$'\e[1B'
 local lineup='%{${_lineup}%}'
 local linedown='%{${_linedown}%}'
-local username='%{%f%F{35}%}%n%{%f%}'
+local username='%{%f%F{35}%}$(whoami)%{%f%}'
 local machine='%{%f%F{75}%}%m%{%f%}'
 local dir='%{%f%F{222}%}%~%{%f%}'
 # the input prompt is blue if the last exit code was 0, red otherwise
