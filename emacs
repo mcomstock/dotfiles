@@ -34,7 +34,7 @@
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+    (undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t))
@@ -101,6 +101,7 @@
 (require 'rainbow-mode)
 (require 'rust-mode)
 (require 'spaceline-config)
+(require 'undo-tree)
 (require 'yaml-mode)
 (require 'yasnippet)
 
@@ -130,6 +131,9 @@
 
 ;; mic-paren
 (paren-activate)
+
+;; undo-tree
+(global-undo-tree-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load local settings

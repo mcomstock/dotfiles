@@ -2,9 +2,10 @@ filetype plugin on
 syntax on
 colorscheme color_to_the_max
 
-set t_Co=256
+set termguicolors
+"set t_Co=256
 
-set whichwrap+=<,>,h,l,[,]
+"set whichwrap+=<,>,h,l,[,]
 set linebreak
 set showmatch
 set visualbell
