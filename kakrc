@@ -17,7 +17,7 @@ map global normal '?' %{?(?i)}
 map global normal '<a-?>' %{<a-?>(?i)}
 
 #######################################
-# Declare options 
+# Declare options
 #######################################
 
 decl str modeline_file_position
@@ -124,7 +124,7 @@ def -docstring 'Run mannotate on the selected region of a file.' \
         if [ -z "$TMUX" ]; then
             echo echo Only works inside tmux
         else
-            echo "nop %sh{ ~/kak_scripts/mannotate_kak_selections.pl $kak_buffile $kak_selections_desc }"
+            echo "nop %sh{ ~/scripts/kakoune/mannotate_kak_selections.pl $kak_buffile $kak_selections_desc }"
         fi
 }}
 
