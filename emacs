@@ -30,7 +30,6 @@
  '(custom-safe-themes
    (quote
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
- '(fzf/executable "fzfc")
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
