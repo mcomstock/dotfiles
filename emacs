@@ -87,6 +87,7 @@
 (require 'async)
 (require 'auto-async-byte-compile)
 (require 'company)
+(require 'delight)
 (require 'flycheck)
 (require 'goto-chg)
 (require 'haskell-mode)
@@ -117,6 +118,8 @@
     :group 'spaceline)
 
 (setq powerline-default-separator 'utf-8)
+(setq spaceline-minor-modes-separator " ")
+(setq spaceline-buffer-encoding-abbrev-p nil)
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-modified-externally)
 (spaceline-emacs-theme)
 
@@ -126,6 +129,12 @@
 
 ;; company
 (add-hook 'after-init-hook 'global-company-mode)
+
+;; delight
+(delight '((company-mode "C" "company")
+           (flycheck-mode "F" "flycheck")
+           (undo-tree-mode "U" "undo-tree")
+           (yas-minor-mode "Y" "yasnippet")))
 
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -169,9 +178,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Goto line
-(global-set-key "\C-xg" 'goto-line)
 
 ;; Jump 5 lines
 (global-set-key (kbd "M-n")
