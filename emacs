@@ -133,6 +133,7 @@
 ;; delight
 (delight '((company-mode "C" "company")
            (flycheck-mode "F" "flycheck")
+           (isearch-mode "I" "isearch")
            (undo-tree-mode "U" "undo-tree")
            (yas-minor-mode "Y" "yasnippet")))
 
