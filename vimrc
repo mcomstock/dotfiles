@@ -8,6 +8,9 @@ set termguicolors
 " Relative line numbering
 set number relativenumber
 
+" Don't close current buffer when opening a new one
+set hidden
+
 set linebreak
 set showmatch
 set visualbell
