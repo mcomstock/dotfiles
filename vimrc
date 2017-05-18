@@ -5,7 +5,9 @@ colorscheme color_to_the_max
 set termguicolors
 "set t_Co=256
 
-"set whichwrap+=<,>,h,l,[,]
+" Relative line numbering
+set number relativenumber
+
 set linebreak
 set showmatch
 set visualbell
