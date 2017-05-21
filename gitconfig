@@ -1,5 +1,5 @@
 [user]
-	name = Max
+	name = "Max Comstock"
 	email = maxibillion6@gmail.com
 [core]
 	editor = TERM=xterm-termite emacs -nw
