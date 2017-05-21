@@ -9,7 +9,7 @@ autoload -Uz compinit && compinit
 # must be after compinit and before running the bash script
 autoload -U +X bashcompinit && bashcompinit
 
-source ~/.bash_profile
+[[ -e ~/.bash_profile ]] && source ~/.bash_profile
 
 # save history
 HISTSIZE=1000000
@@ -103,21 +103,6 @@ setopt COMPLETE_ALIASES
 autoload -U select-word-style
 select-word-style bash
 
-# These are set in bashrc (or not at all at work)
-if [[ $AX_HOME != *athenax* ]]; then
-    # ls uses colors correctly with urxvt
-    alias ls='ls --color=auto'
-
-    # emacs in terminal
-    alias emacs='TERM=xterm-termite emacs -nw'
-
-    # tmux uses more colors
-    alias tmux='tmux -2'
-
-    # start firefox in private browsing mode
-    alias firefoxp='firefox --private-window'
-fi
-
 # fish-style syntax highlighting
 if [[ -e /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -126,30 +111,32 @@ elif [[ -e /home/mcomstock/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syn
 fi
 
 # autosuggestions
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ -e ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# Enable highlighters
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+if [[ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS+x}" ]]; then
+    # Enable highlighters
+    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
-# Override highlighter colors
-ZSH_HIGHLIGHT_STYLES[default]=none
-ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=197
-ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=197,standout
-ZSH_HIGHLIGHT_STYLES[alias]=fg=cyan
-ZSH_HIGHLIGHT_STYLES[builtin]=fg=cyan
-ZSH_HIGHLIGHT_STYLES[function]=fg=cyan
-ZSH_HIGHLIGHT_STYLES[command]=fg=cyan
-ZSH_HIGHLIGHT_STYLES[precommand]=fg=white,underline
-ZSH_HIGHLIGHT_STYLES[commandseparator]=none
-ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=009
-ZSH_HIGHLIGHT_STYLES[path]=fg=222
-ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
-ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=white,underline
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=35
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=35
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=135
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=magenta
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=magenta
-ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=161
-ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=161
-ZSH_HIGHLIGHT_STYLES[assign]=none
+    # Override highlighter colors
+    ZSH_HIGHLIGHT_STYLES[default]=none
+    ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=197
+    ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=197,standout
+    ZSH_HIGHLIGHT_STYLES[alias]=fg=cyan
+    ZSH_HIGHLIGHT_STYLES[builtin]=fg=cyan
+    ZSH_HIGHLIGHT_STYLES[function]=fg=cyan
+    ZSH_HIGHLIGHT_STYLES[command]=fg=cyan
+    ZSH_HIGHLIGHT_STYLES[precommand]=fg=white,underline
+    ZSH_HIGHLIGHT_STYLES[commandseparator]=none
+    ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=009
+    ZSH_HIGHLIGHT_STYLES[path]=fg=222
+    ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
+    ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=white,underline
+    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=35
+    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=35
+    ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=135
+    ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=magenta
+    ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=magenta
+    ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=161
+    ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=161
+    ZSH_HIGHLIGHT_STYLES[assign]=none
+fi
