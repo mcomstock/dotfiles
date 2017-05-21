@@ -1,0 +1,19 @@
+[user]
+	name = Max
+	email = maxibillion6@gmail.com
+[core]
+	editor = TERM=xterm-termite emacs -nw
+[push]
+    default = simple
+[branch "master"]
+    rebase = "true"
+[branch]
+    autosetuprebase = always
+[pull]
+    rebase = true
+[alias]
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[color]
+    ui = auto
+[rebase]
+    autostash = true
