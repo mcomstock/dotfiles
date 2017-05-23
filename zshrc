@@ -2,6 +2,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# select and traverse words like bash
+autoload -U select-word-style
+select-word-style bash
+
 # command completion
 autoload -Uz compinit && compinit
 
@@ -106,10 +110,6 @@ bindkey "^N" down-line-or-beginning-search
 zstyle ':completion:*' menu select
 # autocomplete aliases
 setopt COMPLETE_ALIASES
-
-# select and traverse words like bash
-autoload -U select-word-style
-select-word-style bash
 
 # # fish-style syntax highlighting
 antigen bundle zsh-users/zsh-syntax-highlighting
