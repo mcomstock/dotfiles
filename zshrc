@@ -29,6 +29,7 @@ autoload -Uz vcs_info
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' check-for-staged-changes true
 zstyle ':vcs_info:*' stagedstr '%{%f%F{green}%}▲%{%f%}'
 zstyle ':vcs_info:*' unstagedstr '%{%f%F{red}%}▼%{%f%}'
 zstyle ':vcs_info:git*' formats '(%b) %c%u'
