@@ -33,7 +33,7 @@
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+    (flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t))
@@ -277,6 +277,7 @@
 
 ;; Rust mode
 (add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'rust-mode-hook #'flycheck-rust-setup)
 
 ;; Shell mode
 (add-hook 'sh-mode-hook #'rainbow-delimiters-mode)
