@@ -28,9 +28,11 @@ setopt promptsubst
 autoload -Uz vcs_info
 
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' check-for-changes false
-zstyle ':vcs_info:git*' formats '(%b)'
-zstyle ':vcs_info:git*' actionformats '(%b - %a)'
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr '%{%f%F{green}%}▲%{%f%}'
+zstyle ':vcs_info:*' unstagedstr '%{%f%F{red}%}▼%{%f%}'
+zstyle ':vcs_info:git*' formats '(%b) %c%u'
+zstyle ':vcs_info:git*' actionformats '(%b - %a) %c%u'
 
 # use preexec and precmd to record the time it takes to run each command
 preexec () {
