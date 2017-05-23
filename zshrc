@@ -11,6 +11,9 @@ autoload -U +X bashcompinit && bashcompinit
 
 [[ -e ~/.bash_profile ]] && source ~/.bash_profile
 
+# zsh package management with antigen
+[[ -e ~/.zsh/antigen/antigen.zsh ]] && source ~/.zsh/antigen/antigen.zsh
+
 # save history
 HISTSIZE=1000000
 if (( ! EUID )); then
@@ -19,7 +22,9 @@ else
     HISTFILE=~/.history
 fi
 SAVEHIST=1000000
-setopt SHARE_HISTORY
+setopt inc_append_history
+setopt share_history
+setopt hist_reduce_blanks
 
 # prompt stuff
 setopt promptsubst
@@ -106,15 +111,13 @@ setopt COMPLETE_ALIASES
 autoload -U select-word-style
 select-word-style bash
 
-# fish-style syntax highlighting
-if [[ -e /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-elif [[ -e /home/mcomstock/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source /home/mcomstock/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+# # fish-style syntax highlighting
+antigen bundle zsh-users/zsh-syntax-highlighting
 
 # autosuggestions
-[[ -e ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+antigen bundle zsh-users/zsh-autosuggestions
+
+antigen apply
 
 if [[ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS+x}" ]]; then
     # Enable highlighters
