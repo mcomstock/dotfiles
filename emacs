@@ -37,8 +37,7 @@
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
- ;; whitespace
- '(whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark))))
+ '(whitespace-style (quote (face spaces tabs newline space-mark tab-mark newline-mark trailing))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
