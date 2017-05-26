@@ -69,6 +69,8 @@ if has('nvim')
 	map <leader>ff :Files<cr>
 
 	let g:airline_powerline_fonts = 1
+	let g:airline_section_c='%t'
+	let g:airline#extensions#tabline#fnamemod = ':t'
 endif
 
 if has('termguicolors')
