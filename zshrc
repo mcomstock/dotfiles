@@ -1,4 +1,8 @@
 #!/usr/bin/zsh
+
+# Fix "compinit: insecure directories" by running
+# compaudit | xargs chmod g-w
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
