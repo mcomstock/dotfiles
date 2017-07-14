@@ -28,6 +28,7 @@ set smarttab
 set tabstop=4
 set softtabstop=4
 set virtualedit=onemore
+set scrolloff=5
 
 set backspace=indent,eol,start
 
