@@ -33,11 +33,13 @@
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+    (racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
- '(whitespace-style (quote (face spaces tabs newline space-mark tab-mark newline-mark trailing))))
+ '(whitespace-style
+   (quote
+    (face spaces tabs newline space-mark tab-mark newline-mark trailing))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -99,6 +101,7 @@
 (require 'less-css-mode)
 (require 'mic-paren)
 (require 'powerline)
+(require 'racer)
 (require 'rainbow-delimiters)
 (require 'rainbow-mode)
 (require 'rust-mode)
@@ -133,9 +136,12 @@
 
 ;; delight
 (delight '((company-mode "C" "company")
+           (eldoc-mode "E" "eldoc")
            (flycheck-mode "F" "flycheck")
            (isearch-mode "I" "isearch")
+           (racer-mode "R" "racer")
            (undo-tree-mode "U" "undo-tree")
+           (whitespace-mode "W" "whitespace")
            (yas-minor-mode "Y" "yasnippet")))
 
 ;; flycheck
@@ -279,6 +285,8 @@
 ;; Rust mode
 (add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'rust-mode-hook #'flycheck-rust-setup)
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
 
 ;; Shell mode
 (add-hook 'sh-mode-hook #'rainbow-delimiters-mode)

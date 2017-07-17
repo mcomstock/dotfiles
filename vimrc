@@ -63,6 +63,20 @@ if has('nvim')
 	Plug 'junegunn/fzf' | Plug 'junegunn/fzf.vim'
 	Plug 'vim-airline/vim-airline'
 
+	" Language server support
+	Plug 'autozimu/LanguageClient-neovim', { 'do': 'UpdateRemotePlugins' }
+	let g:LanguageClient_autoStart = 1
+	let g:LanguageClient_serverCommands = {}
+
+	nnoremap <silent> K :call LanguageClient_textDocument_hover()<cr>
+	nnoremap <silent> gd :call LanguageClient_textDocument_definition()<cr>
+	nnoremap <silent> <leader>r :call LanguageClient_textDocument_rename()<cr>
+
+	" Rust language server
+	if executable('rls')
+		let g:LanguageClient_serverCommands['rust'] = ['rls', '+nightly']
+	endif
+
 	call plug#end()
 
 	let g:polyglot_disabled = ['markdown']

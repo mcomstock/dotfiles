@@ -15,3 +15,5 @@
     ui = auto
 [rebase]
     autostash = true
+[core]
+	excludesfile = ~/.gitignore
