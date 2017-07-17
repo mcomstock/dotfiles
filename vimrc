@@ -85,7 +85,10 @@ if has('nvim')
 
 	let g:airline_powerline_fonts = 1
 	let g:airline_section_c='%t'
+	let g:airline_skip_empty_sections = 1
 	let g:airline#extensions#tabline#fnamemod = ':t'
+	let g:airline#extensions#hunks#enabled=0
+	let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 endif
 
 if has('termguicolors')
