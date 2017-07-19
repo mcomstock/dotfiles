@@ -31,6 +31,7 @@
    (quote
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(evil-want-C-u-scroll t)
+ '(linum-format "%d ")
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
@@ -119,6 +120,8 @@
 
 ;; evil
 (evil-mode 1)
+;; Use space like leader key
+(define-key evil-motion-state-map " " nil)
 
 ;; spaceline
 (defface spaceline-externally-modified-face
@@ -197,6 +200,16 @@
                 (lambda () (interactive) (forward-line 5)))
 (global-set-key (kbd "M-p")
                 (lambda () (interactive) (forward-line -5)))
+
+;; evil-mode: general commands
+(define-key evil-motion-state-map " tw" 'whitespace-mode)
+(define-key evil-motion-state-map " xf" 'find-file)
+(define-key evil-motion-state-map " ac" 'company-mode)
+(define-key evil-motion-state-map " ln" 'linum-mode)
+(define-key evil-motion-state-map " fc" 'flycheck-mode)
+
+;; evil-mode: use return to speed up emacs commands
+(define-key evil-motion-state-map (kbd "RET") 'execute-extended-command)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File type associatons
