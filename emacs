@@ -39,7 +39,6 @@
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
- '(scroll-step 1)
  '(scroll-margin 5)
  '(scroll-conservatively 9001)
  '(whitespace-style
