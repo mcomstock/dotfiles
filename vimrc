@@ -56,13 +56,13 @@ map <silent> <leader><leader> :nohlsearch<cr>
 map <silent> <leader>tw :set list!<cr>
 map <silent> <leader>rw :RemoveTrailingSpaces<cr>
 
+call plug#begin('~/.local/share/nvim/plugged')
+
+Plug 'sheerun/vim-polyglot'
+Plug 'junegunn/fzf' | Plug 'junegunn/fzf.vim'
+Plug 'vim-airline/vim-airline'
+
 if has('nvim')
-	call plug#begin('~/.local/share/nvim/plugged')
-
-	Plug 'sheerun/vim-polyglot'
-	Plug 'junegunn/fzf' | Plug 'junegunn/fzf.vim'
-	Plug 'vim-airline/vim-airline'
-
 	" Language server support
 	Plug 'autozimu/LanguageClient-neovim', { 'do': 'UpdateRemotePlugins' }
 	let g:LanguageClient_autoStart = 1
@@ -76,20 +76,20 @@ if has('nvim')
 	if executable('rls')
 		let g:LanguageClient_serverCommands['rust'] = ['rls', '+nightly']
 	endif
-
-	call plug#end()
-
-	let g:polyglot_disabled = ['markdown']
-
-	map <leader>ff :Files<cr>
-
-	let g:airline_powerline_fonts = 1
-	let g:airline_section_c='%t'
-	let g:airline_skip_empty_sections = 1
-	let g:airline#extensions#tabline#fnamemod = ':t'
-	let g:airline#extensions#hunks#enabled=0
-	let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 endif
+
+call plug#end()
+
+let g:polyglot_disabled = ['markdown']
+
+map <leader>ff :Files<cr>
+
+let g:airline_powerline_fonts = 1
+let g:airline_section_c='%t'
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#hunks#enabled=0
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
 if has('termguicolors')
 	set termguicolors
