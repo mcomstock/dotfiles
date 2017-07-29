@@ -35,12 +35,12 @@
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+    (haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
- '(scroll-margin 5)
  '(scroll-conservatively 9001)
+ '(scroll-margin 5)
  '(whitespace-style
    (quote
     (face spaces tabs newline space-mark tab-mark newline-mark trailing))))
@@ -99,6 +99,7 @@
 (require 'flycheck)
 (require 'goto-chg)
 (require 'haskell-mode)
+(require 'haxe-mode)
 (require 'helm-config)
 (require 'js2-mode)
 (require 'js3-mode)
