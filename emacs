@@ -31,6 +31,9 @@
    (quote
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(evil-want-C-u-scroll t)
+ '(js3-auto-indent-p t)
+ '(js3-enter-indents-newline t)
+ '(js3-indent-on-enter-key t)
  '(linum-format "%d ")
  '(lua-indent-level 4)
  '(package-selected-packages
