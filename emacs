@@ -66,7 +66,7 @@
 (setq split-height-threshold 200)
 (show-paren-mode 1)
 (global-hl-line-mode)
-(electric-indent-mode -1)
+(electric-indent-mode 1)
 ;; for text consoles - don't need menu bar
 (unless window-system
   (menu-bar-mode 0)
