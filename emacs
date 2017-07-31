@@ -214,12 +214,6 @@
 ;; Key bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Jump 5 lines
-(global-set-key (kbd "M-n")
-                (lambda () (interactive) (forward-line 5)))
-(global-set-key (kbd "M-p")
-                (lambda () (interactive) (forward-line -5)))
-
 ;; evil-mode: general commands
 (define-key evil-motion-state-map " tw" 'whitespace-mode)
 (define-key evil-motion-state-map " ac" 'company-mode)
