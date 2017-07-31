@@ -222,10 +222,10 @@
 
 ;; evil-mode: general commands
 (define-key evil-motion-state-map " tw" 'whitespace-mode)
-(define-key evil-motion-state-map " xf" 'find-file)
 (define-key evil-motion-state-map " ac" 'company-mode)
 (define-key evil-motion-state-map " ln" 'linum-mode)
 (define-key evil-motion-state-map " fc" 'flycheck-mode)
+(define-key key-translation-map " x" (kbd "C-x"))
 
 ;; evil-mode: use return to speed up emacs commands
 (define-key evil-motion-state-map (kbd "RET") 'execute-extended-command)
