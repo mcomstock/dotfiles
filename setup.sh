@@ -23,7 +23,7 @@ for file in $files; do
 done
 
 # Install plugin managers
-antigen_dir=~/.zsh/antigen
+zsh_dir=~/.zsh/antigen
 tmux_dir=~/.tmux/plugins/tpm
 
 if [ ! -d $zsh_dir ]; then
