@@ -16,4 +16,4 @@
 [rebase]
     autostash = true
 [core]
-	excludesfile = ~/.gitignore
+    excludesfile = ~/.gitignore
