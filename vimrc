@@ -15,6 +15,7 @@ set showmatch
 set visualbell
 set ruler
 set background=dark
+set cursorline
 
 set hlsearch
 set ignorecase
@@ -96,7 +97,7 @@ if has('termguicolors')
 	colorscheme color_to_the_max
 
 	" Highlight trailing whitespace outside insert mode.
-	hi ExtraWhitespace guifg=#ff0000 guibg=#ff0000
+	hi ExtraWhitespace guibg=#ff0000
 	match ExtraWhitespace /\s\+$/
 	augroup whitespace
 		autocmd!
