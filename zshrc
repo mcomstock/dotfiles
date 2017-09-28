@@ -79,7 +79,8 @@ local machine='%{%f%F{75}%}%m%{%f%}'
 local dir='%{%f%F{222}%}%~%{%f%}'
 local vc_info='%{%f%F{63}%}${vcs_info_msg_0_}%{%f%}'
 # the input prompt is blue if the last exit code was 0, red otherwise
-local input='%{%f%}%(?.%{$fg[cyan]%}.%{%F{197}%})❯❯%{%f%}'
+# ❯❯
+local input='%{%f%}%(?.%{$fg[cyan]%}.%{%F{197}%})>>%{%f%}'
 local time='%{%f%F{75}%}%D{%T}%{%f%}'
 local date='%{%f%F{35}%}%D{%F}%{%f%}'
 local exit_code='%(?.%{$fg[cyan]%}.%{%F{197}%})%?%{%f%}'
