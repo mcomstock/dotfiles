@@ -34,6 +34,7 @@ PARAM param"
  '(cperl-close-paren-offset -4)
  '(cperl-continued-statement-offset 0)
  '(cperl-font-lock t)
+ '(cperl-highlight-variables-indiscriminately t)
  '(cperl-indent-level 4)
  '(cperl-indent-parens-as-block t)
  '(cperl-invalid-face (quote trailing-whitespace))
@@ -160,6 +161,7 @@ PARAM param"
 (dired-async-mode 1)
 
 ;; company
+(company-tng-configure-default)
 (add-hook 'after-init-hook 'global-company-mode)
 
 ;; delight
@@ -279,6 +281,10 @@ PARAM param"
 ;; CPerl
 (add-hook 'cperl-mode-hook 'tab-indent-setup)
 (add-hook 'cperl-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'cperl-mode-hook
+          (lambda ()
+            (setq-local company-backends
+                  '(company-dabbrev-code company-keywords company-oddmuse company-dabbrev))))
 
 (global-set-key [home] 'beginning-of-buffer)
 (global-set-key [select] 'end-of-buffer)
