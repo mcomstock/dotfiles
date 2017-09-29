@@ -47,10 +47,11 @@ PARAM param"
  '(js3-enter-indents-newline t)
  '(js3-indent-on-enter-key t)
  '(linum-format "%d ")
+ '(linum-relative-format "%s ")
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+    (linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -120,6 +121,7 @@ PARAM param"
 (require 'js3-mode)
 (require 'json-mode)
 (require 'less-css-mode)
+(require 'linum-relative)
 (require 'lsp-flycheck)
 (require 'lsp-mode)
 (require 'lsp-rust)
@@ -189,6 +191,9 @@ PARAM param"
     (when (and eslint (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint))))
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
+;; linum-relative
+(linum-relative-on)
 
 ;; mic-paren
 (paren-activate)
