@@ -47,6 +47,7 @@ PARAM param"
  '(js3-enter-indents-newline t)
  '(js3-indent-on-enter-key t)
  '(linum-format "%d ")
+ '(linum-relative-current-symbol "")
  '(linum-relative-format "%s ")
  '(lua-indent-level 4)
  '(package-selected-packages
