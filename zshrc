@@ -6,6 +6,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# use emacs-style commands
+bindkey -e
+
 # select and traverse words like bash
 autoload -U select-word-style
 select-word-style bash
@@ -151,6 +154,3 @@ if [[ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS+x}" ]]; then
     ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=161
     ZSH_HIGHLIGHT_STYLES[assign]=none
 fi
-
-# use emacs-style commands
-bindkey -e
