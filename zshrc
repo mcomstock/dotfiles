@@ -151,3 +151,6 @@ if [[ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS+x}" ]]; then
     ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=161
     ZSH_HIGHLIGHT_STYLES[assign]=none
 fi
+
+# use emacs-style commands
+bindkey -e
