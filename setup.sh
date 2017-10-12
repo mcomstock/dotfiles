@@ -22,22 +22,14 @@ for file in $files; do
     ln -s $dir/$file ~/.$file
 done
 
-# Install plugin managers
+# Install antigen
 zsh_dir=~/.zsh/antigen
-tmux_dir=~/.tmux/plugins/tpm
 
 if [ ! -d $zsh_dir ]; then
     echo "Installing antigen"
     git clone https://github.com/zsh-users/antigen $zsh_dir
 else
     echo "Skipping antigen: already installed"
-fi
-
-if [ ! -d $tmux_dir ]; then
-    echo "Installing tpm"
-    git clone https://github.com/tmux-plugins/tpm $tmux_dir
-else
-    echo "Skipping tpm: already installed"
 fi
 
 # Install the good themes
