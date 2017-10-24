@@ -17,3 +17,5 @@
     autostash = true
 [core]
     excludesfile = ~/.gitignore
+[includeIf "gitdir:~/work/"]
+    path = ~/work/.gitconfig
