@@ -52,7 +52,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+    (rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck mic-paren yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -131,6 +131,7 @@ PARAM param"
 (require 'racer)
 (require 'rainbow-delimiters)
 (require 'rainbow-mode)
+(require 'rjsx-mode)
 (require 'rust-mode)
 (require 'spaceline-config)
 (require 'toml-mode)
@@ -314,6 +315,13 @@ PARAM param"
 ;; js2-mode
 (add-hook 'js2-mode-hook 'tab-indent-setup)
 (add-hook 'js2-mode-hook #'rainbow-delimiters-mode)
+
+(add-hook 'js2-jsx-mode-hook
+          (lambda ()
+            (setq indent-tabs-mode nil)
+            (setq js2-basic-offset 2)
+            (setq js2-strict-trailing-comma-warning nil)
+            (setq js-switch-indent-offset 2)))
 
 ;; js3-mode
 (add-hook 'js3-mode-hook 'tab-indent-setup)
