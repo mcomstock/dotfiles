@@ -266,6 +266,7 @@ PARAM param"
                 ("\\.mc\\'" . cperl-mode)
                 ("\\.\\([pP][Llm]\\|al\\)\\'" . cperl-mode)
                 ("\\.css$" . css-mode)
+                ("\\.js$" . rjsx-mode)
                 ("\\.tex'" . LaTeX-mode)
                 ("\\.less$". less-css-mode)
                 ("\\.lua$" . lua-mode)
@@ -316,12 +317,14 @@ PARAM param"
 (add-hook 'js2-mode-hook 'tab-indent-setup)
 (add-hook 'js2-mode-hook #'rainbow-delimiters-mode)
 
-(add-hook 'js2-jsx-mode-hook
-          (lambda ()
-            (setq indent-tabs-mode nil)
-            (setq js2-basic-offset 2)
-            (setq js2-strict-trailing-comma-warning nil)
-            (setq js-switch-indent-offset 2)))
+;; These settings would make my JS mode conform to the real standards,
+;; but sadly I'm stuck in legacy right now.
+;; (add-hook 'js2-jsx-mode-hook
+;;           (lambda ()
+;;             (setq indent-tabs-mode nil)
+;;             (setq js2-basic-offset 2)
+;;             (setq js2-strict-trailing-comma-warning nil)
+;;             (setq js-switch-indent-offset 2)))
 
 ;; js3-mode
 (add-hook 'js3-mode-hook 'tab-indent-setup)
