@@ -58,6 +58,7 @@ PARAM param"
  '(ruby-use-smie t)
  '(scroll-conservatively 9001)
  '(scroll-margin 5)
+ '(show-paren-delay 0)
  '(whitespace-style
    (quote
     (face spaces tabs newline space-mark tab-mark newline-mark trailing))))
