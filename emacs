@@ -160,7 +160,7 @@ PARAM param"
 (setq powerline-default-separator 'utf-8)
 (setq spaceline-minor-modes-separator " ")
 (setq spaceline-buffer-encoding-abbrev-p nil)
-(setq spaceline-highlight-face-func 'spaceline-highlight-face-modified-externally)
+(setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 (spaceline-emacs-theme)
 
 ;; async dired commands
