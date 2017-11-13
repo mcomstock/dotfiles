@@ -181,6 +181,9 @@ PARAM param"
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+;; helm
+(helm-mode 1)
+
 ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
 (defun my/use-eslint-from-node-modules ()
   "Use local eslint from node_modules before global."
@@ -243,6 +246,9 @@ PARAM param"
 
 ;; evil-mode: use return to speed up emacs commands
 (define-key evil-motion-state-map (kbd "RET") 'execute-extended-command)
+
+;; Use helm to find files
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File type associatons
