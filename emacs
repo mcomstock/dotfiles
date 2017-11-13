@@ -43,6 +43,7 @@ PARAM param"
    (quote
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(evil-want-C-u-scroll t)
+ '(helm-swoop-speed-or-color t)
  '(js3-auto-indent-p t)
  '(js3-enter-indents-newline t)
  '(js3-indent-on-enter-key t)
@@ -52,7 +53,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+    (helm-swoop rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -118,7 +119,9 @@ PARAM param"
 (require 'goto-chg)
 (require 'haskell-mode)
 (require 'haxe-mode)
+(require 'helm)
 (require 'helm-config)
+(require 'helm-swoop)
 (require 'js2-mode)
 (require 'js3-mode)
 (require 'json-mode)
@@ -172,6 +175,7 @@ PARAM param"
 (delight '((company-mode "C" "company")
            (eldoc-mode "E" "eldoc")
            (flycheck-mode "F" "flycheck")
+           (helm-mode "H" "helm-mode")
            (isearch-mode "I" "isearch")
            (racer-mode "R" "racer")
            (undo-tree-mode "U" "undo-tree")
@@ -242,6 +246,9 @@ PARAM param"
 (define-key evil-motion-state-map " ac" 'company-mode)
 (define-key evil-motion-state-map " ln" 'linum-mode)
 (define-key evil-motion-state-map " fc" 'flycheck-mode)
+(define-key evil-motion-state-map " hf" 'helm-find-files)
+(define-key evil-motion-state-map " hs" 'helm-swoop)
+(define-key evil-motion-state-map " hm" 'helm-multi-swoop-all)
 (define-key key-translation-map " x" (kbd "C-x"))
 
 ;; evil-mode: use return to speed up emacs commands
