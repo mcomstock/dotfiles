@@ -91,6 +91,9 @@ PARAM param"
   (menu-bar-mode 0)
 )
 
+;; mouse
+(xterm-mouse-mode 1)
+
 ;; Custom theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/color-to-the-max-theme")
 (load-theme 'color-to-the-max t)
