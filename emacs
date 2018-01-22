@@ -53,7 +53,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (helm-swoop rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
+    (use-package helm-swoop rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode js3-mode js2-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -109,87 +109,138 @@ PARAM param"
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (package-initialize)
 
+(eval-when-compile
+  (require 'use-package))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'async)
-(require 'auto-async-byte-compile)
-(require 'company)
-(require 'delight)
-(require 'evil)
-(require 'flycheck)
-(require 'goto-chg)
-(require 'haskell-mode)
-(require 'haxe-mode)
-(require 'helm)
-(require 'helm-config)
-(require 'helm-swoop)
-(require 'js2-mode)
-(require 'js3-mode)
-(require 'json-mode)
-(require 'less-css-mode)
-(require 'linum-relative)
-(require 'lsp-flycheck)
-(require 'lsp-mode)
-(require 'lsp-rust)
-(require 'powerline)
-(require 'racer)
-(require 'rainbow-delimiters)
-(require 'rainbow-mode)
-(require 'rjsx-mode)
-(require 'rust-mode)
-(require 'spaceline-config)
-(require 'toml-mode)
-(require 'undo-tree)
-(require 'yaml-mode)
-(require 'yasnippet)
+(use-package async)
+
+(use-package auto-async-byte-compile)
+
+(use-package company
+  :delight
+  (company-mode "C")
+  :config
+  (company-tng-configure-default)
+  (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package delight)
+
+(use-package evil
+  :config
+  (evil-mode 1)
+  ;; Use space like leader key
+  (define-key evil-motion-state-map " " nil)
+
+  ;; General commands
+  (define-key evil-motion-state-map " tw" 'whitespace-mode)
+  (define-key evil-motion-state-map " ac" 'company-mode)
+  (define-key evil-motion-state-map " ln" 'linum-mode)
+  (define-key evil-motion-state-map " fc" 'flycheck-mode)
+  (define-key evil-motion-state-map " hf" 'helm-find-files)
+  (define-key evil-motion-state-map " hs" 'helm-swoop)
+  (define-key evil-motion-state-map " hm" 'helm-multi-swoop-all)
+  (define-key key-translation-map " x" (kbd "C-x"))
+
+  ;; Use return to speed up emacs commands
+  (define-key evil-motion-state-map (kbd "RET") 'execute-extended-command))
+
+(use-package flycheck
+  :delight
+  (flycheck-mode "F")
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+(use-package goto-chg)
+
+(use-package haskell-mode)
+
+(use-package haxe-mode)
+
+(use-package helm
+  :after (helm-config)
+  :delight
+  (helm-mode "H")
+  :config
+  (helm-mode 1))
+
+(use-package helm-config)
+
+(use-package helm-swoop
+  :after (helm))
+
+(use-package js2-mode)
+
+(use-package js3-mode)
+
+(use-package json-mode)
+
+(use-package less-css-mode)
+
+(use-package linum-relative
+  :config
+  (linum-relative-on))
+
+(use-package lsp-flycheck
+  :after (flycheck lsp-mode))
+
+(use-package lsp-mode)
+
+(use-package lsp-rust
+  :after (lsp-mode lsp-flycheck))
+
+(use-package powerline)
+
+(use-package racer
+  :after (rust)
+  :delight
+  (racer-mode "R"))
+
+(use-package rainbow-delimiters)
+
+(use-package rainbow-mode)
+
+(use-package rjsx-mode)
+
+(use-package rust-mode)
+
+(use-package spaceline-config
+  :config
+  (setq powerline-default-separator 'utf-8)
+  (setq spaceline-minor-modes-separator " ")
+  (setq spaceline-buffer-encoding-abbrev-p nil)
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  (spaceline-emacs-theme))
+
+(use-package toml-mode)
+
+(use-package undo-tree
+  :delight
+  (undo-tree-mode "U")
+  :config
+  (global-undo-tree-mode))
+
+(use-package yaml-mode)
+
+(use-package yasnippet
+  :delight
+  (yas-minor-mode "Y"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; evil
-(evil-mode 1)
-;; Use space like leader key
-(define-key evil-motion-state-map " " nil)
-
-;; spaceline
-(defface spaceline-externally-modified-face
-  '((t :background "red"))
-    "Face for denoting that the buffer has been externally modified in the spaceline."
-    :group 'spaceline)
-
-(setq powerline-default-separator 'utf-8)
-(setq spaceline-minor-modes-separator " ")
-(setq spaceline-buffer-encoding-abbrev-p nil)
-(setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-(spaceline-emacs-theme)
-
 ;; async dired commands
 (autoload 'dired-async-mode "dired-async.el" nil t)
 (dired-async-mode 1)
 
-;; company
-(company-tng-configure-default)
-(add-hook 'after-init-hook 'global-company-mode)
-
 ;; delight
-(delight '((company-mode "C" "company")
-           (eldoc-mode "E" "eldoc")
-           (flycheck-mode "F" "flycheck")
-           (helm-mode "H" "helm-mode")
+(delight '((eldoc-mode "E" "eldoc")
            (isearch-mode "I" "isearch")
-           (racer-mode "R" "racer")
-           (undo-tree-mode "U" "undo-tree")
-           (whitespace-mode "W" "whitespace")
-           (yas-minor-mode "Y" "yasnippet")))
-
-;; flycheck
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; helm
-(helm-mode 1)
+           (whitespace-mode "W" "whitespace")))
 
 ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
 (defun my/use-eslint-from-node-modules ()
@@ -203,12 +254,6 @@ PARAM param"
     (when (and eslint (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint))))
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-
-;; linum-relative
-(linum-relative-on)
-
-;; undo-tree
-(global-undo-tree-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load local settings
@@ -243,19 +288,6 @@ PARAM param"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; evil-mode: general commands
-(define-key evil-motion-state-map " tw" 'whitespace-mode)
-(define-key evil-motion-state-map " ac" 'company-mode)
-(define-key evil-motion-state-map " ln" 'linum-mode)
-(define-key evil-motion-state-map " fc" 'flycheck-mode)
-(define-key evil-motion-state-map " hf" 'helm-find-files)
-(define-key evil-motion-state-map " hs" 'helm-swoop)
-(define-key evil-motion-state-map " hm" 'helm-multi-swoop-all)
-(define-key key-translation-map " x" (kbd "C-x"))
-
-;; evil-mode: use return to speed up emacs commands
-(define-key evil-motion-state-map (kbd "RET") 'execute-extended-command)
 
 ;; Use helm to find files
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
