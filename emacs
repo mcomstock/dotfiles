@@ -53,7 +53,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (helm-swoop js3-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (lua-mode helm-swoop use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -118,21 +118,16 @@ PARAM param"
 
 (setq use-package-verbose t)
 
-(use-package async
-  :defer t)
+(use-package async)
 
 (use-package auto-async-byte-compile)
 
 (use-package company
-  :defer t
   :delight
   (company-mode "C")
   :config
   (company-tng-configure-default)
-  (add-hook 'after-init-hook 'global-company-mode))
-
-(use-package delight
-  :defer t)
+  (global-company-mode))
 
 (use-package evil
   :config
@@ -154,7 +149,6 @@ PARAM param"
   (define-key evil-motion-state-map (kbd "RET") 'execute-extended-command))
 
 (use-package flycheck
-  :defer t
   :delight
   (flycheck-mode "F")
   :config
@@ -163,10 +157,10 @@ PARAM param"
 (use-package goto-chg)
 
 (use-package haskell-mode
-  :defer t)
+  :commands haskell-mode)
 
 (use-package haxe-mode
-  :defer t)
+  :commands haxe-mode)
 
 (use-package helm
   :after (helm-config)
@@ -180,14 +174,8 @@ PARAM param"
 (use-package helm-swoop
   :after (helm-config))
 
-(use-package js2-mode
-  :defer t)
-
-(use-package js3-mode
-  :defer t)
-
 (use-package json-mode
-  :defer t)
+  :commands json-mode)
 
 (use-package less-css-mode
   :defer t)
@@ -197,21 +185,21 @@ PARAM param"
   (linum-relative-on))
 
 (use-package lsp-flycheck
-  :defer t
   :after (flycheck lsp-mode))
 
-(use-package lsp-mode
-  :defer t)
+(use-package lsp-mode)
 
 (use-package lsp-rust
-  :defer t
   :after (lsp-mode lsp-flycheck))
+
+(use-package lua-mode
+  :commands lua-mode)
 
 (use-package powerline)
 
 (use-package racer
-  :defer t
   :after (rust)
+  :commands racer-mode
   :delight
   (racer-mode "R"))
 
@@ -222,10 +210,10 @@ PARAM param"
   :commands rainbow-mode)
 
 (use-package rjsx-mode
-  :defer t)
+  :commands rjsx-mode)
 
 (use-package rust-mode
-  :defer t)
+  :commands rust-mode)
 
 (use-package spaceline-config
   :config
@@ -236,7 +224,7 @@ PARAM param"
   (spaceline-emacs-theme))
 
 (use-package toml-mode
-  :defer t)
+  :commands toml-mode)
 
 (use-package undo-tree
   :delight
@@ -245,10 +233,10 @@ PARAM param"
   (global-undo-tree-mode))
 
 (use-package yaml-mode
-  :defer t)
+  :commands yaml-mode)
 
 (use-package yasnippet
-  :defer t
+  :commands yas-minor-mode
   :delight
   (yas-minor-mode "Y"))
 
@@ -412,7 +400,6 @@ PARAM param"
 (add-hook 'less-css-mode-hook #'rainbow-delimiters-mode)
 
 ;; Lua mode
-(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
 (add-hook 'lua-mode-hook 'spaces-indent-setup)
 (add-hook 'lua-mode-hook #'rainbow-delimiters-mode)
 
