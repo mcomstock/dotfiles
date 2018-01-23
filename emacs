@@ -53,7 +53,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (lua-mode helm-swoop use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile helm async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -116,8 +116,6 @@ PARAM param"
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq use-package-verbose t)
-
 (use-package async)
 
 (use-package auto-async-byte-compile)
@@ -129,7 +127,16 @@ PARAM param"
   (company-tng-configure-default)
   (global-company-mode))
 
+(use-package undo-tree
+  :delight
+  (undo-tree-mode "U")
+  :config
+  (global-undo-tree-mode))
+
+(use-package goto-chg)
+
 (use-package evil
+  :after (undo-tree goto-chg)
   :config
   (evil-mode 1)
   ;; Use space like leader key
@@ -154,13 +161,13 @@ PARAM param"
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
-(use-package goto-chg)
-
 (use-package haskell-mode
   :commands haskell-mode)
 
 (use-package haxe-mode
   :commands haxe-mode)
+
+(use-package helm-config)
 
 (use-package helm
   :after (helm-config)
@@ -169,16 +176,14 @@ PARAM param"
   :config
   (helm-mode 1))
 
-(use-package helm-config)
-
 (use-package helm-swoop
-  :after (helm-config))
+  :after (helm))
 
 (use-package json-mode
   :commands json-mode)
 
 (use-package less-css-mode
-  :defer t)
+  :commands less-css-mode)
 
 (use-package linum-relative
   :config
@@ -225,12 +230,6 @@ PARAM param"
 
 (use-package toml-mode
   :commands toml-mode)
-
-(use-package undo-tree
-  :delight
-  (undo-tree-mode "U")
-  :config
-  (global-undo-tree-mode))
 
 (use-package yaml-mode
   :commands yaml-mode)
