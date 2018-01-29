@@ -86,6 +86,7 @@ PARAM param"
 (show-paren-mode 1)
 (global-hl-line-mode)
 (electric-indent-mode 1)
+(global-auto-revert-mode t)
 ;; for text consoles - don't need menu bar
 (unless window-system
   (menu-bar-mode 0)
