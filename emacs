@@ -53,7 +53,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (evil-terminal-cursor-changer helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -116,6 +116,17 @@ PARAM param"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(unless (display-graphic-p)
+  (use-package evil-terminal-cursor-changer
+    :init
+    (setq evil-motion-state-cursor 'box)  ; █
+    (setq evil-visual-state-cursor 'box)  ; █
+    (setq evil-normal-state-cursor 'box)  ; █
+    (setq evil-insert-state-cursor 'bar)  ; ⎸
+    (setq evil-emacs-state-cursor  'hbar) ; _
+    :config
+    (evil-terminal-cursor-changer-activate)))
 
 (use-package async)
 

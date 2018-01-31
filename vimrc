@@ -31,6 +31,8 @@ set softtabstop=4
 set virtualedit=onemore
 set scrolloff=5
 
+set mouse=a
+
 set backspace=indent,eol,start
 
 set nobackup noswapfile
