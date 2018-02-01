@@ -6,8 +6,12 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# use emacs-style commands
-bindkey -e
+# use vi-style commands
+bindkey -v
+
+bindkey '^?' backward-delete-char
+bindkey '^W' backward-kill-word
+bindkey '^F' forward-char
 
 # select and traverse words like bash
 autoload -U select-word-style
@@ -153,3 +157,27 @@ if [[ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS+x}" ]]; then
     ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=161
     ZSH_HIGHLIGHT_STYLES[assign]=none
 fi
+
+# change cursor shape based on vi mode
+function zle-keymap-select zle-line-init {
+    case $KEYMAP in
+        vicmd)
+            echo -ne "\e[2 q"
+            ;;
+        viins|main)
+            echo -ne "\e[6 q"
+            ;;
+    esac
+
+    zle reset-prompt
+    zle -R
+}
+
+# reset cursor shape to block when leaving command mode
+function zle-line-finish {
+    echo -ne "\e[2 q"
+}
+
+zle -N zle-line-init
+zle -N zle-line-finish
+zle -N zle-keymap-select
