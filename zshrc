@@ -9,6 +9,9 @@
 # use vi-style commands
 bindkey -v
 
+# very short delay on escape key
+KEYTIMEOUT=1
+
 bindkey '^?' backward-delete-char
 bindkey '^W' backward-kill-word
 bindkey '^F' forward-char
