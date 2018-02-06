@@ -28,7 +28,7 @@ PARAM param"
  '(async-bytecomp-package-mode 1)
  '(company-dabbrev-code-modes
    (quote
-    (prog-mode batch-file-mode csharp-mode css-mode erlang-mode haskell-mode jde-mode lua-mode python-mode js2-mode js3-mode)))
+    (prog-mode batch-file-mode csharp-mode css-mode erlang-mode haskell-mode jde-mode lua-mode python-mode js2-mode)))
  '(company-dabbrev-downcase nil)
  '(company-idle-delay 0)
  '(cperl-close-paren-offset -4)
@@ -44,9 +44,6 @@ PARAM param"
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(evil-want-C-u-scroll t)
  '(helm-swoop-speed-or-color t)
- '(js3-auto-indent-p t)
- '(js3-enter-indents-newline t)
- '(js3-indent-on-enter-key t)
  '(linum-format "%d ")
  '(linum-relative-current-symbol "")
  '(linum-relative-format "%s ")
@@ -91,6 +88,14 @@ PARAM param"
 (global-hl-line-mode)
 (show-paren-mode 1)
 (xterm-mouse-mode 1)
+
+;; Home and End keys
+(global-set-key [home] 'beginning-of-buffer)
+(global-set-key [select] 'end-of-buffer)
+(global-set-key [end] 'end-of-buffer)
+
+;; Tab indents to positions in tab-stop-list
+(define-key text-mode-map (kbd "<tab>") 'tab-to-tab-stop)
 
 ;; for text consoles - don't need menu bar
 (unless window-system
@@ -170,10 +175,13 @@ PARAM param"
 (use-package flycheck
   :delight (flycheck-mode "F")
   :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
 
 (use-package haskell-mode
-  :commands haskell-mode)
+  :commands haskell-mode
+  :config
+  (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode))
 
 (use-package haxe-mode
   :commands haxe-mode)
@@ -194,7 +202,9 @@ PARAM param"
   :commands json-mode)
 
 (use-package less-css-mode
-  :commands less-css-mode)
+  :commands less-css-mode
+  :config
+  (add-hook 'less-css-mode-hook #'rainbow-delimiters-mode))
 
 (use-package linum-relative
   :config
@@ -209,7 +219,9 @@ PARAM param"
   :after (lsp-mode lsp-flycheck))
 
 (use-package lua-mode
-  :commands lua-mode)
+  :commands lua-mode
+  :config
+  (add-hook 'lua-mode-hook #'rainbow-delimiters-mode))
 
 (use-package powerline)
 
@@ -225,10 +237,17 @@ PARAM param"
   :commands rainbow-mode)
 
 (use-package rjsx-mode
-  :commands rjsx-mode)
+  :commands rjsx-mode
+  :config
+  (add-hook 'js2-mode-hook #'rainbow-delimiters-mode))
 
 (use-package rust-mode
-  :commands rust-mode)
+  :commands rust-mode
+  :config
+  (add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'rust-mode-hook #'flycheck-rust-setup)
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode))
 
 (use-package spaceline-config
   :config
@@ -273,28 +292,6 @@ PARAM param"
                                         root))))
     (when (and eslint (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint))))
-(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Load local settings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(when (file-readable-p "~/.emacs-local.el")
-  (load "~/.emacs-local.el"))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Useful functions
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Add to hooks for modes that should indent using tabs
-(defun tab-indent-setup ()
-  "Set the indentation style for the buffer to use tabs."
-  (setq indent-tabs-mode 't))
-
-;; Add to hooks for modes that should indent using spaces
-(defun spaces-indent-setup ()
-  "Set the indentation style for the buffer to use spaces."
-  (setq indent-tabs-mode nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File type associatons
@@ -330,27 +327,18 @@ PARAM param"
 ;; C/C++
 (setq c-default-style "stroustrup"
       c-basic-offset 4)
-(add-hook 'c-mode-common-hook 'tab-indent-setup)
 (add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
 ;; Don't indent brace that opens an in-class inline method
 (c-set-offset 'inline-open 0)
 
 ;; CPerl
-(add-hook 'cperl-mode-hook 'tab-indent-setup)
 (add-hook 'cperl-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'cperl-mode-hook
           (lambda ()
             (setq-local company-backends
                         '(company-dabbrev-code company-keywords company-oddmuse company-dabbrev))))
 
-(global-set-key [home] 'beginning-of-buffer)
-(global-set-key [select] 'end-of-buffer)
-(global-set-key [end] 'end-of-buffer)
-
-(define-key text-mode-map (kbd "<tab>") 'tab-to-tab-stop)
-
 ;; CSS settings
-(add-hook 'css-mode-hook 'tab-indent-setup)
 (add-hook 'css-mode-hook #'rainbow-delimiters-mode)
 
 ;; Emacs lisp mode
@@ -358,54 +346,24 @@ PARAM param"
 ;; Asyncronously compile emacs lisp files on save
 (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
 
-;; Haskell mode
-(add-hook 'haskell-mode-hook 'tab-indent-setup)
-(add-hook 'haskell-mode-hook #'rainbow-delimiters-mode)
-
-;; js2-mode
-(add-hook 'js2-mode-hook 'tab-indent-setup)
-(add-hook 'js2-mode-hook #'rainbow-delimiters-mode)
-
-;; These settings would make my JS mode conform to the real standards,
-;; but sadly I'm stuck in legacy right now.
-;; (add-hook 'js2-jsx-mode-hook
-;;           (lambda ()
-;;             (setq indent-tabs-mode nil)
-;;             (setq js2-basic-offset 2)
-;;             (setq js2-strict-trailing-comma-warning nil)
-;;             (setq js-switch-indent-offset 2)))
-
-;; js3-mode
-(add-hook 'js3-mode-hook 'tab-indent-setup)
-(add-hook 'js3-mode-hook #'rainbow-delimiters-mode)
-(setq-default js3-indent-level 4
-              js3-consistent-level-indent-inner-bracket t)
-
 ;; Latex mode
 (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
 (add-hook 'LaTeX-mode-hook #'rainbow-delimiters-mode)
 (setq-default LaTeX-default-offset 2)
 (setq-default TeX-newline-function 'newline-and-indent)
 
-;; LESS mode
-(add-hook 'less-css-mode-hook 'tab-indent-setup)
-(add-hook 'less-css-mode-hook #'rainbow-delimiters-mode)
-
-;; Lua mode
-(add-hook 'lua-mode-hook 'spaces-indent-setup)
-(add-hook 'lua-mode-hook #'rainbow-delimiters-mode)
-
 ;; Ruby mode
 (add-hook 'ruby-mode-hook #'rainbow-delimiters-mode)
 
-;; Rust mode
-(add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'rust-mode-hook #'flycheck-rust-setup)
-(add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'racer-mode-hook #'eldoc-mode)
-
 ;; Shell mode
 (add-hook 'sh-mode-hook #'rainbow-delimiters-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load local settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(when (file-readable-p "~/.emacs-local.el")
+  (load "~/.emacs-local.el"))
 
 
 ;; Get emacs to highlight this file correctly
