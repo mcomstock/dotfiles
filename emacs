@@ -74,26 +74,27 @@ PARAM param"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq-default indent-level 4)
-(setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq-default fill-column 100)
 (setq-default show-trailing-whitespace t)
+
+(setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
 (setq line-number-display-limit-width 2000000)
 (setq column-number-mode t)
 (setq split-height-threshold 200)
-(show-paren-mode 1)
-(global-hl-line-mode)
+
 (electric-indent-mode 1)
 (global-auto-revert-mode t)
+(global-hl-line-mode)
+(show-paren-mode 1)
+(xterm-mouse-mode 1)
+
 ;; for text consoles - don't need menu bar
 (unless window-system
-  (menu-bar-mode 0)
-)
-
-;; mouse
-(xterm-mouse-mode 1)
+  (menu-bar-mode 0))
 
 ;; Change cursor shape depending on editing mode
 (defun set-cursor-shape ()
@@ -102,7 +103,7 @@ PARAM param"
     (if (symbolp cursor-type)
         (send-string-to-terminal "\e[2 q"))
     (if (listp cursor-type)
-          (send-string-to-terminal "\e[6 q"))))
+        (send-string-to-terminal "\e[6 q"))))
 
 (add-hook 'pre-command-hook 'set-cursor-shape)
 (add-hook 'post-command-hook 'set-cursor-shape)
@@ -134,15 +135,13 @@ PARAM param"
 (use-package auto-async-byte-compile)
 
 (use-package company
-  :delight
-  (company-mode "C")
+  :delight (company-mode "C")
   :config
   (company-tng-configure-default)
   (global-company-mode))
 
 (use-package undo-tree
-  :delight
-  (undo-tree-mode "U")
+  :delight (undo-tree-mode "U")
   :config
   (global-undo-tree-mode))
 
@@ -169,8 +168,7 @@ PARAM param"
   (define-key evil-motion-state-map (kbd "RET") 'execute-extended-command))
 
 (use-package flycheck
-  :delight
-  (flycheck-mode "F")
+  :delight (flycheck-mode "F")
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
@@ -184,10 +182,10 @@ PARAM param"
 
 (use-package helm
   :after (helm-config)
-  :delight
-  (helm-mode "H")
+  :delight (helm-mode "H")
   :config
-  (helm-mode 1))
+  (helm-mode 1)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files))
 
 (use-package helm-swoop
   :after (helm))
@@ -218,8 +216,7 @@ PARAM param"
 (use-package racer
   :after (rust)
   :commands racer-mode
-  :delight
-  (racer-mode "R"))
+  :delight (racer-mode "R"))
 
 (use-package rainbow-delimiters
   :commands rainbow-delimiters-mode)
@@ -249,8 +246,7 @@ PARAM param"
 
 (use-package yasnippet
   :commands yas-minor-mode
-  :delight
-  (yas-minor-mode "Y"))
+  :delight (yas-minor-mode "Y"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package settings
@@ -300,22 +296,6 @@ PARAM param"
   "Set the indentation style for the buffer to use spaces."
   (setq indent-tabs-mode nil))
 
-;; Check whether the buffer is read-only, has been modified, or has been saved since it was opened
-(defun spaceline-highlight-face-modified-externally ()
-  "Set the color of the spaceline based on the status of the current buffer."
-  (cond
-   (buffer-read-only 'spaceline-read-only)
-   ((not (verify-visited-file-modtime)) 'spaceline-externally-modified-face)
-   ((buffer-modified-p) 'spaceline-modified)
-   (t 'spaceline-unmodified)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Key bindings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Use helm to find files
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File type associatons
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -361,7 +341,7 @@ PARAM param"
 (add-hook 'cperl-mode-hook
           (lambda ()
             (setq-local company-backends
-                  '(company-dabbrev-code company-keywords company-oddmuse company-dabbrev))))
+                        '(company-dabbrev-code company-keywords company-oddmuse company-dabbrev))))
 
 (global-set-key [home] 'beginning-of-buffer)
 (global-set-key [select] 'end-of-buffer)
