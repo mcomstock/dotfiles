@@ -113,6 +113,9 @@ PARAM param"
 (add-hook 'pre-command-hook 'set-cursor-shape)
 (add-hook 'post-command-hook 'set-cursor-shape)
 
+;; Make the vertical window border a solid line
+(set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
+
 ;; Custom theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/color-to-the-max-theme")
 (load-theme 'color-to-the-max t)
@@ -124,8 +127,8 @@ PARAM param"
 ;; ELPA additional repositories
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (package-initialize)
 
 (eval-when-compile
