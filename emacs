@@ -163,13 +163,14 @@ PARAM param"
   (define-key evil-motion-state-map " " nil)
 
   ;; General commands
-  (define-key evil-motion-state-map " tw" 'whitespace-mode)
   (define-key evil-motion-state-map " ac" 'company-mode)
-  (define-key evil-motion-state-map " ln" 'linum-mode)
   (define-key evil-motion-state-map " fc" 'flycheck-mode)
+  (define-key evil-motion-state-map " ln" 'linum-mode)
   (define-key evil-motion-state-map " hf" 'helm-find-files)
-  (define-key evil-motion-state-map " hs" 'helm-swoop)
   (define-key evil-motion-state-map " hm" 'helm-multi-swoop-all)
+  (define-key evil-motion-state-map " hs" 'helm-swoop)
+  (define-key evil-motion-state-map " wf" 'which-function-mode)
+  (define-key evil-motion-state-map " tw" 'whitespace-mode)
   (define-key key-translation-map " x" (kbd "C-x"))
 
   ;; Use return to speed up emacs commands
