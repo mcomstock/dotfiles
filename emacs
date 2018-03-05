@@ -51,7 +51,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -215,13 +215,13 @@ PARAM param"
   :config
   (linum-relative-on))
 
-(use-package lsp-flycheck
+(use-package lsp-ui
   :after (flycheck lsp-mode))
 
 (use-package lsp-mode)
 
 (use-package lsp-rust
-  :after (lsp-mode lsp-flycheck))
+  :after (lsp-mode lsp-ui))
 
 (use-package lua-mode
   :commands lua-mode
