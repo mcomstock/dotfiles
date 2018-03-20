@@ -51,7 +51,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -176,6 +176,11 @@ PARAM param"
   (define-key evil-motion-state-map " tw" 'whitespace-mode)
   (define-key key-translation-map " x" (kbd "C-x")))
 
+(use-package evil-surround
+  :after (evil)
+  :config
+  (global-evil-surround-mode 1))
+
 
 (use-package flycheck
   :delight (flycheck-mode "F")
@@ -264,6 +269,11 @@ PARAM param"
 
 (use-package toml-mode
   :commands toml-mode)
+
+(use-package which-key
+  :config
+  (setq which-key-idle-delay 0.1)
+  (which-key-mode))
 
 (use-package yaml-mode
   :commands yaml-mode)
