@@ -150,7 +150,7 @@ PARAM param"
   (global-company-mode))
 
 (use-package undo-tree
-  :delight (undo-tree-mode "U")
+  :delight
   :config
   (global-undo-tree-mode))
 
@@ -264,6 +264,7 @@ PARAM param"
   (setq powerline-default-separator 'utf-8)
   (setq spaceline-minor-modes-separator " ")
   (setq spaceline-buffer-encoding-abbrev-p nil)
+  (setq spaceline-buffer-size-p nil)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
   (spaceline-emacs-theme))
 
@@ -272,8 +273,9 @@ PARAM param"
 
 (use-package which-key
   :config
-  (setq which-key-idle-delay 0.1)
-  (which-key-mode))
+  (setq which-key-idle-delay 0.5)
+  (which-key-mode)
+  :delight)
 
 (use-package yaml-mode
   :commands yaml-mode)
