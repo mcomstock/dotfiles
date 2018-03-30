@@ -51,7 +51,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -142,6 +142,15 @@ PARAM param"
 (use-package async)
 
 (use-package auto-async-byte-compile)
+
+(use-package anzu
+  :delight
+  :config
+  (setq anzu-cons-mode-line-p nil)
+  (global-anzu-mode +1))
+
+(use-package evil-anzu
+  :after (anzu evil))
 
 (use-package company
   :delight (company-mode "C")
@@ -265,6 +274,7 @@ PARAM param"
   (setq spaceline-minor-modes-separator " ")
   (setq spaceline-buffer-encoding-abbrev-p nil)
   (setq spaceline-buffer-size-p nil)
+  (setq spaceline-window-numbers-unicode t)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
   (spaceline-emacs-theme))
 
@@ -276,6 +286,21 @@ PARAM param"
   (setq which-key-idle-delay 0.5)
   (which-key-mode)
   :delight)
+
+(use-package winum
+  :after (evil)
+  :config
+  (setq winum-auto-setup-mode-line nil)
+  (winum-mode)
+  (define-key evil-motion-state-map " 1" 'winum-select-window-1)
+  (define-key evil-motion-state-map " 2" 'winum-select-window-2)
+  (define-key evil-motion-state-map " 3" 'winum-select-window-3)
+  (define-key evil-motion-state-map " 4" 'winum-select-window-4)
+  (define-key evil-motion-state-map " 5" 'winum-select-window-5)
+  (define-key evil-motion-state-map " 6" 'winum-select-window-6)
+  (define-key evil-motion-state-map " 7" 'winum-select-window-7)
+  (define-key evil-motion-state-map " 8" 'winum-select-window-8)
+  (define-key evil-motion-state-map " 9" 'winum-select-window-9))
 
 (use-package yaml-mode
   :commands yaml-mode)
