@@ -51,7 +51,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -149,9 +149,6 @@ PARAM param"
   (setq anzu-cons-mode-line-p nil)
   (global-anzu-mode +1))
 
-(use-package evil-anzu
-  :after (anzu evil))
-
 (use-package company
   :delight (company-mode "C")
   :config
@@ -184,6 +181,28 @@ PARAM param"
   (define-key evil-motion-state-map " wf" 'which-function-mode)
   (define-key evil-motion-state-map " tw" 'whitespace-mode)
   (define-key key-translation-map " x" (kbd "C-x")))
+
+(use-package evil-anzu
+  :after (anzu evil))
+
+(use-package evil-args
+  :after (evil)
+  :config
+  (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+  (define-key evil-outer-text-objects-map "a" 'evil-outer-arg))
+
+(use-package evil-nerd-commenter
+  :after (evil)
+  :config
+  (define-key evil-motion-state-map " ;" 'evilnc-comment-or-uncomment-lines))
+
+(use-package evil-search-highlight-persist
+  :after (evil)
+  :config
+  (global-evil-search-highlight-persist t)
+  (set-face-background 'evil-ex-lazy-highlight "red")
+  (set-face-foreground 'evil-ex-lazy-highlight "red")
+  (define-key evil-motion-state-map "  " 'evil-search-highlight-persist-remove-all))
 
 (use-package evil-surround
   :after (evil)
