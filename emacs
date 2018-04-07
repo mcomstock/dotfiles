@@ -200,8 +200,6 @@ PARAM param"
   :after (evil)
   :config
   (global-evil-search-highlight-persist t)
-  (set-face-background 'evil-ex-lazy-highlight "red")
-  (set-face-foreground 'evil-ex-lazy-highlight "red")
   (define-key evil-motion-state-map "  " 'evil-search-highlight-persist-remove-all))
 
 (use-package evil-surround
