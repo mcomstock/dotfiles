@@ -119,7 +119,7 @@ PARAM param"
 
 ;; Custom theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/color-to-the-max-theme")
-(load-theme 'color-to-the-max t)
+(load-theme 'outrun t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package management
