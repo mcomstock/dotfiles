@@ -31,6 +31,7 @@ autoload -U +X bashcompinit && bashcompinit
 
 # zsh package management with antigen
 [[ -e ~/.zsh/antigen/antigen.zsh ]] && source ~/.zsh/antigen/antigen.zsh
+[[ -e /usr/local/share/antigen/antigen.zsh ]] && source /usr/local/share/antigen/antigen.zsh
 
 # save history
 HISTSIZE=1000000
