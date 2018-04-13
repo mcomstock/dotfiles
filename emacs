@@ -51,7 +51,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-use-smie t)
@@ -214,6 +214,8 @@ PARAM param"
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
 
+(use-package haml-mode)
+
 (use-package haskell-mode
   :commands haskell-mode
   :config
@@ -221,6 +223,13 @@ PARAM param"
 
 (use-package haxe-mode
   :commands haxe-mode)
+
+(use-package helm-ag
+  :after (helm)
+  :config
+  (setq helm-ag-base-command "rg --vimgrep --no-heading")
+
+  (define-key evil-motion-state-map " hg" 'helm-ag))
 
 (use-package helm-config)
 
@@ -230,6 +239,25 @@ PARAM param"
   :config
   (helm-mode 1)
   (global-set-key (kbd "C-x C-f") 'helm-find-files))
+
+(use-package helm-projectile
+  :after (helm projectile)
+  :config
+
+  ;; Workaround necessary for using ripgrep instead of ag
+  (defun helm-projectile-ag (&optional options)
+    "Helm version of projectile-ag."
+    (interactive (if current-prefix-arg (list (read-string "option: " "" 'helm-ag--extra-options-history))))
+    (if (require 'helm-ag nil  'noerror)
+        (if (projectile-project-p)
+            (let ((helm-ag-command-option options)
+                  (current-prefix-arg nil))
+              (helm-do-ag (projectile-project-root) (car (projectile-parse-dirconfig-file))))
+          (error "You're not in a project"))
+      (error "Sorry, helm-ag not available")))
+
+  (define-key evil-motion-state-map " pf" 'helm-projectile)
+  (define-key evil-motion-state-map " pg" 'helm-projectile-grep))
 
 (use-package helm-swoop
   :after (helm))
@@ -263,6 +291,10 @@ PARAM param"
   :commands (macrostep-mode macrostep-expand))
 
 (use-package powerline)
+
+(use-package projectile
+  :config
+  (define-key evil-motion-state-map " pm" 'projectile-mode))
 
 (use-package racer
   :after (rust)
