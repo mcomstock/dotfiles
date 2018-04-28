@@ -85,20 +85,20 @@ local _lineup=$'\e[1A'
 local _linedown=$'\e[1B'
 local lineup='%{${_lineup}%}'
 local linedown='%{${_linedown}%}'
-local username='%{%f$fg[green]%}$(whoami)%{%f%}'
+local username='%{%f$fg[blue]%}$(whoami)%{%f%}'
 local machine='%{%f$fg[blue]%}%m%{%f%}'
 local dir='%{%f$fg[yellow]%}%~%{%f%}'
 local vc_info='%{%f$fg[magenta]%}${vcs_info_msg_0_}%{%f%}'
 # the input prompt is blue if the last exit code was 0, red otherwise
-local input='%{%f%}%(?.%{$fg[blue]%}.%{$fg[red]%})>>%{%f%}'
+local input='%{%f%}%(?.%{$fg[green]%}.%{$fg[red]%})>>%{%f%}'
 local time='%{%f$fg[blue]%}%D{%T}%{%f%}'
-local date='%{%f$fg[green]%}%D{%F}%{%f%}'
-local exit_code='%(?.%{$fg[blue]%}.%{$fg[red]%})%?%{%f%}'
-local gray_at='%{$fg[8]%}@%{%f%}'
-local elapsed='%{$fg[magenta]%}$(echo $_elapsed_formatted[-1])%{%f%}'
+local date='%{%f$fg[blue]%}%D{%F}%{%f%}'
+local exit_code='%(?.%{$fg[green]%}.%{$fg[red]%})%?%{%f%}'
+local at='%{$fg[white]%}@%{%f%}'
+local elapsed='%{$fg[blue]%}$(echo $_elapsed_formatted[-1])%{%f%}'
 
 local rprompt_string="${lineup}${elapsed} ${time} ${date}${linedown}"
-local prompt_string="${username}${gray_at}${machine} ${dir} ${vc_info}${newline}${exit_code} ${input} "
+local prompt_string="${username}${at}${machine} ${dir} ${vc_info}${newline}${exit_code} ${input} "
 
 PROMPT="${prompt_string}"
 
@@ -134,9 +134,9 @@ if [[ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS+x}" ]]; then
     ZSH_HIGHLIGHT_STYLES[default]=none
     ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red
     ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=red,standout
-    ZSH_HIGHLIGHT_STYLES[alias]=fg=blue
-    ZSH_HIGHLIGHT_STYLES[builtin]=fg=blue
-    ZSH_HIGHLIGHT_STYLES[function]=fg=blue
+    ZSH_HIGHLIGHT_STYLES[alias]=fg=green
+    ZSH_HIGHLIGHT_STYLES[builtin]=fg=green
+    ZSH_HIGHLIGHT_STYLES[function]=fg=green
     ZSH_HIGHLIGHT_STYLES[command]=fg=cyan
     ZSH_HIGHLIGHT_STYLES[precommand]=fg=white,underline
     ZSH_HIGHLIGHT_STYLES[commandseparator]=none
