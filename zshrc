@@ -85,28 +85,20 @@ local _lineup=$'\e[1A'
 local _linedown=$'\e[1B'
 local lineup='%{${_lineup}%}'
 local linedown='%{${_linedown}%}'
-local username='%{%f%F{35}%}$(whoami)%{%f%}'
-local machine='%{%f%F{75}%}%m%{%f%}'
-local dir='%{%f%F{222}%}%~%{%f%}'
-local vc_info='%{%f%F{63}%}${vcs_info_msg_0_}%{%f%}'
+local username='%{%f$fg[green]%}$(whoami)%{%f%}'
+local machine='%{%f$fg[blue]%}%m%{%f%}'
+local dir='%{%f$fg[yellow]%}%~%{%f%}'
+local vc_info='%{%f$fg[magenta]%}${vcs_info_msg_0_}%{%f%}'
 # the input prompt is blue if the last exit code was 0, red otherwise
-local input='%{%f%}%(?.%{$fg[cyan]%}.%{%F{197}%})>>%{%f%}'
-local time='%{%f%F{75}%}%D{%T}%{%f%}'
-local date='%{%f%F{35}%}%D{%F}%{%f%}'
-local exit_code='%(?.%{$fg[cyan]%}.%{%F{197}%})%?%{%f%}'
-local gray_at='%{%F{246}%}@%{%f%}'
-local gray_lb='%{%F{246}%}[%{%f%}'
-local gray_rb='%{%F{246}%}]%{%f%}'
-local elapsed='%{%F{135}%}$(echo $_elapsed_formatted[-1])%{%f%}'
+local input='%{%f%}%(?.%{$fg[blue]%}.%{$fg[red]%})>>%{%f%}'
+local time='%{%f$fg[blue]%}%D{%T}%{%f%}'
+local date='%{%f$fg[green]%}%D{%F}%{%f%}'
+local exit_code='%(?.%{$fg[blue]%}.%{$fg[red]%})%?%{%f%}'
+local gray_at='%{$fg[8]%}@%{%f%}'
+local elapsed='%{$fg[magenta]%}$(echo $_elapsed_formatted[-1])%{%f%}'
 
 local rprompt_string="${lineup}${elapsed} ${time} ${date}${linedown}"
 local prompt_string="${username}${gray_at}${machine} ${dir} ${vc_info}${newline}${exit_code} ${input} "
-
-if [[ -n $BUILDNAME || -n $MASTER_ROOT_INSTANCE ]]; then
-    local color_buildname='%{$fg[cyan]%}$(echo $BUILDNAME | sed -e "s/\(.*\)\/\(.*\)/\x1b[38;5;6m\1\x1b[38;5;246m\/\x1b[38;5;135m\2/g")%{%f%}'
-    local master_root='%{$fg[red]%}$MASTER_ROOT_INSTANCE%{%f%}'
-    local prompt_string="${gray_lb}${color_buildname} ${master_root}${gray_rb} ${prompt_string}"
-fi
 
 PROMPT="${prompt_string}"
 
@@ -140,25 +132,25 @@ if [[ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS+x}" ]]; then
 
     # Override highlighter colors
     ZSH_HIGHLIGHT_STYLES[default]=none
-    ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=197
-    ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=197,standout
-    ZSH_HIGHLIGHT_STYLES[alias]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[builtin]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[function]=fg=cyan
+    ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red
+    ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=red,standout
+    ZSH_HIGHLIGHT_STYLES[alias]=fg=blue
+    ZSH_HIGHLIGHT_STYLES[builtin]=fg=blue
+    ZSH_HIGHLIGHT_STYLES[function]=fg=blue
     ZSH_HIGHLIGHT_STYLES[command]=fg=cyan
     ZSH_HIGHLIGHT_STYLES[precommand]=fg=white,underline
     ZSH_HIGHLIGHT_STYLES[commandseparator]=none
-    ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=009
-    ZSH_HIGHLIGHT_STYLES[path]=fg=222
-    ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
+    ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=red,bold
+    ZSH_HIGHLIGHT_STYLES[path]=fg=yellow
+    ZSH_HIGHLIGHT_STYLES[globbing]=fg=magenta
     ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=white,underline
-    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=35
-    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=35
-    ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=135
-    ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=161
-    ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=161
+    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=magenta
+    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=magenta
+    ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=green
+    ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=green
+    ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=green
+    ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=cyan
+    ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
     ZSH_HIGHLIGHT_STYLES[assign]=none
 fi
 
