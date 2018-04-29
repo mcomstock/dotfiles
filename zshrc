@@ -137,7 +137,7 @@ if [[ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS+x}" ]]; then
     ZSH_HIGHLIGHT_STYLES[alias]=fg=green
     ZSH_HIGHLIGHT_STYLES[builtin]=fg=green
     ZSH_HIGHLIGHT_STYLES[function]=fg=green
-    ZSH_HIGHLIGHT_STYLES[command]=fg=cyan
+    ZSH_HIGHLIGHT_STYLES[command]=fg=green
     ZSH_HIGHLIGHT_STYLES[precommand]=fg=white,underline
     ZSH_HIGHLIGHT_STYLES[commandseparator]=none
     ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=red,bold
