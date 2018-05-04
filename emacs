@@ -51,9 +51,10 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
+ '(ruby-insert-encoding-magic-comment nil)
  '(ruby-use-smie t)
  '(scroll-conservatively 9001)
  '(scroll-margin 5)
@@ -214,7 +215,8 @@ PARAM param"
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
 
-(use-package haml-mode)
+(use-package haml-mode
+  :defer t)
 
 (use-package haskell-mode
   :commands haskell-mode
@@ -223,6 +225,13 @@ PARAM param"
 
 (use-package haxe-mode
   :commands haxe-mode)
+
+(use-package helm
+  :after (helm-config)
+  :delight (helm-mode "H")
+  :config
+  (helm-mode 1)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files))
 
 (use-package helm-ag
   :after (helm)
@@ -233,15 +242,8 @@ PARAM param"
 
 (use-package helm-config)
 
-(use-package helm
-  :after (helm-config)
-  :delight (helm-mode "H")
-  :config
-  (helm-mode 1)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files))
-
 (use-package helm-projectile
-  :after (helm projectile)
+  :after (helm helm-ag projectile)
   :config
 
   ;; Workaround necessary for using ripgrep instead of ag
@@ -257,7 +259,7 @@ PARAM param"
       (error "Sorry, helm-ag not available")))
 
   (define-key evil-motion-state-map " pf" 'helm-projectile)
-  (define-key evil-motion-state-map " pg" 'helm-projectile-grep))
+  (define-key evil-motion-state-map " pg" 'helm-projectile-ag))
 
 (use-package helm-swoop
   :after (helm))
@@ -277,7 +279,8 @@ PARAM param"
 (use-package lsp-ui
   :after (flycheck lsp-mode))
 
-(use-package lsp-mode)
+(use-package lsp-mode
+  :commands lsp-mode)
 
 (use-package lsp-rust
   :after (lsp-mode lsp-ui))
@@ -448,6 +451,9 @@ PARAM param"
 
 ;; Ruby mode
 (add-hook 'ruby-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (setq-local evil-shift-width ruby-indent-level)))
 
 ;; Shell mode
 (add-hook 'sh-mode-hook #'rainbow-delimiters-mode)
