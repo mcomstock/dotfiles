@@ -51,11 +51,11 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
- '(ruby-use-smie t)
+ '(ruby-use-smie t t)
  '(scroll-conservatively 9001)
  '(scroll-margin 5)
  '(show-paren-delay 0)
@@ -150,6 +150,9 @@ PARAM param"
   (setq anzu-cons-mode-line-p nil)
   (global-anzu-mode +1))
 
+(use-package coffee-mode
+  :commands coffee-mode)
+
 (use-package company
   :delight (company-mode "C")
   :config
@@ -177,7 +180,7 @@ PARAM param"
   (define-key evil-motion-state-map " hf" 'helm-find-files)
   (define-key evil-motion-state-map (kbd "SPC RET") 'helm-M-x)
   (define-key evil-motion-state-map " hm" 'helm-multi-swoop-all)
-  (define-key evil-motion-state-map " hs" 'helm-swoop)
+  (define-key evil-motion-state-map " hs" 'helm-swoop-without-pre-input)
   (define-key evil-motion-state-map " nm" 'normal-mode)
   (define-key evil-motion-state-map " wf" 'which-function-mode)
   (define-key evil-motion-state-map " tw" 'whitespace-mode)
@@ -214,6 +217,9 @@ PARAM param"
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
+
+(use-package flycheck-rust
+  :commands flycheck-rust-setup)
 
 (use-package haml-mode
   :defer t)
@@ -360,6 +366,10 @@ PARAM param"
 (use-package yaml-mode
   :commands yaml-mode)
 
+(use-package yard-mode
+  :commands yard-mode
+  :delight (yard-mode "YD"))
+
 (use-package yasnippet
   :commands yas-minor-mode
   :delight (yas-minor-mode "Y"))
@@ -451,6 +461,7 @@ PARAM param"
 
 ;; Ruby mode
 (add-hook 'ruby-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'ruby-mode-hook #'yard-mode)
 (add-hook 'ruby-mode-hook
           (lambda ()
             (setq-local evil-shift-width ruby-indent-level)))
