@@ -237,7 +237,8 @@ PARAM param"
   :delight (helm-mode "H")
   :config
   (helm-mode 1)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files))
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x b") 'helm-mini))
 
 (use-package helm-ag
   :after (helm)
