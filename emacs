@@ -51,7 +51,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (projectile-rails yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -251,6 +251,7 @@ PARAM param"
 (use-package helm-projectile
   :after (helm helm-ag projectile)
   :config
+  (setq projectile-completion-system 'helm)
 
   ;; Workaround necessary for using ripgrep instead of ag
   (defun helm-projectile-ag (&optional options)
@@ -304,6 +305,12 @@ PARAM param"
 (use-package projectile
   :config
   (define-key evil-motion-state-map " pm" 'projectile-mode))
+
+(use-package projectile-rails
+  :after (projectile evil)
+  :commands projectile-rails-mode
+  :config
+  (define-key key-translation-map " pr" (kbd "C-c r")))
 
 (use-package racer
   :after (rust)
@@ -462,6 +469,7 @@ PARAM param"
 ;; Ruby mode
 (add-hook 'ruby-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'ruby-mode-hook #'yard-mode)
+(add-hook 'ruby-mode-hook #'projectile-rails-mode)
 (add-hook 'ruby-mode-hook
           (lambda ()
             (setq-local evil-shift-width ruby-indent-level)))
