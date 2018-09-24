@@ -52,7 +52,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu anzu winum which-key evil-surround lsp-ui helm-swoop helm lua-mode use-package rjsx-mode linum-relative lsp-rust lsp-mode haxe-mode evil racer delight flycheck-rust goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet spaceline rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (helm-config eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround helm-swoop helm lua-mode use-package rjsx-mode linum-relative haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -123,6 +123,52 @@ PARAM param"
 (add-to-list 'custom-theme-load-path "~/.emacs.d/color-to-the-max-theme")
 (load-theme 'outrun t)
 
+;; Function to allow right-alignment on the mode line
+;; Found here: https://stackoverflow.com/questions/16775855/how-to-fixate-value-on-the-right-side-of-the-modeline
+(defun mode-line-fill (reserve)
+    "Return empty space leaving RESERVE space on the right."
+    (unless reserve
+      (setq reserve 20))
+    (when (and window-system (eq 'right (get-scroll-bar-mode)))
+      (setq reserve (- reserve 3)))
+    (propertize " "
+                'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
+
+;; Mode line
+(setq-default mode-line-format
+              '("%e"
+                ;; mode-line-front-space
+                " "
+                (:eval (winum-get-number-string))
+                "  "
+                mode-line-mule-info
+                ;; mode-line-client
+                mode-line-modified
+                ;; mode-line-remote
+                ;; mode-line-frame-identification
+                "  "
+                mode-line-buffer-identification
+                "  "
+                (vc-mode vc-mode)
+                "  "
+                (flycheck-mode flycheck-mode-line)
+                "  "
+                mode-line-modes
+                "  "
+                mode-line-misc-info
+                ;; Add enough space to right-align everything that follows
+                (:eval (mode-line-fill
+                        (+
+                         (seq-reduce '+
+                                     (seq-map 'length mode-line-position)
+                                     0)
+                         (length evil-mode-line-tag))))
+                mode-line-position
+                evil-mode-line-tag))
+
+;; Use which-function mode all the time
+(add-hook 'prog-mode-hook #'which-function-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -141,45 +187,53 @@ PARAM param"
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package async)
+(use-package async
+  :ensure t)
 
-(use-package auto-async-byte-compile)
-
-(use-package anzu
-  :delight
-  :config
-  (setq anzu-cons-mode-line-p nil)
-  (global-anzu-mode +1))
+(use-package auto-async-byte-compile
+  :ensure t)
 
 (use-package coffee-mode
+  :ensure t
   :commands coffee-mode)
 
 (use-package company
-  :delight (company-mode "C")
+  :delight (company-mode " C")
+  :ensure t
   :config
   (company-tng-configure-default)
   (global-company-mode))
 
 (use-package undo-tree
   :delight
+  :ensure t
   :config
   (global-undo-tree-mode))
 
-(use-package goto-chg)
+(use-package goto-chg
+  :ensure t)
+
+(use-package eglot
+  :ensure t
+  :commands (eglot eglot-ensure))
 
 (use-package elm-mode
   :commands elm-mode
+  :ensure t
   :config
   (add-hook 'elm-mode-hook
             (lambda () (setq-local indent-level 2)
               (setq-local evil-shift-width 2))))
 
 (use-package evil
+  :ensure t
   :after (undo-tree goto-chg)
   :config
   (evil-mode 1)
   ;; Use space like leader key
   (define-key evil-motion-state-map " " nil)
+
+  (require 'evil-anzu)
 
   ;; General commands
   (define-key evil-motion-state-map " ac" 'company-mode)
@@ -194,21 +248,21 @@ PARAM param"
   (define-key evil-motion-state-map " tw" 'whitespace-mode)
   (define-key key-translation-map " x" (kbd "C-x")))
 
-(use-package evil-anzu
-  :after (anzu evil))
-
 (use-package evil-args
+  :ensure t
   :after (evil)
   :config
   (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
   (define-key evil-outer-text-objects-map "a" 'evil-outer-arg))
 
 (use-package evil-nerd-commenter
+  :ensure t
   :after (evil)
   :config
   (define-key evil-motion-state-map " ;" 'evilnc-comment-or-uncomment-lines))
 
 (use-package evil-org
+  :ensure t
   :after org
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
@@ -219,55 +273,63 @@ PARAM param"
   (evil-org-agenda-set-keys))
 
 (use-package evil-search-highlight-persist
+  :ensure t
   :after (evil)
   :config
   (global-evil-search-highlight-persist t)
   (define-key evil-motion-state-map "  " 'evil-search-highlight-persist-remove-all))
 
 (use-package evil-surround
+  :ensure t
   :after (evil)
   :config
   (global-evil-surround-mode 1))
 
 
 (use-package flycheck
-  :delight (flycheck-mode "F")
+  :ensure t
+  :delight
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
 
-(use-package flycheck-rust
-  :commands flycheck-rust-setup)
-
 (use-package haml-mode
+  :ensure t
   :defer t)
 
 (use-package haskell-mode
+  :ensure t
   :commands haskell-mode
   :config
   (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode))
 
 (use-package haxe-mode
+  :ensure t
   :commands haxe-mode)
 
 (use-package helm
+  :ensure t
   :after (helm-config)
-  :delight (helm-mode "H")
+  :delight
   :config
   (helm-mode 1)
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-x b") 'helm-mini))
 
 (use-package helm-ag
+  :ensure t
   :after (helm)
   :config
   (setq helm-ag-base-command "rg --vimgrep --no-heading")
 
   (define-key evil-motion-state-map " hg" 'helm-ag))
 
-(use-package helm-config)
+(use-package helm-config
+  ;; Not acutally its own package
+  :ensure f)
 
 (use-package helm-projectile
+  :ensure t
   :after (helm helm-ag projectile)
   :config
   (setq projectile-completion-system 'helm)
@@ -288,93 +350,83 @@ PARAM param"
   (define-key evil-motion-state-map " pg" 'helm-projectile-ag))
 
 (use-package helm-swoop
+  :ensure t
   :after (helm))
 
 (use-package json-mode
+  :ensure t
   :commands json-mode)
 
 (use-package less-css-mode
+  :ensure t
   :commands less-css-mode
   :config
   (add-hook 'less-css-mode-hook #'rainbow-delimiters-mode))
 
 (use-package linum-relative
+  :ensure t
   :config
   (linum-relative-on))
 
-(use-package lsp-ui
-  :after (flycheck lsp-mode))
-
-(use-package lsp-mode
-  :commands lsp-mode)
-
-(use-package lsp-rust
-  :after (lsp-mode lsp-ui))
-
 (use-package lua-mode
+  :ensure t
   :commands lua-mode
   :config
   (add-hook 'lua-mode-hook #'rainbow-delimiters-mode))
 
 (use-package macrostep
+  :ensure t
   :commands (macrostep-mode macrostep-expand))
 
-(use-package powerline)
-
 (use-package projectile
+  :ensure t
+  :delight '(:eval (concat " " (projectile-project-name)))
   :config
   (define-key evil-motion-state-map " pm" 'projectile-mode))
 
 (use-package projectile-rails
+  :ensure t
   :after (projectile evil)
   :commands projectile-rails-mode
   :config
   (define-key key-translation-map " pr" (kbd "C-c r")))
 
-(use-package racer
-  :after (rust)
-  :commands racer-mode
-  :delight (racer-mode "R"))
-
 (use-package rainbow-delimiters
+  :ensure t
   :commands rainbow-delimiters-mode)
 
 (use-package rainbow-mode
+  :ensure t
   :commands rainbow-mode)
 
 (use-package rjsx-mode
+  :ensure t
   :commands rjsx-mode
   :config
   (add-hook 'js2-mode-hook #'rainbow-delimiters-mode))
 
 (use-package rust-mode
+  :after (eglot)
+  :ensure t
   :commands rust-mode
-  :config
+  :init
   (add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'rust-mode-hook #'flycheck-rust-setup)
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode))
-
-(use-package spaceline-config
   :config
-  (setq powerline-default-separator 'utf-8)
-  (setq spaceline-minor-modes-separator " ")
-  (setq spaceline-buffer-encoding-abbrev-p nil)
-  (setq spaceline-buffer-size-p nil)
-  (setq spaceline-window-numbers-unicode t)
-  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-  (spaceline-emacs-theme))
+  (eglot-ensure))
 
 (use-package toml-mode
+  :ensure t
   :commands toml-mode)
 
 (use-package which-key
+  :ensure t
   :config
   (setq which-key-idle-delay 0.5)
   (which-key-mode)
   :delight)
 
 (use-package winum
+  :ensure t
   :after (evil)
   :config
   (setq winum-auto-setup-mode-line nil)
@@ -390,15 +442,18 @@ PARAM param"
   (define-key evil-motion-state-map " 9" 'winum-select-window-9))
 
 (use-package yaml-mode
+  :ensure t
   :commands yaml-mode)
 
 (use-package yard-mode
+  :ensure t
   :commands yard-mode
-  :delight (yard-mode "YD"))
+  :delight (yard-mode " YD"))
 
 (use-package yasnippet
+  :ensure t
   :commands yas-minor-mode
-  :delight (yas-minor-mode "Y"))
+  :delight (yas-minor-mode " Y"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package settings
@@ -409,10 +464,9 @@ PARAM param"
 (dired-async-mode 1)
 
 ;; delight
-(delight '((eldoc-mode "E" "eldoc")
-           (isearch-mode "I" "isearch")
-           (racer-mode "R" "racer")
-           (whitespace-mode "W" "whitespace")))
+(delight '((eldoc-mode " E" "eldoc")
+           (isearch-mode " I" "isearch")
+           (whitespace-mode " W" "whitespace")))
 
 ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
 (defun my/use-eslint-from-node-modules ()
