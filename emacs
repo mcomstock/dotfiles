@@ -6,6 +6,18 @@
 ;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Startup performance optimizations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Avoid garbage collection during startup for speed. Must be undone at the end of the file.
+(setq gc-cons-threshold 402653184
+      gc-cons-percentage 0.6)
+
+;; Turn off file-name-handler-alist during startup. Must be undone at the end of the file.
+(defvar config--file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fix security flaw
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'enriched)
@@ -556,6 +568,20 @@ PARAM param"
 
 (when (file-readable-p "~/.emacs-local.el")
   (load "~/.emacs-local.el"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Revert startup performance optimizations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Reset garbage collection settings to the default as late as possible.
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold 800000)
+            (setq gc-cons-percentage 0.1)))
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq file-name-handler-alist config--file-name-handler-alist)))
 
 
 ;; Get emacs to highlight this file correctly
