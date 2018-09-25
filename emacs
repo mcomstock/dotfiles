@@ -62,7 +62,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (racer flycheck-rust helm-config eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround helm-swoop helm lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
+    (diff-hl racer flycheck-rust helm-config eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround helm-swoop helm lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -221,6 +221,13 @@ PARAM param"
   (company-tng-configure-default)
   (global-company-mode))
 
+(use-package diff-hl
+  :ensure t
+  :commands (global-diff-hl-mode diff-hl-mode)
+  :config
+  (diff-hl-margin-mode)
+  (diff-hl-flydiff-mode))
+
 (use-package undo-tree
   :delight
   :ensure t
@@ -264,6 +271,7 @@ PARAM param"
   (define-key evil-motion-state-map " nm" 'normal-mode)
   (define-key evil-motion-state-map " wf" 'which-function-mode)
   (define-key evil-motion-state-map " tw" 'whitespace-mode)
+  (define-key evil-motion-state-map " dh" 'diff-hl-mode)
   (define-key key-translation-map " x" (kbd "C-x")))
 
 (use-package evil-args
