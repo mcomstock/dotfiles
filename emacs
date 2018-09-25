@@ -20,13 +20,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fix security flaw
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'enriched)
-(defun enriched-decode-display-prop (start end &optional param)
-  "Fixes security flaw http://seclists.org/oss-sec/2017/q3/422.
+(when (version< emacs-version "25.3")
+  (require 'enriched)
+  (defun enriched-decode-display-prop (start end &optional param)
+    "Fixes security flaw http://seclists.org/oss-sec/2017/q3/422.
 START start
 END end
 PARAM param"
-  (list start end))
+    (list start end)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Custom set variables/faces
