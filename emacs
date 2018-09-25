@@ -182,7 +182,7 @@ PARAM param"
 (defun display-line-numbers-relative-toggle ()
   "Toggle display of relative line numbers."
   (interactive)
-  (if display-line-numbers
+  (if (eq display-line-numbers 'relative)
       (setq-local display-line-numbers nil)
     (setq-local display-line-numbers 'relative)))
 
