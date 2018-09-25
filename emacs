@@ -58,13 +58,10 @@ PARAM param"
  '(elm-indent-offset 2)
  '(evil-want-C-u-scroll t)
  '(helm-swoop-speed-or-color t)
- '(linum-format "%d ")
- '(linum-relative-current-symbol "")
- '(linum-relative-format "%s ")
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (helm-config eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround helm-swoop helm lua-mode use-package rjsx-mode linum-relative haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
+    (helm-config eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround helm-swoop helm lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode p4 less-css-mode json-mode fzf)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -181,6 +178,13 @@ PARAM param"
 ;; Use which-function mode all the time
 (add-hook 'prog-mode-hook #'which-function-mode)
 
+(defun display-line-numbers-relative-toggle ()
+  "Toggle display of relative line numbers."
+  (interactive)
+  (if display-line-numbers
+      (setq-local display-line-numbers nil)
+    (setq-local display-line-numbers 'relative)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -250,7 +254,8 @@ PARAM param"
   ;; General commands
   (define-key evil-motion-state-map " ac" 'company-mode)
   (define-key evil-motion-state-map " fc" 'flycheck-mode)
-  (define-key evil-motion-state-map " ln" 'linum-mode)
+  (define-key evil-motion-state-map " ln" 'display-line-numbers-mode)
+  (define-key evil-motion-state-map " lr" 'display-line-numbers-relative-toggle)
   (define-key evil-motion-state-map " hf" 'helm-find-files)
   (define-key evil-motion-state-map (kbd "SPC RET") 'helm-M-x)
   (define-key evil-motion-state-map " hm" 'helm-multi-swoop-all)
@@ -304,6 +309,11 @@ PARAM param"
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
+
+(use-package flycheck-rust
+  :ensure t
+  :delight
+  :commands (flycheck-rust-setup))
 
 (use-package haml-mode
   :ensure t
@@ -375,15 +385,10 @@ PARAM param"
   :config
   (add-hook 'less-css-mode-hook #'rainbow-delimiters-mode))
 
-(use-package linum-relative
-  :ensure t
-  :config
-  (linum-relative-on))
-
 (use-package lua-mode
   :ensure t
   :commands lua-mode
-  :config
+  :init
   (add-hook 'lua-mode-hook #'rainbow-delimiters-mode))
 
 (use-package macrostep
@@ -403,6 +408,11 @@ PARAM param"
   :config
   (define-key key-translation-map " pr" (kbd "C-c r")))
 
+(use-package racer
+  :ensure t
+  :delight (racer-mode " R")
+  :commands (racer-mode))
+
 (use-package rainbow-delimiters
   :ensure t
   :commands rainbow-delimiters-mode)
@@ -414,7 +424,7 @@ PARAM param"
 (use-package rjsx-mode
   :ensure t
   :commands rjsx-mode
-  :config
+  :init
   (add-hook 'js2-mode-hook #'rainbow-delimiters-mode))
 
 (use-package rust-mode
@@ -422,9 +432,7 @@ PARAM param"
   :ensure t
   :commands rust-mode
   :init
-  (add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
-  :config
-  (eglot-ensure))
+  (add-hook 'rust-mode-hook #'rainbow-delimiters-mode))
 
 (use-package toml-mode
   :ensure t
