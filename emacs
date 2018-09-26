@@ -38,7 +38,10 @@ PARAM param"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(async-bytecomp-allowed-packages '(all))
  '(async-bytecomp-package-mode 1)
+ '(c-basic-offset 4)
+ '(c-default-style "stroustrup")
  '(company-dabbrev-code-modes
    (quote
     (prog-mode batch-file-mode csharp-mode css-mode erlang-mode haskell-mode jde-mode lua-mode python-mode js2-mode)))
@@ -205,10 +208,26 @@ PARAM param"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package async
+  :demand
   :ensure t)
 
 (use-package auto-async-byte-compile
   :ensure t)
+
+(use-package cc-mode
+  :ensure f
+  :commands (c-mode java-mode)
+  :config
+  (add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
+
+  ;; Don't indent brace that opens an in-class inline method
+  (c-set-offset 'inline-open 0))
+
+(use-package css-mode
+  :ensure f
+  :commands (css-mode)
+  :config
+  (add-hook 'css-mode-hook #'rainbow-delimiters-mode))
 
 (use-package coffee-mode
   :ensure t
@@ -220,6 +239,26 @@ PARAM param"
   :config
   (company-tng-configure-default)
   (global-company-mode))
+
+(use-package cperl-mode
+  :ensure f
+  :commands (cperl-mode)
+  :config
+  (add-hook 'cperl-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'cperl-mode-hook
+            (lambda ()
+              (setq-local company-backends
+                          '(company-dabbrev-code company-keywords company-oddmuse company-dabbrev)))))
+
+(use-package delight
+  :ensure t
+  :commands (delight))
+
+(use-package dired-async
+  :ensure f
+  :after (async)
+  :config
+  (dired-async-mode 1))
 
 (use-package diff-hl
   :ensure t
@@ -241,6 +280,20 @@ PARAM param"
   :ensure t
   :commands (eglot eglot-ensure))
 
+(use-package eldoc-mode
+  :ensure f
+  :commands (eldoc-mode)
+  :init
+  ;; The `:delight` option doesn't seem to work here for some reason
+  (delight 'eldoc-mode " E" "eldoc"))
+
+(use-package elisp-mode
+  :ensure f
+  :commands (elisp-mode)
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
+
 (use-package elm-mode
   :commands elm-mode
   :ensure t
@@ -257,8 +310,6 @@ PARAM param"
   ;; Use space like leader key
   (define-key evil-motion-state-map " " nil)
 
-  (require 'evil-anzu)
-
   ;; General commands
   (define-key evil-motion-state-map " ac" 'company-mode)
   (define-key evil-motion-state-map " fc" 'flycheck-mode)
@@ -273,6 +324,10 @@ PARAM param"
   (define-key evil-motion-state-map " tw" 'whitespace-mode)
   (define-key evil-motion-state-map " dh" 'diff-hl-mode)
   (define-key key-translation-map " x" (kbd "C-x")))
+
+(use-package evil-anzu
+  :ensure t
+  :after (evil))
 
 (use-package evil-args
   :ensure t
@@ -289,7 +344,7 @@ PARAM param"
 
 (use-package evil-org
   :ensure t
-  :after org
+  :after (evil org)
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
@@ -316,13 +371,30 @@ PARAM param"
   :ensure t
   :delight
   :config
-  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (global-flycheck-mode)
+
+  ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+  (defun my/use-eslint-from-node-modules ()
+    "Use local eslint from node_modules before global."
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root))))
+      (when (and eslint (file-executable-p eslint))
+        (setq-local flycheck-javascript-eslint-executable eslint))))
+
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
 
 (use-package flycheck-rust
   :ensure t
   :delight
   :commands (flycheck-rust-setup))
+
+(use-package gitignore-mode
+  :ensure t
+  :commands (gitignore-mode))
 
 (use-package haml-mode
   :ensure t
@@ -340,7 +412,6 @@ PARAM param"
 
 (use-package helm
   :ensure t
-  :after (helm-config)
   :delight
   :config
   (helm-mode 1)
@@ -349,19 +420,18 @@ PARAM param"
 
 (use-package helm-ag
   :ensure t
-  :after (helm)
+  :commands (helm-ag)
   :config
   (setq helm-ag-base-command "rg --vimgrep --no-heading")
 
   (define-key evil-motion-state-map " hg" 'helm-ag))
 
 (use-package helm-config
-  ;; Not acutally its own package
   :ensure f)
 
 (use-package helm-projectile
   :ensure t
-  :after (helm helm-ag projectile)
+  :commands (helm-projectile helm-projectile-ag)
   :config
   (setq projectile-completion-system 'helm)
 
@@ -375,14 +445,15 @@ PARAM param"
                   (current-prefix-arg nil))
               (helm-do-ag (projectile-project-root) (car (projectile-parse-dirconfig-file))))
           (error "You're not in a project"))
-      (error "Sorry, helm-ag not available")))
-
-  (define-key evil-motion-state-map " pf" 'helm-projectile)
-  (define-key evil-motion-state-map " pg" 'helm-projectile-ag))
+      (error "Sorry, helm-ag not available"))))
 
 (use-package helm-swoop
   :ensure t
-  :after (helm))
+  :commands (helm-swoop-without-pre-input helm-multi-swoop-all))
+
+(use-package isearch
+  :ensure f
+  :delight (isearch-mode " I"))
 
 (use-package json-mode
   :ensure t
@@ -404,15 +475,20 @@ PARAM param"
   :ensure t
   :commands (macrostep-mode macrostep-expand))
 
+(use-package org
+  :ensure f
+  :commands (org-mode))
+
 (use-package projectile
   :ensure t
   :delight '(:eval (concat " " (projectile-project-name)))
   :config
-  (define-key evil-motion-state-map " pm" 'projectile-mode))
+  (define-key evil-motion-state-map " pm" 'projectile-mode)
+  (define-key evil-motion-state-map " pf" 'helm-projectile)
+  (define-key evil-motion-state-map " pg" 'helm-projectile-ag))
 
 (use-package projectile-rails
   :ensure t
-  :after (projectile evil)
   :commands projectile-rails-mode
   :config
   (define-key key-translation-map " pr" (kbd "C-c r")))
@@ -436,16 +512,45 @@ PARAM param"
   :init
   (add-hook 'js2-mode-hook #'rainbow-delimiters-mode))
 
+(use-package ruby-mode
+  :commands ruby-mode
+  :ensure t
+  :init
+  (add-hook 'ruby-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'ruby-mode-hook #'yard-mode)
+  (add-hook 'ruby-mode-hook #'projectile-rails-mode)
+  (add-hook 'ruby-mode-hook
+            (lambda ()
+              (setq-local evil-shift-width ruby-indent-level))))
+
 (use-package rust-mode
-  :after (eglot)
   :ensure t
   :commands rust-mode
   :init
   (add-hook 'rust-mode-hook #'rainbow-delimiters-mode))
 
+(use-package sh-script
+  :ensure f
+  :commands (sh-mode)
+  :config
+  (add-hook 'sh-mode-hook #'rainbow-delimiters-mode))
+
+(use-package tex-mode
+  :ensure f
+  :commands (latex-mode)
+  :config
+  (add-hook 'latex-mode-hook 'turn-on-auto-fill)
+  (add-hook 'latex-mode-hook #'rainbow-delimiters-mode)
+  (setq-default LaTeX-default-offset 2)
+  (setq-default TeX-newline-function 'newline-and-indent))
+
 (use-package toml-mode
   :ensure t
   :commands toml-mode)
+
+(use-package vue-mode
+  :ensure t
+  :commands vue-mode)
 
 (use-package which-key
   :ensure t
@@ -454,9 +559,13 @@ PARAM param"
   (which-key-mode)
   :delight)
 
+(use-package whitespace
+  :ensure t
+  :commands (whitespace-mode)
+  :delight (whitespace-mode " W"))
+
 (use-package winum
   :ensure t
-  :after (evil)
   :config
   (setq winum-auto-setup-mode-line nil)
   (winum-mode)
@@ -485,31 +594,6 @@ PARAM param"
   :delight (yas-minor-mode " Y"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Package settings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; async dired commands
-(autoload 'dired-async-mode "dired-async.el" nil t)
-(dired-async-mode 1)
-
-;; delight
-(delight '((eldoc-mode " E" "eldoc")
-           (isearch-mode " I" "isearch")
-           (whitespace-mode " W" "whitespace")))
-
-;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
-(defun my/use-eslint-from-node-modules ()
-  "Use local eslint from node_modules before global."
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File type associatons
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -535,49 +619,6 @@ PARAM param"
                 ("\\.sql$" . sql-mode)
                 ("\\.tbl$" . sql-mode))
               auto-mode-alist))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Language modes
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; C/C++
-(setq c-default-style "stroustrup"
-      c-basic-offset 4)
-(add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
-;; Don't indent brace that opens an in-class inline method
-(c-set-offset 'inline-open 0)
-
-;; CPerl
-(add-hook 'cperl-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'cperl-mode-hook
-          (lambda ()
-            (setq-local company-backends
-                        '(company-dabbrev-code company-keywords company-oddmuse company-dabbrev))))
-
-;; CSS settings
-(add-hook 'css-mode-hook #'rainbow-delimiters-mode)
-
-;; Emacs lisp mode
-(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-;; Asyncronously compile emacs lisp files on save
-(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
-
-;; Latex mode
-(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
-(add-hook 'LaTeX-mode-hook #'rainbow-delimiters-mode)
-(setq-default LaTeX-default-offset 2)
-(setq-default TeX-newline-function 'newline-and-indent)
-
-;; Ruby mode
-(add-hook 'ruby-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'ruby-mode-hook #'yard-mode)
-(add-hook 'ruby-mode-hook #'projectile-rails-mode)
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (setq-local evil-shift-width ruby-indent-level)))
-
-;; Shell mode
-(add-hook 'sh-mode-hook #'rainbow-delimiters-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load local settings
