@@ -132,10 +132,6 @@ PARAM param"
 ;; Make the vertical window border a solid line
 (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
 
-;; Custom theme
-(add-to-list 'custom-theme-load-path "~/.emacs.d/color-to-the-max-theme")
-(load-theme 'outrun t)
-
 ;; Function to allow right-alignment on the mode line
 ;; Found here: https://stackoverflow.com/questions/16775855/how-to-fixate-value-on-the-right-side-of-the-modeline
 (defun mode-line-fill (reserve)
@@ -482,6 +478,10 @@ PARAM param"
 (use-package org
   :ensure f
   :commands (org-mode))
+
+(use-package outrun-theme
+  :ensure f
+  :load-path "themes")
 
 (use-package projectile
   :ensure t
