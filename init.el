@@ -1,4 +1,4 @@
-;;; emacs --- My emacs configuration file.
+;;; init.el --- My emacs configuration file.
 
 ;;; Commentary:
 ;;; The .emacs file in the home directory should symlink to this file.
@@ -139,13 +139,13 @@ PARAM param"
 ;; Function to allow right-alignment on the mode line
 ;; Found here: https://stackoverflow.com/questions/16775855/how-to-fixate-value-on-the-right-side-of-the-modeline
 (defun mode-line-fill (reserve)
-    "Return empty space leaving RESERVE space on the right."
-    (unless reserve
-      (setq reserve 20))
-    (when (and window-system (eq 'right (get-scroll-bar-mode)))
-      (setq reserve (- reserve 3)))
-    (propertize " "
-                'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
+  "Return empty space leaving RESERVE space on the right."
+  (unless reserve
+    (setq reserve 20))
+  (when (and window-system (eq 'right (get-scroll-bar-mode)))
+    (setq reserve (- reserve 3)))
+  (propertize " "
+              'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
 
 ;; Mode line
 (setq-default mode-line-format
@@ -201,6 +201,10 @@ PARAM param"
 (package-initialize)
 
 (eval-when-compile
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
   (require 'use-package))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -642,9 +646,10 @@ PARAM param"
             (setq file-name-handler-alist config--file-name-handler-alist)))
 
 
-;; Get emacs to highlight this file correctly
+;; Byte-compiling this file doesn't work yet
 ;; Local Variables:
-;; mode: emacs-lisp
+;; no-byte-compile: t
 ;; End:
 
-;;; emacs ends here
+(provide 'init)
+;;; init.el ends here
