@@ -1,7 +1,8 @@
 ;;; init.el --- My emacs configuration file.
 
 ;;; Commentary:
-;;; The .emacs file in the home directory should symlink to this file.
+;;; Loads packages and settings for my Emacs configuration.  To use, create a symlink to this file
+;;; at ~/.emacs.d/init.el.
 
 ;;; Code:
 
