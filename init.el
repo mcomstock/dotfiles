@@ -281,12 +281,10 @@ PARAM param"
   :ensure t
   :commands (eglot eglot-ensure))
 
-(use-package eldoc-mode
+(use-package eldoc
   :ensure f
   :commands (eldoc-mode)
-  :init
-  ;; The `:delight` option doesn't seem to work here for some reason
-  (delight 'eldoc-mode " E" "eldoc"))
+  :delight (eldoc-mode " E"))
 
 (use-package elisp-mode
   :ensure f
