@@ -276,7 +276,7 @@ PARAM param"
 
 (use-package eglot
   :ensure t
-  :commands (eglot eglot-ensure))
+  :commands (eglot eglot-shutdown))
 
 (use-package eldoc
   :ensure f
@@ -319,6 +319,8 @@ PARAM param"
   (define-key evil-motion-state-map " wf" 'which-function-mode)
   (define-key evil-motion-state-map " tw" 'whitespace-mode)
   (define-key evil-motion-state-map " dh" 'diff-hl-mode)
+  (define-key evil-motion-state-map " em" 'eglot)
+  (define-key evil-motion-state-map " es" 'eglot-shutdown)
   (define-key key-translation-map " x" (kbd "C-x")))
 
 (use-package evil-anzu
