@@ -176,9 +176,6 @@ PARAM param"
                 mode-line-position
                 evil-mode-line-tag))
 
-;; Use which-function mode all the time
-(add-hook 'prog-mode-hook #'which-function-mode)
-
 (defun display-line-numbers-relative-toggle ()
   "Toggle display of relative line numbers."
   (interactive)
