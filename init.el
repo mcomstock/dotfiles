@@ -321,6 +321,7 @@ PARAM param"
   (define-key evil-motion-state-map " dh" 'diff-hl-mode)
   (define-key evil-motion-state-map " em" 'eglot)
   (define-key evil-motion-state-map " es" 'eglot-shutdown)
+  (define-key evil-motion-state-map " u" 'universal-argument)
   (define-key key-translation-map " x" (kbd "C-x")))
 
 (use-package evil-anzu
