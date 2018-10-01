@@ -343,6 +343,7 @@ PARAM param"
 
 (use-package evil-org
   :ensure t
+  :delight
   :after (evil org)
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
