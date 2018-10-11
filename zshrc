@@ -118,41 +118,33 @@ zstyle ':completion:*' menu select
 # autocomplete aliases
 setopt COMPLETE_ALIASES
 
-# # fish-style syntax highlighting
-antigen bundle zsh-users/zsh-syntax-highlighting
+typeset -A ZSH_HIGHLIGHT_STYLES
 
-# autosuggestions
-antigen bundle zsh-users/zsh-autosuggestions
+# Enable highlighters
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
-antigen apply
-
-if [[ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS+x}" ]]; then
-    # Enable highlighters
-    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
-
-    # Override highlighter colors
-    ZSH_HIGHLIGHT_STYLES[default]=none
-    ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red
-    ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=red,standout
-    ZSH_HIGHLIGHT_STYLES[alias]=fg=green
-    ZSH_HIGHLIGHT_STYLES[builtin]=fg=green
-    ZSH_HIGHLIGHT_STYLES[function]=fg=green
-    ZSH_HIGHLIGHT_STYLES[command]=fg=green
-    ZSH_HIGHLIGHT_STYLES[precommand]=fg=white,underline
-    ZSH_HIGHLIGHT_STYLES[commandseparator]=none
-    ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=red,bold
-    ZSH_HIGHLIGHT_STYLES[path]=fg=yellow
-    ZSH_HIGHLIGHT_STYLES[globbing]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=white,underline
-    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=green
-    ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=green
-    ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=green
-    ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[assign]=none
-fi
+# Override highlighter colors
+ZSH_HIGHLIGHT_STYLES[default]='none'
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=red,standout'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=green'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=green'
+ZSH_HIGHLIGHT_STYLES[function]='fg=green'
+ZSH_HIGHLIGHT_STYLES[command]='fg=green'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=white,underline'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='none'
+ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=red,bold'
+ZSH_HIGHLIGHT_STYLES[path]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=white,underline'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=green'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=green'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=green'
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=cyan'
+ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='fg=cyan'
+ZSH_HIGHLIGHT_STYLES[assign]='none'
 
 # change cursor shape based on vi mode
 function zle-keymap-select zle-line-init {
@@ -177,3 +169,11 @@ function zle-line-finish {
 zle -N zle-line-init
 zle -N zle-line-finish
 zle -N zle-keymap-select
+
+# autosuggestions
+antigen bundle zsh-users/zsh-autosuggestions
+
+# fish-style syntax highlighting
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+antigen apply
