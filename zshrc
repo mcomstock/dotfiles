@@ -29,10 +29,6 @@ autoload -U +X bashcompinit && bashcompinit
 
 [[ -e ~/.bash_profile ]] && source ~/.bash_profile
 
-# zsh package management with antigen
-[[ -e ~/.zsh/antigen/antigen.zsh ]] && source ~/.zsh/antigen/antigen.zsh
-[[ -e /usr/local/share/antigen/antigen.zsh ]] && source /usr/local/share/antigen/antigen.zsh
-
 # save history
 HISTSIZE=1000000
 if (( ! EUID )); then
@@ -146,6 +142,8 @@ ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=cyan'
 ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='fg=cyan'
 ZSH_HIGHLIGHT_STYLES[assign]='none'
 
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+
 # change cursor shape based on vi mode
 function zle-keymap-select zle-line-init {
     case $KEYMAP in
@@ -171,9 +169,7 @@ zle -N zle-line-finish
 zle -N zle-keymap-select
 
 # autosuggestions
-antigen bundle zsh-users/zsh-autosuggestions
+[[ -e ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # fish-style syntax highlighting
-antigen bundle zsh-users/zsh-syntax-highlighting
-
-antigen apply
+[[ -e ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
