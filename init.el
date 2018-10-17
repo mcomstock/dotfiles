@@ -66,7 +66,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (markdown-mode elixir-mode diff-hl racer flycheck-rust helm-config eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-search-highlight-persist evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround helm-swoop helm lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
+    (markdown-mode elixir-mode diff-hl racer flycheck-rust helm-config eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround helm-swoop helm lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -307,10 +307,12 @@ PARAM param"
   :after (undo-tree goto-chg)
   :config
   (evil-mode 1)
+  (evil-select-search-module 'evil-search-module 'evil-search)
   ;; Use space like leader key
   (define-key evil-motion-state-map " " nil)
 
   ;; General commands
+  (define-key evil-motion-state-map "  " 'evil-ex-nohighlight)
   (define-key evil-motion-state-map " ac" 'company-mode)
   (define-key evil-motion-state-map " fc" 'flycheck-mode)
   (define-key evil-motion-state-map " ln" 'display-line-numbers-mode)
@@ -356,13 +358,6 @@ PARAM param"
               (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
-
-(use-package evil-search-highlight-persist
-  :ensure t
-  :after (evil)
-  :config
-  (global-evil-search-highlight-persist t)
-  (define-key evil-motion-state-map "  " 'evil-search-highlight-persist-remove-all))
 
 (use-package evil-surround
   :ensure t
