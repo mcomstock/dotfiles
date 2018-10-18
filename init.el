@@ -423,6 +423,7 @@ PARAM param"
 
 (use-package helm
   :ensure t
+  :commands (helm-mode helm-find-files helm-mini helm-M-x)
   :delight
   :config
   (helm-mode 1)
