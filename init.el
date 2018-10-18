@@ -205,6 +205,9 @@ PARAM param"
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package anzu
+  :ensure t)
+
 (use-package async
   :demand
   :ensure t)
@@ -238,6 +241,10 @@ PARAM param"
   (company-tng-configure-default)
   (global-company-mode))
 
+(use-package company-tng
+  :ensure company
+  :commands (company-tng-configure-default))
+
 (use-package cperl-mode
   :ensure f
   :commands (cperl-mode)
@@ -253,8 +260,7 @@ PARAM param"
   :commands (delight))
 
 (use-package dired-async
-  :ensure f
-  :after (async)
+  :ensure async
   :config
   (dired-async-mode 1))
 
@@ -313,6 +319,7 @@ PARAM param"
 
   ;; General commands
   (define-key evil-motion-state-map "  " 'evil-ex-nohighlight)
+  (define-key evil-motion-state-map " u" 'universal-argument)
   (define-key evil-motion-state-map " ac" 'company-mode)
   (define-key evil-motion-state-map " fc" 'flycheck-mode)
   (define-key evil-motion-state-map " ln" 'display-line-numbers-mode)
@@ -324,10 +331,10 @@ PARAM param"
   (define-key evil-motion-state-map " nm" 'normal-mode)
   (define-key evil-motion-state-map " wf" 'which-function-mode)
   (define-key evil-motion-state-map " tw" 'whitespace-mode)
-  (define-key evil-motion-state-map " dh" 'diff-hl-mode)
+  (define-key evil-motion-state-map " dh" 'global-diff-hl-mode)
   (define-key evil-motion-state-map " em" 'eglot)
   (define-key evil-motion-state-map " es" 'eglot-shutdown)
-  (define-key evil-motion-state-map " u" 'universal-argument)
+
   (define-key key-translation-map " x" (kbd "C-x")))
 
 (use-package evil-anzu
@@ -337,14 +344,16 @@ PARAM param"
 (use-package evil-args
   :ensure t
   :after (evil)
-  :config
+  :commands (evil-inner-arg evil-outer-arg)
+  :init
   (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
   (define-key evil-outer-text-objects-map "a" 'evil-outer-arg))
 
 (use-package evil-nerd-commenter
   :ensure t
   :after (evil)
-  :config
+  :commands (evilnc-comment-or-uncomment-lines)
+  :init
   (define-key evil-motion-state-map " ;" 'evilnc-comment-or-uncomment-lines))
 
 (use-package evil-org
@@ -356,8 +365,11 @@ PARAM param"
   (add-hook 'evil-org-mode-hook
             (lambda ()
               (evil-org-set-key-theme)))
-  (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
+
+(use-package evil-org-agenda
+  :ensure evil-org
+  :commands (evil-org-agenda-set-keys))
 
 (use-package evil-surround
   :ensure t
@@ -419,14 +431,14 @@ PARAM param"
 
 (use-package helm-ag
   :ensure t
-  :commands (helm-ag)
+  :commands (helm-ag helm-do-ag)
+  :init
+  (define-key evil-motion-state-map " hg" 'helm-ag)
   :config
-  (setq helm-ag-base-command "rg --vimgrep --no-heading")
-
-  (define-key evil-motion-state-map " hg" 'helm-ag))
+  (setq helm-ag-base-command "rg --vimgrep --no-heading"))
 
 (use-package helm-config
-  :ensure f)
+  :ensure helm)
 
 (use-package helm-projectile
   :ensure t
@@ -438,13 +450,11 @@ PARAM param"
   (defun helm-projectile-ag (&optional options)
     "Helm version of projectile-ag."
     (interactive (if current-prefix-arg (list (read-string "option: " "" 'helm-ag--extra-options-history))))
-    (if (require 'helm-ag nil  'noerror)
         (if (projectile-project-p)
             (let ((helm-ag-command-option options)
                   (current-prefix-arg nil))
               (helm-do-ag (projectile-project-root) (car (projectile-parse-dirconfig-file))))
-          (error "You're not in a project"))
-      (error "Sorry, helm-ag not available"))))
+          (error "You're not in a project"))))
 
 (use-package helm-swoop
   :ensure t
@@ -489,7 +499,8 @@ PARAM param"
 (use-package projectile
   :ensure t
   :delight '(:eval (concat " " (projectile-project-name)))
-  :config
+  :commands (projectile-mode helm-projectile helm-projectile-ag)
+  :init
   (define-key evil-motion-state-map " pm" 'projectile-mode)
   (define-key evil-motion-state-map " pf" 'helm-projectile)
   (define-key evil-motion-state-map " pg" 'helm-projectile-ag))
