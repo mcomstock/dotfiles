@@ -488,6 +488,21 @@ PARAM param"
   :ensure t
   :commands (markdown-mode))
 
+(use-package mouse
+  :if (and (eq system-type 'darwin)
+           (not window-system))
+  :ensure f
+  :config
+  (xterm-mouse-mode t)
+  (global-set-key [mouse-4] (lambda ()
+                              (interactive)
+                              (scroll-down 1)))
+  (global-set-key [mouse-5] (lambda ()
+                              (interactive)
+                              (scroll-up 1)))
+  (defun track-mouse (e))
+  (setq mouse-sel-mode t))
+
 (use-package org
   :ensure f
   :commands (org-mode))
@@ -637,13 +652,6 @@ PARAM param"
                 ("\\.sql$" . sql-mode)
                 ("\\.tbl$" . sql-mode))
               auto-mode-alist))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Load local settings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(when (file-readable-p "~/.emacs-local.el")
-  (load "~/.emacs-local.el"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Revert startup performance optimizations
