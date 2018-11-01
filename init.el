@@ -201,15 +201,25 @@ PARAM param"
   (require 'use-package))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Async
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(unless (package-installed-p 'async)
+  (package-refresh-contents)
+  (package-install 'async))
+
+(require 'async)
+
+(autoload 'dired-async-mode "dired-async.el" nil t)
+(dired-async-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package anzu
-  :ensure t)
-
-(use-package async
-  :demand
-  :ensure t)
+  :ensure t
+  :defer 1)
 
 (use-package auto-async-byte-compile
   :ensure t)
@@ -270,12 +280,6 @@ PARAM param"
 (use-package delight
   :ensure t
   :commands (delight))
-
-(use-package dired-async
-  :ensure async
-  :defer 1
-  :config
-  (dired-async-mode 1))
 
 (use-package diff-hl
   :ensure t
@@ -352,7 +356,7 @@ PARAM param"
 
 (use-package evil-anzu
   :ensure t
-  :after (evil))
+  :after (evil anzu))
 
 (use-package evil-args
   :ensure t
@@ -592,10 +596,11 @@ PARAM param"
 
 (use-package which-key
   :ensure t
+  :defer 1
+  :delight
   :config
   (setq which-key-idle-delay 0.5)
-  (which-key-mode)
-  :delight)
+  (which-key-mode))
 
 (use-package whitespace
   :ensure t
