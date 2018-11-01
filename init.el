@@ -235,6 +235,7 @@ PARAM param"
 
 (use-package company
   :delight (company-mode " C")
+  :defer 1
   :ensure t
   :config
   (company-tng-configure-default)
@@ -272,6 +273,7 @@ PARAM param"
 
 (use-package dired-async
   :ensure async
+  :defer 1
   :config
   (dired-async-mode 1))
 
@@ -391,6 +393,7 @@ PARAM param"
 
 (use-package flycheck
   :ensure t
+  :defer 1
   :delight
   :config
   (global-flycheck-mode)
@@ -411,6 +414,7 @@ PARAM param"
 
 (use-package flycheck-rust
   :ensure t
+  :after (flycheck)
   :delight
   :commands (flycheck-rust-setup))
 
@@ -600,6 +604,7 @@ PARAM param"
 
 (use-package winum
   :ensure t
+  :defer 1
   :config
   (setq winum-auto-setup-mode-line nil)
   (winum-mode)
