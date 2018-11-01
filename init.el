@@ -62,11 +62,10 @@ PARAM param"
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(elm-indent-offset 2)
  '(evil-want-C-u-scroll t)
- '(helm-swoop-speed-or-color t)
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (markdown-mode elixir-mode diff-hl racer flycheck-rust helm-config eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode helm-ag helm-projectile projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround helm-swoop helm lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
+    (counsel-projectile ivy markdown-mode elixir-mode diff-hl racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -245,6 +244,18 @@ PARAM param"
   :ensure company
   :commands (company-tng-configure-default))
 
+(use-package counsel
+  :ensure ivy
+  :commands (counsel-M-x counsel-find-file)
+  :delight
+  :config
+  (counsel-mode 1))
+
+(use-package counsel-projectile
+  :ensure t
+  :after (ivy counsel projectile)
+  :commands (counsel-projectile counsel-projectile-rg))
+
 (use-package cperl-mode
   :ensure f
   :commands (cperl-mode)
@@ -324,10 +335,10 @@ PARAM param"
   (define-key evil-motion-state-map " fc" 'flycheck-mode)
   (define-key evil-motion-state-map " ln" 'display-line-numbers-mode)
   (define-key evil-motion-state-map " lr" 'display-line-numbers-relative-toggle)
-  (define-key evil-motion-state-map " hf" 'helm-find-files)
-  (define-key evil-motion-state-map (kbd "SPC RET") 'helm-M-x)
-  (define-key evil-motion-state-map " hm" 'helm-multi-swoop-all)
-  (define-key evil-motion-state-map " hs" 'helm-swoop-without-pre-input)
+  (define-key evil-motion-state-map " hf" 'counsel-find-file)
+  (define-key evil-motion-state-map (kbd "SPC RET") 'counsel-M-x)
+  (define-key evil-motion-state-map " hm" 'swiper-all)
+  (define-key evil-motion-state-map " hs" 'swiper)
   (define-key evil-motion-state-map " nm" 'normal-mode)
   (define-key evil-motion-state-map " wf" 'which-function-mode)
   (define-key evil-motion-state-map " tw" 'whitespace-mode)
@@ -421,49 +432,34 @@ PARAM param"
   :ensure t
   :commands haxe-mode)
 
-(use-package helm
-  :ensure t
-  :commands (helm-mode helm-find-files helm-mini helm-M-x)
-  :delight
-  :config
-  (helm-mode 1)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-x b") 'helm-mini))
-
-(use-package helm-ag
-  :ensure t
-  :commands (helm-ag helm-do-ag)
-  :init
-  (define-key evil-motion-state-map " hg" 'helm-ag)
-  :config
-  (setq helm-ag-base-command "rg --vimgrep --no-heading"))
-
-(use-package helm-config
-  :ensure helm)
-
-(use-package helm-projectile
-  :ensure t
-  :commands (helm-projectile helm-projectile-ag)
-  :config
-  (setq projectile-completion-system 'helm)
-
-  ;; Workaround necessary for using ripgrep instead of ag
-  (defun helm-projectile-ag (&optional options)
-    "Helm version of projectile-ag."
-    (interactive (if current-prefix-arg (list (read-string "option: " "" 'helm-ag--extra-options-history))))
-        (if (projectile-project-p)
-            (let ((helm-ag-command-option options)
-                  (current-prefix-arg nil))
-              (helm-do-ag (projectile-project-root) (car (projectile-parse-dirconfig-file))))
-          (error "You're not in a project"))))
-
-(use-package helm-swoop
-  :ensure t
-  :commands (helm-swoop-without-pre-input helm-multi-swoop-all))
-
 (use-package isearch
   :ensure f
   :delight (isearch-mode " I"))
+
+(use-package ivy
+  :ensure t
+  :delight
+  :commands (counsel-M-x
+             counsel-descbinds
+             counsel-describe-function
+             counsel-describe-variable
+             counsel-apropos
+             counsel-describe-face
+             counsel-faces
+             counsel-find-file
+             counsel-imenu
+             counsel-load-library
+             counsel-load-theme
+             counsel-yank-pop
+             counsel-info-lookup-symbol
+             counsel-mark-ring
+             counsel-bookmark)
+  :init
+  (setq ivy-use-selectable-prompt t)
+  (setq ivy-initial-inputs-alist nil)
+  (setq ivy-use-virtual-buffers t)
+  :config
+  (ivy-mode 1))
 
 (use-package json-mode
   :ensure t
@@ -515,11 +511,11 @@ PARAM param"
 (use-package projectile
   :ensure t
   :delight '(:eval (concat " " (projectile-project-name)))
-  :commands (projectile-mode helm-projectile helm-projectile-ag)
+  :commands (projectile-mode counsel-projectile counsel-projectile-rg)
   :init
   (define-key evil-motion-state-map " pm" 'projectile-mode)
-  (define-key evil-motion-state-map " pf" 'helm-projectile)
-  (define-key evil-motion-state-map " pg" 'helm-projectile-ag))
+  (define-key evil-motion-state-map " pf" 'counsel-projectile)
+  (define-key evil-motion-state-map " pg" 'counsel-projectile-rg))
 
 (use-package projectile-rails
   :ensure t
@@ -568,6 +564,10 @@ PARAM param"
   :commands (sh-mode)
   :config
   (add-hook 'sh-mode-hook #'rainbow-delimiters-mode))
+
+(use-package swiper
+  :ensure ivy
+  :after ivy)
 
 (use-package tex-mode
   :ensure f
