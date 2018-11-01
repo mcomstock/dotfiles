@@ -1,4 +1,4 @@
-;;; init.el --- My emacs configuration file.
+;;; init.el --- My emacs configuration file. -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; Loads packages and settings for my Emacs configuration.  To use, create a symlink to this file
@@ -65,7 +65,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (counsel-projectile ivy markdown-mode elixir-mode diff-hl racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
+    (counsel-projectile counsel swiper ivy markdown-mode elixir-mode diff-hl racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -186,46 +186,39 @@ PARAM param"
 ;; Package management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Prevent package initialization, which is quite slow.
+(setq package-enable-at-startup nil)
+
 ;; ELPA additional repositories
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
-(package-initialize)
 
-(eval-when-compile
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
+;; Rather than calling (package-initialize), manually set the load path.
+(let ((default-directory "~/.emacs.d/elpa/"))
+  (normal-top-level-add-subdirs-to-load-path))
 
-  (require 'use-package))
+(require 'use-package)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Async
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(unless (package-installed-p 'async)
-  (package-refresh-contents)
-  (package-install 'async))
-
-(require 'async)
-
-(autoload 'dired-async-mode "dired-async.el" nil t)
-(dired-async-mode 1)
+(setq use-package-compute-statistics 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package anzu
-  :ensure t
   :defer 1)
 
-(use-package auto-async-byte-compile
-  :ensure t)
+(use-package async
+  :defer 1
+  :config
+  (autoload 'dired-async-mode "dired-async.el" nil t)
+  (dired-async-mode 1))
+
+(use-package auto-async-byte-compile)
 
 (use-package cc-mode
-  :ensure f
   :commands (c-mode java-mode)
   :config
   (add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
@@ -234,41 +227,34 @@ PARAM param"
   (c-set-offset 'inline-open 0))
 
 (use-package css-mode
-  :ensure f
   :commands (css-mode)
   :config
   (add-hook 'css-mode-hook #'rainbow-delimiters-mode))
 
 (use-package coffee-mode
-  :ensure t
   :commands coffee-mode)
 
 (use-package company
   :delight (company-mode " C")
   :defer 1
-  :ensure t
   :config
   (company-tng-configure-default)
   (global-company-mode))
 
 (use-package company-tng
-  :ensure company
   :commands (company-tng-configure-default))
 
 (use-package counsel
-  :ensure ivy
   :commands (counsel-M-x counsel-find-file)
   :delight
   :config
   (counsel-mode 1))
 
 (use-package counsel-projectile
-  :ensure t
   :after (ivy counsel projectile)
   :commands (counsel-projectile counsel-projectile-rg))
 
 (use-package cperl-mode
-  :ensure f
   :commands (cperl-mode)
   :config
   (add-hook 'cperl-mode-hook #'rainbow-delimiters-mode)
@@ -278,11 +264,9 @@ PARAM param"
                           '(company-dabbrev-code company-keywords company-oddmuse company-dabbrev)))))
 
 (use-package delight
-  :ensure t
   :commands (delight))
 
 (use-package diff-hl
-  :ensure t
   :commands (global-diff-hl-mode diff-hl-mode)
   :config
   (diff-hl-margin-mode)
@@ -290,43 +274,35 @@ PARAM param"
 
 (use-package undo-tree
   :delight
-  :ensure t
   :config
   (global-undo-tree-mode))
 
-(use-package goto-chg
-  :ensure t)
+(use-package goto-chg)
 
 (use-package eglot
-  :ensure t
   :commands (eglot eglot-shutdown))
 
 (use-package eldoc
-  :ensure f
   :commands (eldoc-mode)
   :delight (eldoc-mode " E"))
 
 (use-package elisp-mode
-  :ensure f
   :commands (elisp-mode)
   :config
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
 
 (use-package elixir-mode
-  :ensure t
   :commands (elixir-mode))
 
 (use-package elm-mode
   :commands elm-mode
-  :ensure t
   :config
   (add-hook 'elm-mode-hook
             (lambda () (setq-local indent-level 2)
               (setq-local evil-shift-width 2))))
 
 (use-package evil
-  :ensure t
   :after (undo-tree goto-chg)
   :config
   (evil-mode 1)
@@ -355,11 +331,9 @@ PARAM param"
   (define-key key-translation-map " x" (kbd "C-x")))
 
 (use-package evil-anzu
-  :ensure t
   :after (evil anzu))
 
 (use-package evil-args
-  :ensure t
   :after (evil)
   :commands (evil-inner-arg evil-outer-arg)
   :init
@@ -367,14 +341,12 @@ PARAM param"
   (define-key evil-outer-text-objects-map "a" 'evil-outer-arg))
 
 (use-package evil-nerd-commenter
-  :ensure t
   :after (evil)
   :commands (evilnc-comment-or-uncomment-lines)
   :init
   (define-key evil-motion-state-map " ;" 'evilnc-comment-or-uncomment-lines))
 
 (use-package evil-org
-  :ensure t
   :delight
   :after (evil org)
   :config
@@ -385,18 +357,15 @@ PARAM param"
   (evil-org-agenda-set-keys))
 
 (use-package evil-org-agenda
-  :ensure evil-org
   :commands (evil-org-agenda-set-keys))
 
 (use-package evil-surround
-  :ensure t
   :after (evil)
   :config
   (global-evil-surround-mode 1))
 
 
 (use-package flycheck
-  :ensure t
   :defer 1
   :delight
   :config
@@ -417,35 +386,28 @@ PARAM param"
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
 
 (use-package flycheck-rust
-  :ensure t
   :after (flycheck)
   :delight
   :commands (flycheck-rust-setup))
 
 (use-package gitignore-mode
-  :ensure t
   :commands (gitignore-mode))
 
 (use-package haml-mode
-  :ensure t
   :defer t)
 
 (use-package haskell-mode
-  :ensure t
   :commands haskell-mode
   :config
   (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode))
 
 (use-package haxe-mode
-  :ensure t
   :commands haxe-mode)
 
 (use-package isearch
-  :ensure f
   :delight (isearch-mode " I"))
 
 (use-package ivy
-  :ensure t
   :delight
   :commands (counsel-M-x
              counsel-descbinds
@@ -470,33 +432,27 @@ PARAM param"
   (ivy-mode 1))
 
 (use-package json-mode
-  :ensure t
   :commands json-mode)
 
 (use-package less-css-mode
-  :ensure t
   :commands less-css-mode
   :config
   (add-hook 'less-css-mode-hook #'rainbow-delimiters-mode))
 
 (use-package lua-mode
-  :ensure t
   :commands lua-mode
   :init
   (add-hook 'lua-mode-hook #'rainbow-delimiters-mode))
 
 (use-package macrostep
-  :ensure t
   :commands (macrostep-mode macrostep-expand))
 
 (use-package markdown-mode
-  :ensure t
   :commands (markdown-mode))
 
 (use-package mouse
   :if (and (eq system-type 'darwin)
            (not window-system))
-  :ensure f
   :config
   (xterm-mouse-mode t)
   (global-set-key [mouse-4] (lambda ()
@@ -509,15 +465,12 @@ PARAM param"
   (setq mouse-sel-mode t))
 
 (use-package org
-  :ensure f
   :commands (org-mode))
 
 (use-package outrun-theme
-  :ensure f
   :load-path "themes")
 
 (use-package projectile
-  :ensure t
   :delight '(:eval (concat " " (projectile-project-name)))
   :commands (projectile-mode counsel-projectile counsel-projectile-rg)
   :init
@@ -526,33 +479,27 @@ PARAM param"
   (define-key evil-motion-state-map " pg" 'counsel-projectile-rg))
 
 (use-package projectile-rails
-  :ensure t
   :commands projectile-rails-mode
   :config
   (define-key key-translation-map " pr" (kbd "C-c r")))
 
 (use-package racer
-  :ensure t
   :delight (racer-mode " R")
   :commands (racer-mode))
 
 (use-package rainbow-delimiters
-  :ensure t
   :commands rainbow-delimiters-mode)
 
 (use-package rainbow-mode
-  :ensure t
   :commands rainbow-mode)
 
 (use-package rjsx-mode
-  :ensure t
   :commands rjsx-mode
   :init
   (add-hook 'js2-mode-hook #'rainbow-delimiters-mode))
 
 (use-package ruby-mode
   :commands ruby-mode
-  :ensure t
   :init
   (add-hook 'ruby-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'ruby-mode-hook #'yard-mode)
@@ -562,23 +509,19 @@ PARAM param"
               (setq-local evil-shift-width ruby-indent-level))))
 
 (use-package rust-mode
-  :ensure t
   :commands rust-mode
   :init
   (add-hook 'rust-mode-hook #'rainbow-delimiters-mode))
 
 (use-package sh-script
-  :ensure f
   :commands (sh-mode)
   :config
   (add-hook 'sh-mode-hook #'rainbow-delimiters-mode))
 
 (use-package swiper
-  :ensure ivy
   :after ivy)
 
 (use-package tex-mode
-  :ensure f
   :commands (latex-mode)
   :config
   (add-hook 'latex-mode-hook 'turn-on-auto-fill)
@@ -587,15 +530,12 @@ PARAM param"
   (setq-default TeX-newline-function 'newline-and-indent))
 
 (use-package toml-mode
-  :ensure t
   :commands toml-mode)
 
 (use-package vue-mode
-  :ensure t
   :commands vue-mode)
 
 (use-package which-key
-  :ensure t
   :defer 1
   :delight
   :config
@@ -603,12 +543,10 @@ PARAM param"
   (which-key-mode))
 
 (use-package whitespace
-  :ensure t
   :commands (whitespace-mode)
   :delight (whitespace-mode " W"))
 
 (use-package winum
-  :ensure t
   :defer 1
   :config
   (setq winum-auto-setup-mode-line nil)
@@ -624,16 +562,13 @@ PARAM param"
   (define-key evil-motion-state-map " 9" 'winum-select-window-9))
 
 (use-package yaml-mode
-  :ensure t
   :commands yaml-mode)
 
 (use-package yard-mode
-  :ensure t
   :commands yard-mode
   :delight (yard-mode " YD"))
 
 (use-package yasnippet
-  :ensure t
   :commands yas-minor-mode
   :delight (yas-minor-mode " Y"))
 
@@ -677,7 +612,6 @@ PARAM param"
 (add-hook 'emacs-startup-hook
           (lambda ()
             (setq file-name-handler-alist config--file-name-handler-alist)))
-
 
 ;; Byte-compiling this file doesn't work yet
 ;; Local Variables:
