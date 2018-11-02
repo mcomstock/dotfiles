@@ -533,8 +533,8 @@ PARAM param"
     (interactive)
     (scroll-up 1))
 
-  (global-set-key [mouse-4] (init--scroll-down-1))
-  (global-set-key [mouse-5] (init--scroll-up-1))
+  (global-set-key [mouse-4] 'init--scroll-down-1)
+  (global-set-key [mouse-5] 'init--scroll-up-1)
 
   (defun track-mouse (e))
   (setq mouse-sel-mode t))
