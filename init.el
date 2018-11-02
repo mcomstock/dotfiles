@@ -182,6 +182,11 @@ PARAM param"
       (setq-local display-line-numbers nil)
     (setq-local display-line-numbers 'relative)))
 
+(defun init--set-indent-level-2 ()
+  "Locally set the indent level to 2 spaces."
+  (setq-local indent-level 2)
+  (setq-local evil-shift-width 2))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -201,8 +206,6 @@ PARAM param"
 
 (require 'use-package)
 
-(setq use-package-compute-statistics 1)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Required packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -219,7 +222,27 @@ PARAM param"
 (use-package auto-async-byte-compile)
 
 (use-package cc-mode
-  :commands (c-mode java-mode)
+  :mode
+  ("\\.\\(cc\\|hh\\)\\'" . c++-mode)
+  ("\\.[ch]\\(pp\\|xx\\|\\+\\+\\)\\'" . c++-mode)
+  ("\\.\\(CC?\\|HH?\\)\\'" . c++-mode)
+  ("\\.c\\'" . c-mode)
+  ("\\.h\\'" . c-or-c++-mode)
+  ("\\.y\\(acc\\)?\\'" . c-mode)
+  ("\\.lex\\'" . c-mode)
+  ("\\.i\\'" . c-mode)
+  ("\\.ii\\'" . c++-mode)
+  ("\\.java\\'" . java-mode)
+  ("\\.m\\'" . objc-mode)
+  ("\\.idl\\'" . idl-mode)
+  ("\\.\\(u?lpc\\|pike\\|pmod\\(\\.in\\)?\\)\\'" . pike-mode)
+  ("awk" . awk-mode)
+  ("mawk" . awk-mode)
+  ("nawk" . awk-mode)
+  ("gawk" . awk-mode)
+  :interpreter
+  ("pike" . pike-mode)
+  ("\\.awk\\'" . awk-mode)
   :config
   (add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
 
@@ -227,11 +250,20 @@ PARAM param"
   (c-set-offset 'inline-open 0))
 
 (use-package css-mode
-  :commands (css-mode)
+  :mode
+  ("\\.css$" . css-mode)
+  ("\\.scss\\'" . scss-mode)
   :config
   (add-hook 'css-mode-hook #'rainbow-delimiters-mode))
 
 (use-package coffee-mode
+  :mode
+  ("\\.coffee\\'" . coffee-mode)
+  ("\\.iced\\'" . coffee-mode)
+  ("Cakefile\\'" . coffee-mode)
+  ("\\.cson\\'" . coffee-mode)
+  :interpreter
+  ("coffee" . coffee-mode)
   :commands coffee-mode)
 
 (use-package company
@@ -255,13 +287,26 @@ PARAM param"
   :commands (counsel-projectile counsel-projectile-rg))
 
 (use-package cperl-mode
-  :commands (cperl-mode)
+  :mode
+  ("\\.esp$" . cperl-mode)
+  ("\\.pl$" . cperl-mode)
+  ("\\.pm$" . cperl-mode)
+  ("\\.rt$" . cperl-mode)
+  ("\\.rule$" . cperl-mode)
+  ("\\.mi\\'" . cperl-mode)
+  ("\\.mc\\'" . cperl-mode)
+  ("\\.\\([pP][Llm]\\|al\\)\\'" . cperl-mode)
+  :interpreter
+  ("miniperl" . cperl-mode)
+  ("perl" . cperl-mode)
+  ("perl5" . cperl-mode)
   :config
   (add-hook 'cperl-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'cperl-mode-hook
-            (lambda ()
-              (setq-local company-backends
-                          '(company-dabbrev-code company-keywords company-oddmuse company-dabbrev)))))
+  (defun init--set-perl-company-backends ()
+    "Set company backends for perl."
+    (setq-local company-backends
+                '(company-dabbrev-code company-keywords company-oddmuse company-dabbrev)))
+  (add-hook 'cperl-mode-hook 'init--set-perl-company-backends))
 
 (use-package delight
   :commands (delight))
@@ -288,24 +333,33 @@ PARAM param"
 
 (use-package elisp-mode
   :commands (elisp-mode)
+  :mode
+  ("\\.elc\\'" . elisp-byte-code-mode)
   :config
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
 
 (use-package elixir-mode
-  :commands (elixir-mode))
+  :mode
+  ("\\.elixir\\'" . elixir-mode)
+  ("\\.ex\\'" . elixir-mode)
+  ("\\.exs\\'" . elixir-mode))
 
 (use-package elm-mode
-  :commands elm-mode
+  :mode
+  ("\\.elm\\'" . elm-mode)
   :config
-  (add-hook 'elm-mode-hook
-            (lambda () (setq-local indent-level 2)
-              (setq-local evil-shift-width 2))))
+  (add-hook 'elm-mode-hook 'init--set-indent-level-2))
 
 (use-package evil
   :after (undo-tree goto-chg)
+  :commands (evil-mode)
+  :init
+  (defun init--enable-evil-mode ()
+    "Turn on evil-mode."
+    (evil-mode 1))
+  (add-hook 'after-init-hook 'init--enable-evil-mode)
   :config
-  (evil-mode 1)
   (evil-select-search-module 'evil-search-module 'evil-search)
   ;; Use space like leader key
   (define-key evil-motion-state-map " " nil)
@@ -351,9 +405,7 @@ PARAM param"
   :after (evil org)
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
-  (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme)))
+  (add-hook 'evil-org-mode-hook 'evil-org-set-key-theme)
   (evil-org-agenda-set-keys))
 
 (use-package evil-org-agenda
@@ -394,15 +446,24 @@ PARAM param"
   :commands (gitignore-mode))
 
 (use-package haml-mode
-  :defer t)
+  :mode
+  ("\\.haml\\'" . haml-mode))
 
 (use-package haskell-mode
-  :commands haskell-mode
+  :mode
+  ("\\.[gh]s\\'" . haskell-mode)
+  ("\\.hsig\\'" . haskell-mode)
+  ("\\.l[gh]s\\'" . literate-haskell-mode)
+  ("\\.hsc\\'" . haskell-mode)
+  :interpreter
+  ("runghc" . haskell-mode)
+  ("runhaskell" . haskell-mode)
   :config
   (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode))
 
 (use-package haxe-mode
-  :commands haxe-mode)
+  :mode
+  ("\\.hx\\'" . haxe-mode))
 
 (use-package isearch
   :delight (isearch-mode " I"))
@@ -432,15 +493,20 @@ PARAM param"
   (ivy-mode 1))
 
 (use-package json-mode
-  :commands json-mode)
+  :mode
+  ("\\.json\\'" . json-mode))
 
 (use-package less-css-mode
-  :commands less-css-mode
+  :mode
+  ("\\.less\\'" . less-css-mode)
   :config
   (add-hook 'less-css-mode-hook #'rainbow-delimiters-mode))
 
 (use-package lua-mode
-  :commands lua-mode
+  :mode
+  ("\\.lua\\'" . lua-mode)
+  :interpreter
+  ("lua" . lua-mode)
   :init
   (add-hook 'lua-mode-hook #'rainbow-delimiters-mode))
 
@@ -448,19 +514,28 @@ PARAM param"
   :commands (macrostep-mode macrostep-expand))
 
 (use-package markdown-mode
-  :commands (markdown-mode))
+  :mode
+  ("\\.markdown\\'" . markdown-mode)
+  ("\\.md\\'" . markdown-mode))
 
 (use-package mouse
   :if (and (eq system-type 'darwin)
            (not window-system))
   :config
   (xterm-mouse-mode t)
-  (global-set-key [mouse-4] (lambda ()
-                              (interactive)
-                              (scroll-down 1)))
-  (global-set-key [mouse-5] (lambda ()
-                              (interactive)
-                              (scroll-up 1)))
+
+  (defun init--scroll-down-1 ()
+    "Scroll down 1."
+    (interactive)
+    (scroll-down 1))
+  (defun init--scroll-up-1 ()
+    "Scroll up 1."
+    (interactive)
+    (scroll-up 1))
+
+  (global-set-key [mouse-4] (init--scroll-down-1))
+  (global-set-key [mouse-5] (init--scroll-up-1))
+
   (defun track-mouse (e))
   (setq mouse-sel-mode t))
 
@@ -472,6 +547,7 @@ PARAM param"
 
 (use-package projectile
   :delight '(:eval (concat " " (projectile-project-name)))
+  :after (evil)
   :commands (projectile-mode counsel-projectile counsel-projectile-rg)
   :init
   (define-key evil-motion-state-map " pm" 'projectile-mode)
@@ -493,23 +569,49 @@ PARAM param"
 (use-package rainbow-mode
   :commands rainbow-mode)
 
+(use-package recentf
+  :defer 1)
+
 (use-package rjsx-mode
-  :commands rjsx-mode
+  :mode
+  ("\\.js$" . rjsx-mode)
+  ("\\.jsx\\'" . rjsx-mode)
   :init
   (add-hook 'js2-mode-hook #'rainbow-delimiters-mode))
 
 (use-package ruby-mode
   :commands ruby-mode
+  :mode
+  ("\\.rb\\'" . ruby-mode)
+  :interpreter
+  ("ruby" . ruby-mode)
   :init
+  (add-to-list 'auto-mode-alist
+               (cons (purecopy (concat "\\(?:\\.\\(?:"
+                                       "rbw?\\|ru\\|rake\\|thor"
+                                       "\\|jbuilder\\|rabl\\|gemspec\\|podspec"
+                                       "\\)"
+                                       "\\|/"
+                                       "\\(?:Gem\\|Rake\\|Cap\\|Thor"
+                                       "\\|Puppet\\|Berks"
+                                       "\\|Vagrant\\|Guard\\|Pod\\)file"
+                                       "\\)\\'"))
+                     'ruby-mode))
+
+  (dolist (name (list "ruby" "rbx" "jruby" "ruby1.9" "ruby1.8"))
+    (add-to-list 'interpreter-mode-alist (cons (purecopy name) 'ruby-mode)))
+
   (add-hook 'ruby-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'ruby-mode-hook #'yard-mode)
   (add-hook 'ruby-mode-hook #'projectile-rails-mode)
-  (add-hook 'ruby-mode-hook
-            (lambda ()
-              (setq-local evil-shift-width ruby-indent-level))))
+  (defun init--set-ruby-shift-width ()
+    "Set the evil-shift-width for ruby-mode."
+    (setq-local evil-shift-width ruby-indent-level))
+  (add-hook 'ruby-mode-hook 'init--set-ruby-shift-width))
 
 (use-package rust-mode
-  :commands rust-mode
+  :mode
+  ("\\.rs\\'" . rust-mode)
   :init
   (add-hook 'rust-mode-hook #'rainbow-delimiters-mode))
 
@@ -522,7 +624,8 @@ PARAM param"
   :after ivy)
 
 (use-package tex-mode
-  :commands (latex-mode)
+  :mode
+  ("\\.tex'" . latex-mode)
   :config
   (add-hook 'latex-mode-hook 'turn-on-auto-fill)
   (add-hook 'latex-mode-hook #'rainbow-delimiters-mode)
@@ -533,7 +636,8 @@ PARAM param"
   :commands toml-mode)
 
 (use-package vue-mode
-  :commands vue-mode)
+  :mode
+  ("\\.vue\\'" . vue-mode))
 
 (use-package which-key
   :defer 1
@@ -548,6 +652,7 @@ PARAM param"
 
 (use-package winum
   :defer 1
+  :after (evil)
   :config
   (setq winum-auto-setup-mode-line nil)
   (winum-mode)
@@ -562,7 +667,8 @@ PARAM param"
   (define-key evil-motion-state-map " 9" 'winum-select-window-9))
 
 (use-package yaml-mode
-  :commands yaml-mode)
+  :mode
+  ("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-mode))
 
 (use-package yard-mode
   :commands yard-mode
@@ -573,47 +679,22 @@ PARAM param"
   :delight (yas-minor-mode " Y"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; File type associatons
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
-
-(setq auto-mode-alist
-      (append '(("\\.esp$" . cperl-mode)
-                ("\\.pl$" . cperl-mode)
-                ("\\.pm$" . cperl-mode)
-                ("\\.rt$" . cperl-mode)
-                ("\\.rule$" . cperl-mode)
-                ("\\.mi\\'" . cperl-mode)
-                ("\\.mc\\'" . cperl-mode)
-                ("\\.\\([pP][Llm]\\|al\\)\\'" . cperl-mode)
-                ("\\.css$" . css-mode)
-                ("\\.js$" . rjsx-mode)
-                ("\\.tex'" . LaTeX-mode)
-                ("\\.less$". less-css-mode)
-                ("\\.lua$" . lua-mode)
-                ("\\.sql$" . sql-mode)
-                ("\\.tbl$" . sql-mode))
-              auto-mode-alist))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Revert startup performance optimizations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Reset garbage collection settings to the default as late as possible.
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold 800000)
-            (setq gc-cons-percentage 0.1)))
+(defun init--reset-gc ()
+  "Reset GC behavior."
+  (setq gc-cons-threshold 800000)
+  (setq gc-cons-percentage 0.1))
+(add-hook 'emacs-startup-hook 'init--reset-gc)
 
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq file-name-handler-alist config--file-name-handler-alist)))
+(defun init--reset-file-name-handler ()
+  "Reset the file name handler."
+  (setq file-name-handler-alist config--file-name-handler-alist))
+(add-hook 'emacs-startup-hook 'init--reset-file-name-handler)
 
-;; Byte-compiling this file doesn't work yet
+
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:
