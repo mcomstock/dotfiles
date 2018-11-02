@@ -283,7 +283,6 @@ PARAM param"
   (counsel-mode 1))
 
 (use-package counsel-projectile
-  :after (ivy counsel projectile)
   :commands (counsel-projectile counsel-projectile-rg))
 
 (use-package cperl-mode
@@ -381,6 +380,10 @@ PARAM param"
   (define-key evil-motion-state-map " dh" 'global-diff-hl-mode)
   (define-key evil-motion-state-map " em" 'eglot)
   (define-key evil-motion-state-map " es" 'eglot-shutdown)
+  (define-key evil-motion-state-map " pm" 'projectile-mode)
+  (define-key evil-motion-state-map " pf" 'counsel-projectile)
+  (define-key evil-motion-state-map " pg" 'counsel-projectile-rg)
+  (define-key evil-motion-state-map " ;" 'evilnc-comment-or-uncomment-lines)
 
   (define-key key-translation-map " x" (kbd "C-x")))
 
@@ -396,9 +399,7 @@ PARAM param"
 
 (use-package evil-nerd-commenter
   :after (evil)
-  :commands (evilnc-comment-or-uncomment-lines)
-  :init
-  (define-key evil-motion-state-map " ;" 'evilnc-comment-or-uncomment-lines))
+  :commands (evilnc-comment-or-uncomment-lines))
 
 (use-package evil-org
   :delight
@@ -548,11 +549,7 @@ PARAM param"
 (use-package projectile
   :delight '(:eval (concat " " (projectile-project-name)))
   :after (evil)
-  :commands (projectile-mode counsel-projectile counsel-projectile-rg)
-  :init
-  (define-key evil-motion-state-map " pm" 'projectile-mode)
-  (define-key evil-motion-state-map " pf" 'counsel-projectile)
-  (define-key evil-motion-state-map " pg" 'counsel-projectile-rg))
+  :commands (projectile-mode))
 
 (use-package projectile-rails
   :commands projectile-rails-mode
