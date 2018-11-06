@@ -419,11 +419,9 @@ PARAM param"
 
 
 (use-package flycheck
-  :defer 1
+  :commands (flycheck-mode global-flycheck-mode)
   :delight
   :config
-  (global-flycheck-mode)
-
   ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
   (defun my/use-eslint-from-node-modules ()
     "Use local eslint from node_modules before global."
@@ -442,6 +440,19 @@ PARAM param"
   :after (flycheck)
   :delight
   :commands (flycheck-rust-setup))
+
+(use-package flymake
+  :commands (flymake-mode)
+  :init
+  (add-hook 'prog-mode-hook #'flymake-mode)
+  :config
+  (defun init--show-flymake-message ()
+    "Show any flymake errors under the cursor in the minibuffer"
+    (when (and flymake-mode
+               (get-char-property (point) 'flymake-diagnostic))
+      (message (flymake--diag-text (get-char-property (point) 'flymake-diagnostic)))))
+
+  (add-hook 'post-command-hook #'init--show-flymake-message))
 
 (use-package gitignore-mode
   :commands (gitignore-mode))
