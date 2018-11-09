@@ -76,29 +76,16 @@ precmd () {
 }
 
 autoload -Uz colors && colors
-local newline=$'\n'
-local _lineup=$'\e[1A'
-local _linedown=$'\e[1B'
-local lineup='%{${_lineup}%}'
-local linedown='%{${_linedown}%}'
-local username='%{%f$fg[blue]%}$(whoami)%{%f%}'
-local machine='%{%f$fg[blue]%}%m%{%f%}'
-local dir='%{%f$fg[yellow]%}%~%{%f%}'
+
+local dir='%{%f$fg[yellow]%}[%~]%{%f%}'
 local vc_info='%{%f$fg[magenta]%}${vcs_info_msg_0_}%{%f%}'
 # the input prompt is blue if the last exit code was 0, red otherwise
 local input='%{%f%}%(?.%{$fg[green]%}.%{$fg[red]%})>>%{%f%}'
-local time='%{%f$fg[blue]%}%D{%T}%{%f%}'
-local date='%{%f$fg[blue]%}%D{%F}%{%f%}'
 local exit_code='%(?.%{$fg[green]%}.%{$fg[red]%})%?%{%f%}'
-local at='%{$fg[white]%}@%{%f%}'
 local elapsed='%{$fg[blue]%}$(echo $_elapsed_formatted[-1])%{%f%}'
+local time_info='%{%f$fg[blue]%}[$(echo $_elapsed_formatted[-1]) %D{%T %F}]%{%f%}'
 
-local rprompt_string="${lineup}${elapsed} ${time} ${date}${linedown}"
-local prompt_string="${username}${at}${machine} ${dir} ${vc_info}${newline}${exit_code} ${input} "
-
-PROMPT="${prompt_string}"
-
-RPROMPT="${rprompt_string}"
+PROMPT="${time_info}${dir}${vc_info} ${exit_code} ${input} "
 
 # up/down arrow only shows commands matching the current line
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
