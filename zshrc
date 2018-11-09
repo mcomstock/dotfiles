@@ -77,12 +77,12 @@ precmd () {
 
 autoload -Uz colors && colors
 
-local dir='%{%f$fg[yellow]%}[%~]%{%f%}'
+local dir='%{%f$fg[cyan]%}[%~]%{%f%}'
 local vc_info='%{%f$fg[magenta]%}${vcs_info_msg_0_}%{%f%}'
 # the input prompt is blue if the last exit code was 0, red otherwise
 local input='%{%f%}%(?.%{$fg[green]%}.%{$fg[red]%})>>%{%f%}'
 local exit_code='%(?.%{$fg[green]%}.%{$fg[red]%})%?%{%f%}'
-local elapsed='%{$fg[blue]%}$(echo $_elapsed_formatted[-1])%{%f%}'
+local elapsed='$(echo $_elapsed_formatted[-1])'
 local time_info='%{%f$fg[blue]%}[$(echo $_elapsed_formatted[-1]) %D{%T %F}]%{%f%}'
 
 PROMPT="${time_info}${dir}${vc_info} ${exit_code} ${input} "
@@ -117,7 +117,7 @@ ZSH_HIGHLIGHT_STYLES[command]='fg=green'
 ZSH_HIGHLIGHT_STYLES[precommand]='fg=white,underline'
 ZSH_HIGHLIGHT_STYLES[commandseparator]='none'
 ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=red,bold'
-ZSH_HIGHLIGHT_STYLES[path]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[path]='fg=cyan'
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=white,underline'
 ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=magenta'
@@ -125,8 +125,8 @@ ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=green'
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=green'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=green'
-ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=cyan'
-ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='fg=cyan'
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[assign]='none'
 
 ZSH_AUTOSUGGEST_USE_ASYNC=1
