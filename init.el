@@ -65,7 +65,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (counsel-projectile counsel swiper ivy markdown-mode elixir-mode diff-hl racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
+    (diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -313,6 +313,8 @@ PARAM param"
 (use-package diff-hl
   :commands (global-diff-hl-mode diff-hl-mode)
   :config
+  (require 'diff-hl-margin)
+  (require 'diff-hl-flydiff)
   (diff-hl-margin-mode)
   (diff-hl-flydiff-mode))
 
@@ -368,6 +370,7 @@ PARAM param"
   (define-key evil-motion-state-map " u" 'universal-argument)
   (define-key evil-motion-state-map " ac" 'company-mode)
   (define-key evil-motion-state-map " fc" 'flycheck-mode)
+  (define-key evil-motion-state-map " fm" 'flymake-mode)
   (define-key evil-motion-state-map " ln" 'display-line-numbers-mode)
   (define-key evil-motion-state-map " lr" 'display-line-numbers-relative-toggle)
   (define-key evil-motion-state-map " hf" 'counsel-find-file)
@@ -420,6 +423,8 @@ PARAM param"
 
 (use-package flycheck
   :commands (flycheck-mode global-flycheck-mode)
+  :init
+  (add-hook 'prog-mode-hook #'flycheck-mode)
   :delight
   :config
   ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
@@ -443,8 +448,6 @@ PARAM param"
 
 (use-package flymake
   :commands (flymake-mode)
-  :init
-  (add-hook 'prog-mode-hook #'flymake-mode)
   :config
   (defun init--show-flymake-message ()
     "Show any flymake errors under the cursor in the minibuffer"
