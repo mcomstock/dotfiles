@@ -557,7 +557,7 @@ PARAM param"
 (use-package org
   :commands (org-mode))
 
-(use-package outrun-theme
+(use-package vice-theme
   :load-path "themes")
 
 (use-package projectile
