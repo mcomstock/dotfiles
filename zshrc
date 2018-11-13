@@ -77,6 +77,7 @@ precmd () {
 
 autoload -Uz colors && colors
 
+local newline=$'\n'
 local dir='%{%f$fg[cyan]%}[%~]%{%f%}'
 local vc_info='%{%f$fg[magenta]%}${vcs_info_msg_0_}%{%f%}'
 # the input prompt is blue if the last exit code was 0, red otherwise
@@ -85,7 +86,7 @@ local exit_code='%(?.%{$fg[green]%}.%{$fg[red]%})%?%{%f%}'
 local elapsed='$(echo $_elapsed_formatted[-1])'
 local time_info='%{%f$fg[blue]%}[$(echo $_elapsed_formatted[-1]) %D{%T %F}]%{%f%}'
 
-PROMPT="${time_info}${dir}${vc_info} ${exit_code} ${input} "
+PROMPT="${time_info}${dir}${vc_info}${newline}${exit_code} ${input} "
 
 # up/down arrow only shows commands matching the current line
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
