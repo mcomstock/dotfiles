@@ -505,7 +505,10 @@ PARAM param"
   (setq ivy-initial-inputs-alist nil)
   (setq ivy-use-virtual-buffers t)
   :config
-  (ivy-mode 1))
+  (ivy-mode 1)
+
+  (setq ivy-extra-directories nil)
+  (define-key ivy-minibuffer-map (kbd "RET") 'ivy-alt-done))
 
 (use-package json-mode
   :mode
