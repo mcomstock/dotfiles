@@ -62,6 +62,7 @@ PARAM param"
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(elm-indent-offset 2)
  '(evil-want-C-u-scroll t)
+ '(js-indent-level 2)
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
@@ -510,6 +511,15 @@ PARAM param"
   (setq ivy-extra-directories nil)
   (define-key ivy-minibuffer-map (kbd "RET") 'ivy-alt-done))
 
+(use-package js
+  :mode
+  ("\\.js$" . js-mode)
+  ("\\.jsx\\'" . js-mode)
+  :delight (js-mode "JS")
+  :init
+  (add-hook 'js-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'js-mode-hook 'init--set-indent-level-2))
+
 (use-package json-mode
   :mode
   ("\\.json\\'" . json-mode))
@@ -526,6 +536,9 @@ PARAM param"
   :interpreter
   ("lua" . lua-mode)
   :init
+  (dolist (name (list "node" "nodejs" "gjs" "rhino"))
+    (add-to-list 'interpreter-mode-alist (cons (purecopy name) 'js-mode)))
+
   (add-hook 'lua-mode-hook #'rainbow-delimiters-mode))
 
 (use-package macrostep
@@ -587,11 +600,10 @@ PARAM param"
   :defer 1)
 
 (use-package rjsx-mode
-  :mode
-  ("\\.js$" . rjsx-mode)
-  ("\\.jsx\\'" . rjsx-mode)
+  :commands rjsx-mode
   :init
-  (add-hook 'js2-mode-hook #'rainbow-delimiters-mode))
+  (add-hook 'js2-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'js2-mode-hook #'init--set-indent-level-2))
 
 (use-package ruby-mode
   :commands ruby-mode
