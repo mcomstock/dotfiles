@@ -66,7 +66,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
+    (diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -512,13 +512,16 @@ PARAM param"
   (define-key ivy-minibuffer-map (kbd "RET") 'ivy-alt-done))
 
 (use-package js
-  :mode
-  ("\\.js$" . js-mode)
-  ("\\.jsx\\'" . js-mode)
+  :commands (js-mode)
   :delight (js-mode "JS")
   :init
   (add-hook 'js-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'js-mode-hook 'init--set-indent-level-2))
+
+(use-package js2-mode
+  :mode
+  ("\\.js$" . js2-mode)
+  ("\\.jsx\\'" . js2-mode))
 
 (use-package json-mode
   :mode
