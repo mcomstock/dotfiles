@@ -366,6 +366,10 @@ PARAM param"
   ;; Use space like leader key
   (define-key evil-motion-state-map " " nil)
 
+  ;; For some reason these ones need to be specified manually
+  (autoload 'swiper "swiper.el" nil t)
+  (autoload 'swiper-all "swiper.el" nil t)
+
   ;; General commands
   (define-key evil-motion-state-map "  " 'evil-ex-nohighlight)
   (define-key evil-motion-state-map " u" 'universal-argument)
@@ -650,7 +654,8 @@ PARAM param"
   (add-hook 'sh-mode-hook #'rainbow-delimiters-mode))
 
 (use-package swiper
-  :after ivy)
+  :after (ivy)
+  :commands (swiper swiper-all swiper-avy))
 
 (use-package tex-mode
   :mode
