@@ -66,7 +66,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
+    (lsp-ui company-lsp lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -274,6 +274,10 @@ PARAM param"
   (company-tng-configure-default)
   (global-company-mode))
 
+(use-package company-lsp
+  :commands (company-lsp)
+  :after (company))
+
 (use-package company-tng
   :commands (company-tng-configure-default))
 
@@ -378,6 +382,9 @@ PARAM param"
   (define-key evil-motion-state-map " fm" 'flymake-mode)
   (define-key evil-motion-state-map " ln" 'display-line-numbers-mode)
   (define-key evil-motion-state-map " lr" 'display-line-numbers-relative-toggle)
+  (define-key evil-motion-state-map " sm" 'lsp)
+  (define-key evil-motion-state-map " ss" 'lsp-shutdown-workspace)
+  (define-key evil-motion-state-map " sr" 'lsp-restart-workspace)
   (define-key evil-motion-state-map " hf" 'counsel-find-file)
   (define-key evil-motion-state-map (kbd "SPC RET") 'counsel-M-x)
   (define-key evil-motion-state-map " hm" 'swiper-all)
@@ -547,6 +554,14 @@ PARAM param"
     (add-to-list 'interpreter-mode-alist (cons (purecopy name) 'js-mode)))
 
   (add-hook 'lua-mode-hook #'rainbow-delimiters-mode))
+
+(use-package lsp-mode
+  :commands (lsp)
+  :init
+  (setq-default lsp-prefer-flymake nil))
+
+(use-package lsp-ui
+  :commands (lsp-ui-mode))
 
 (use-package macrostep
   :commands (macrostep-mode macrostep-expand))
