@@ -455,9 +455,7 @@ PARAM param"
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
 
 (use-package flycheck-inline
-  :commands (flycheck-inline-mode)
-  :init
-  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+  :commands (flycheck-inline-mode))
 
 (use-package flycheck-rust
   :after (flycheck)
