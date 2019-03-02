@@ -380,6 +380,7 @@ PARAM param"
   (define-key evil-motion-state-map " ac" 'company-mode)
   (define-key evil-motion-state-map " fc" 'flycheck-mode)
   (define-key evil-motion-state-map " fm" 'flymake-mode)
+  (define-key evil-motion-state-map " fi" 'flycheck-inline-mode)
   (define-key evil-motion-state-map " ln" 'display-line-numbers-mode)
   (define-key evil-motion-state-map " lr" 'display-line-numbers-relative-toggle)
   (define-key evil-motion-state-map " sm" 'lsp)
