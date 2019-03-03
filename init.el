@@ -565,7 +565,9 @@ PARAM param"
   (setq-default lsp-prefer-flymake nil))
 
 (use-package lsp-ui
-  :commands (lsp-ui-mode))
+  :commands (lsp-ui-mode)
+  :init
+  (setq-default lsp-ui-flycheck-enable t))
 
 (use-package macrostep
   :commands (macrostep-mode macrostep-expand))
