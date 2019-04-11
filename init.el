@@ -57,6 +57,7 @@ PARAM param"
  '(cperl-indent-parens-as-block t)
  '(cperl-invalid-face (quote trailing-whitespace))
  '(cperl-tab-always-indent t)
+ '(css-indent-offset 2)
  '(custom-safe-themes
    (quote
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
