@@ -150,8 +150,8 @@ PARAM param"
               '("%e"
                 ;; mode-line-front-space
                 " "
-                (:eval (winum-get-number-string))
-                "  "
+                ;; (:eval (winum-get-number-string))
+                ;; "  "
                 mode-line-mule-info
                 ;; mode-line-client
                 mode-line-modified
