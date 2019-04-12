@@ -1,4 +1,4 @@
-;;; init.el --- My emacs configuration file. -*- lexical-binding: t; -*-
+;; init.el --- My emacs configuration file. -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; Loads packages and settings for my Emacs configuration.  To use, create a symlink to this file
@@ -134,48 +134,28 @@ PARAM param"
 ;; Make the vertical window border a solid line
 (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
 
-;; Function to allow right-alignment on the mode line
-;; Found here: https://stackoverflow.com/questions/16775855/how-to-fixate-value-on-the-right-side-of-the-modeline
-(defun mode-line-fill (reserve)
-  "Return empty space leaving RESERVE space on the right."
-  (unless reserve
-    (setq reserve 20))
-  (when (and window-system (eq 'right (get-scroll-bar-mode)))
-    (setq reserve (- reserve 3)))
-  (propertize " "
-              'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
+;; Source: https://emacs.stackexchange.com/a/37270/2418
+(defun simple-mode-line-render (left right)
+  "Return a string of `window-width' length containing LEFT, and RIGHT aligned respectively."
+  (let* ((available-width (- (window-total-width) (+ (length (format-mode-line left)) (length (format-mode-line right))))))
+    (append left (list (format (format "%%%ds" available-width) "")) right)))
 
-;; Mode line
-(setq-default mode-line-format
-              '("%e"
-                ;; mode-line-front-space
-                " "
-                ;; (:eval (winum-get-number-string))
-                ;; "  "
-                mode-line-mule-info
-                ;; mode-line-client
-                mode-line-modified
-                ;; mode-line-remote
-                ;; mode-line-frame-identification
-                "  "
-                mode-line-buffer-identification
-                "  "
-                (vc-mode vc-mode)
-                "  "
-                (flycheck-mode flycheck-mode-line)
-                "  "
-                mode-line-modes
-                "  "
-                mode-line-misc-info
-                ;; Add enough space to right-align everything that follows
-                (:eval (mode-line-fill
-                        (+
-                         (seq-reduce '+
-                                     (seq-map 'length mode-line-position)
-                                     0)
-                         (length evil-mode-line-tag))))
-                mode-line-position
-                evil-mode-line-tag))
+;; Set the mode line format
+(setq-default
+ mode-line-format
+ '((:eval
+    (simple-mode-line-render
+     ;; left
+     '("%e "
+       mode-line-mule-info
+       mode-line-modified
+       " " mode-line-buffer-identification
+       " " (vc-mode vc-mode)
+       " " mode-line-modes
+       (flycheck-mode flycheck-mode-line)
+       " " mode-line-misc-info)
+     ;; right
+     '("%p %l:%c ")))))
 
 (defun display-line-numbers-relative-toggle ()
   "Toggle display of relative line numbers."
@@ -612,6 +592,7 @@ PARAM param"
 
 (use-package projectile-rails
   :commands projectile-rails-mode
+  :delight
   :config
   (define-key key-translation-map " pr" (kbd "C-c r")))
 
@@ -728,7 +709,7 @@ PARAM param"
 
 (use-package yard-mode
   :commands yard-mode
-  :delight (yard-mode " YD"))
+  :delight (yard-mode))
 
 (use-package yasnippet
   :commands yas-minor-mode
