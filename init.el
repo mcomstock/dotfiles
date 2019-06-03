@@ -705,7 +705,9 @@ PARAM param"
 
 (use-package yaml-mode
   :mode
-  ("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-mode))
+  ("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-mode)
+  :config
+  (add-hook 'yaml-mode-hook #'flycheck-mode))
 
 (use-package yard-mode
   :commands yard-mode
