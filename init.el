@@ -67,7 +67,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (flycheck-inline lsp-ui company-lsp lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
+    (typescript-mode flycheck-inline lsp-ui company-lsp lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -75,6 +75,7 @@ PARAM param"
  '(scroll-conservatively 9001)
  '(scroll-margin 5)
  '(show-paren-delay 0)
+ '(typescript-indent-level 2)
  '(whitespace-style
    (quote
     (face spaces tabs newline space-mark tab-mark newline-mark trailing))))
@@ -671,6 +672,10 @@ PARAM param"
 
 (use-package toml-mode
   :commands toml-mode)
+
+(use-package typescript-mode
+  :mode
+  ("\\.ts$" . typescript-mode))
 
 (use-package vue-mode
   :mode
