@@ -582,7 +582,7 @@ PARAM param"
 (use-package org
   :commands (org-mode))
 
-(use-package colors-theme
+(use-package vice-theme
   :load-path "themes")
 
 (use-package projectile
