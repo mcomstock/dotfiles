@@ -48,6 +48,7 @@ PARAM param"
     (prog-mode batch-file-mode csharp-mode css-mode erlang-mode haskell-mode jde-mode lua-mode python-mode js2-mode)))
  '(company-dabbrev-downcase nil)
  '(company-idle-delay 0)
+ '(company-lsp-cache-candidates 'auto)
  '(company-minimum-prefix-length 1)
  '(cperl-close-paren-offset -4)
  '(cperl-continued-statement-offset 0)
@@ -257,8 +258,9 @@ PARAM param"
   (global-company-mode))
 
 (use-package company-lsp
-  :commands (company-lsp)
-  :after (company))
+  :after (company lsp-mode)
+  :init
+  (push 'company-lsp company-backends))
 
 (use-package company-tng
   :commands (company-tng-configure-default))
@@ -675,7 +677,9 @@ PARAM param"
 
 (use-package typescript-mode
   :mode
-  ("\\.ts$" . typescript-mode))
+  ("\\.ts$" . typescript-mode)
+  :init
+  (add-hook 'typescript-mode-hook #'rainbow-delimiters-mode))
 
 (use-package vue-mode
   :mode
