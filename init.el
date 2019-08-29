@@ -65,6 +65,7 @@ PARAM param"
  '(elm-indent-offset 2)
  '(evil-want-C-u-scroll t)
  '(js-indent-level 2)
+ '(js-switch-indent-offset 2)
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
