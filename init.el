@@ -722,6 +722,7 @@ PARAM param"
   :delight (yard-mode))
 
 (use-package yasnippet
+  :defer 1
   :commands yas-minor-mode
   :delight (yas-minor-mode " Y"))
 
