@@ -587,7 +587,9 @@ PARAM param"
   :commands (org-mode))
 
 (use-package vice-theme
-  :load-path "themes")
+  :init
+  (setq custom-theme-directory "~/.emacs.d/themes")
+  (load-theme 'vice t))
 
 (use-package projectile
   :delight '(:eval (concat " " (projectile-project-name)))
