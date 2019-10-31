@@ -151,7 +151,7 @@ PARAM param"
        " " mode-line-buffer-identification
        " " (vc-mode vc-mode)
        " " mode-line-modes
-       (flycheck-mode flycheck-mode-line)
+       ;; (flycheck-mode flycheck-mode-line)
        " " mode-line-misc-info)
      ;; right
      '("%p %l:%c ")))))
@@ -248,7 +248,7 @@ PARAM param"
   :commands coffee-mode)
 
 (use-package company
-  :delight (company-mode " C")
+  :delight
   :defer 1
   :config
   (company-tng-configure-default)
@@ -316,7 +316,7 @@ PARAM param"
 
 (use-package eldoc
   :commands (eldoc-mode)
-  :delight (eldoc-mode " E"))
+  :delight)
 
 (use-package elisp-mode
   :commands (elisp-mode)
@@ -419,7 +419,7 @@ PARAM param"
   :commands (flycheck-mode global-flycheck-mode)
   :init
   (add-hook 'prog-mode-hook #'flycheck-mode)
-  :delight
+  ;; :delight
   :config
   ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
   (defun my/use-eslint-from-node-modules ()
@@ -724,7 +724,7 @@ PARAM param"
 (use-package yasnippet
   :defer 1
   :commands yas-minor-mode
-  :delight (yas-minor-mode " Y"))
+  :delight (yas-minor-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Revert startup performance optimizations
