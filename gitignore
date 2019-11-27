@@ -43,3 +43,9 @@ Thumbs.db
 # Cargo
 
 .rls.toml
+
+# LaTeX
+
+*.aux
+*.out
+*.pdf
