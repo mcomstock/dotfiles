@@ -39,15 +39,16 @@ PARAM param"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(async-bytecomp-allowed-packages '(all))
+ '(async-bytecomp-allowed-packages (quote (all)))
  '(async-bytecomp-package-mode 1)
  '(c-basic-offset 4)
  '(c-default-style "stroustrup")
  '(company-dabbrev-code-modes
-   '(prog-mode batch-file-mode csharp-mode css-mode erlang-mode haskell-mode jde-mode lua-mode python-mode js2-mode))
+   (quote
+    (prog-mode batch-file-mode csharp-mode css-mode erlang-mode haskell-mode jde-mode lua-mode python-mode js2-mode)))
  '(company-dabbrev-downcase nil)
  '(company-idle-delay 0)
- '(company-lsp-cache-candidates 'auto)
+ '(company-lsp-cache-candidates (quote auto))
  '(company-minimum-prefix-length 1)
  '(cperl-close-paren-offset -4)
  '(cperl-continued-statement-offset 0)
@@ -55,18 +56,20 @@ PARAM param"
  '(cperl-highlight-variables-indiscriminately t)
  '(cperl-indent-level 4)
  '(cperl-indent-parens-as-block t)
- '(cperl-invalid-face 'trailing-whitespace)
+ '(cperl-invalid-face (quote trailing-whitespace))
  '(cperl-tab-always-indent t)
  '(css-indent-offset 2)
  '(custom-safe-themes
-   '("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default))
+   (quote
+    ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(elm-indent-offset 2)
  '(evil-want-C-u-scroll t)
  '(js-indent-level 2)
  '(js-switch-indent-offset 2)
  '(lua-indent-level 4)
  '(package-selected-packages
-   '(typescript-mode flycheck-inline lsp-ui company-lsp lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode))
+   (quote
+    (dockerfile-mode typescript-mode flycheck-inline lsp-ui company-lsp lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -76,7 +79,8 @@ PARAM param"
  '(show-paren-delay 0)
  '(typescript-indent-level 2)
  '(whitespace-style
-   '(face spaces tabs newline space-mark tab-mark newline-mark trailing)))
+   (quote
+    (face spaces tabs newline space-mark tab-mark newline-mark trailing))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -167,6 +171,7 @@ PARAM param"
   "Locally set the indent level to 2 spaces."
   (setq-local indent-level 2)
   (setq-local evil-shift-width 2))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package management
@@ -303,6 +308,9 @@ PARAM param"
   (require 'diff-hl-flydiff)
   (diff-hl-margin-mode)
   (diff-hl-flydiff-mode))
+
+(use-package dockerfile-mode
+  :commands (dockerfile-mode))
 
 (use-package undo-tree
   :delight
@@ -741,7 +749,6 @@ PARAM param"
   "Reset the file name handler."
   (setq file-name-handler-alist config--file-name-handler-alist))
 (add-hook 'emacs-startup-hook 'init--reset-file-name-handler)
-
 
 ;; Local Variables:
 ;; no-byte-compile: t
