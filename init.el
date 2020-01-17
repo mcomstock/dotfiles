@@ -310,7 +310,9 @@ PARAM param"
   (diff-hl-flydiff-mode))
 
 (use-package dockerfile-mode
-  :commands (dockerfile-mode))
+  :commands (dockerfile-mode)
+  :mode
+  ("\\Dockerfile\\'" . dockerfile-mode))
 
 (use-package undo-tree
   :delight
