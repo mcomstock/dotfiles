@@ -752,6 +752,8 @@ PARAM param"
   (setq file-name-handler-alist config--file-name-handler-alist))
 (add-hook 'emacs-startup-hook 'init--reset-file-name-handler)
 
+(add-hook 'emacs-startup-hook 'package-initialize)
+
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:
