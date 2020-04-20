@@ -1,14 +1,18 @@
 { pkgs, ... }:
 
 {
-  # nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree = true;
 
   home.packages = [
+    pkgs.fontconfig
     pkgs.git
     pkgs.htop
-    pkgs.termite
+    pkgs.neofetch
     pkgs.tmux
+    pkgs.ttf-envy-code-r
   ];
+
+  xdg.configFile."fontconfig/fonts.conf".source = ~/dotfiles/fonts.conf;
 
   programs.emacs = {
     enable = true;
@@ -16,6 +20,36 @@
 
   programs.firefox = {
     enable = true;
+  };
+
+  programs.termite = {
+    enable = true;
+    allowBold = true;
+    audibleBell = false;
+    backgroundColor = "rgba(0, 0, 0, 1)";
+    foregroundColor = "#bf699d";
+    clickableUrl = true;
+    font = "Envy Code R 10";
+    cursorBlink = "off";
+
+    colorsExtra = ''
+      color0 = #000000
+      color1 = #bf176d
+      color2 = #73c07a
+      color3 = #c07c63
+      color4 = #068bbf
+      color5 = #908ec0
+      color6 = #02abc0
+      color7 = #bf699d
+      color8 = #585858
+      color9 = #bf176d
+      color10 = #73c07a
+      color11 = #c07c63
+      color12 = #068bbf
+      color13 = #908ec0
+      color14 = #02abc0
+      color15 = #bf699d
+    '';
   };
 
   programs.zsh = {
@@ -28,6 +62,10 @@
       share = true;
       size = 1000000;
     };
+
+    envExtra = ''
+      export GIT_EDITOR="emacs -nw"
+    '';
 
     initExtraBeforeCompInit = ''
       # very short delay on escape key
