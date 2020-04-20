@@ -13,6 +13,9 @@
   ];
 
   xdg.configFile."fontconfig/fonts.conf".source = ~/dotfiles/fonts.conf;
+  xdg.configFile."sway/config".source = ~/dotfiles/sway/config;
+  xdg.configFile."waybar/config".source = ~/dotfiles/waybar/config;
+  xdg.configFile."waybar/style.css".source = ~/dotfiles/waybar/style.css;
 
   programs.emacs = {
     enable = true;
@@ -215,14 +218,6 @@
         };
       }
     ];
-
-    # autosuggestions = {
-    #   enable = true;
-    # };
-
-    # syntaxHighlighting = {
-    #   enable = true;
-    # };
 
     shellAliases = {
       emacs = "emacs -nw";
