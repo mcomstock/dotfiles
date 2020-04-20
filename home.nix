@@ -1,6 +1,11 @@
 { pkgs, ... }:
 
-{
+let
+  # Note: to get this to work, you must run
+  # nix-channel --add https://nixos.org/channels/nixpkgs-unstable unstable
+  # nix-channel --update
+  unstable = import <unstable> {};
+in {
   nixpkgs.config.allowUnfree = true;
 
   home.packages = [
@@ -10,12 +15,16 @@
     pkgs.neofetch
     pkgs.tmux
     pkgs.ttf-envy-code-r
-  ];
+  ] ++ (with unstable; [
+    spotify-tui
+    spotifyd
+  ]);
 
   xdg.configFile."fontconfig/fonts.conf".source = ~/dotfiles/fonts.conf;
   xdg.configFile."sway/config".source = ~/dotfiles/sway/config;
   xdg.configFile."waybar/config".source = ~/dotfiles/waybar/config;
   xdg.configFile."waybar/style.css".source = ~/dotfiles/waybar/style.css;
+  xdg.configFile."spotifyd/spotifyd.conf".source = ~/dotfiles/spotifyd/spotifyd.conf;
 
   programs.emacs = {
     enable = true;
