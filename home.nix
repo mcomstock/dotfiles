@@ -9,18 +9,22 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
+    feh
     fontconfig
     git
     htop
+    imagemagick
     mpv
     neofetch
     tmux
     ttf-envy-code-r
+    xfce.thunar
     zathura
     zsh
   ] ++ (with unstable; [
     spotify-tui
     spotifyd
+    udiskie
   ]);
 
   xdg.configFile."fontconfig/fonts.conf".source = ~/dotfiles/fonts.conf;
@@ -65,5 +69,9 @@ in {
       color14 = #02abc0
       color15 = #bf699d
     '';
+  };
+
+  services.udiskie = {
+    enable = true;
   };
 }
