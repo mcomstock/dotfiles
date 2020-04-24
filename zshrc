@@ -9,6 +9,9 @@
 # use vi-style commands
 bindkey -v
 
+alias emacs="emacs -nw"
+export GIT_EDITOR="emacs -nw"
+
 # very short delay on escape key
 KEYTIMEOUT=1
 
