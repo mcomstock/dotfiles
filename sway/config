@@ -166,3 +166,4 @@ include @sysconfdir@/sway/config.d/*
 
 default_border pixel 1
 seat seat0 xcursor_theme default 48
+exec udiskie

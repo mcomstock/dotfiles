@@ -90,6 +90,7 @@ local elapsed='$(echo $_elapsed_formatted[-1])'
 local time_info='%{%f$fg[blue]%}[$(echo $_elapsed_formatted[-1]) %D{%T %F}]%{%f%}'
 
 PROMPT="${time_info}${dir}${vc_info}${newline}${exit_code} ${input} "
+RPROMPT=""
 
 # up/down arrow only shows commands matching the current line
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search

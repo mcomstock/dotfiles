@@ -20,7 +20,6 @@ in {
     ttf-envy-code-r
     xfce.thunar
     zathura
-    zsh
   ] ++ (with unstable; [
     spotify-tui
     spotifyd
