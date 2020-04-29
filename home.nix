@@ -11,7 +11,6 @@ in {
   home.packages = with pkgs; [
     feh
     fontconfig
-    git
     htop
     imagemagick
     mpv
