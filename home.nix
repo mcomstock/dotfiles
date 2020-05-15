@@ -9,12 +9,15 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
+    direnv
     feh
     fontconfig
     htop
     imagemagick
     mpv
     neofetch
+    ripgrep
+    texlive.combined.scheme-full
     tmux
     ttf-envy-code-r
     xfce.thunar

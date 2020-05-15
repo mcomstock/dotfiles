@@ -32,6 +32,10 @@ autoload -U +X bashcompinit && bashcompinit
 
 [[ -e ~/.bash_profile ]] && source ~/.bash_profile
 
+if command -v direnv &> /dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
 # save history
 HISTSIZE=1000000
 if (( ! EUID )); then
