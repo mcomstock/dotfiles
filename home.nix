@@ -11,6 +11,7 @@ in {
   home.packages = with pkgs; [
     direnv
     feh
+    ffmpeg
     fontconfig
     htop
     imagemagick
@@ -33,6 +34,7 @@ in {
   xdg.configFile."waybar/config".source = ~/dotfiles/waybar/config;
   xdg.configFile."waybar/style.css".source = ~/dotfiles/waybar/style.css;
   xdg.configFile."spotifyd/spotifyd.conf".source = ~/dotfiles/spotifyd/spotifyd.conf;
+  xdg.configFile."zathura/zathurarc".source = ~/dotfiles/zathura/zathurarc;
 
   programs.emacs = {
     enable = true;
