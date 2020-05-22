@@ -5,6 +5,7 @@ let
   # nix-channel --add https://nixos.org/channels/nixpkgs-unstable unstable
   # nix-channel --update
   unstable = import <unstable> {};
+  fteqw = pkgs.callPackage custom-nix-derivations/fteqw/default.nix {};
 in {
   nixpkgs.config.allowUnfree = true;
 
@@ -13,8 +14,10 @@ in {
     feh
     ffmpeg
     fontconfig
+    gdb
     htop
     imagemagick
+    lhasa
     mpv
     neofetch
     ripgrep
@@ -27,7 +30,9 @@ in {
     spotify-tui
     spotifyd
     udiskie
-  ]);
+  ]) ++ [
+    fteqw
+  ];
 
   xdg.configFile."fontconfig/fonts.conf".source = ~/dotfiles/fonts.conf;
   xdg.configFile."sway/config".source = ~/dotfiles/sway/config;
