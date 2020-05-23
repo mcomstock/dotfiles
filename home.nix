@@ -30,6 +30,7 @@ in {
     spotify-tui
     spotifyd
     udiskie
+    ums
   ]) ++ [
     fteqw
   ];
