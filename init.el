@@ -603,6 +603,7 @@ PARAM param"
 (use-package projectile
   :delight '(:eval (concat " " (projectile-project-name)))
   :after (evil)
+  :defer 1
   :commands (projectile-mode))
 
 (use-package projectile-rails
