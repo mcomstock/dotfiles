@@ -5,6 +5,8 @@ let
   # nix-channel --add https://nixos.org/channels/nixpkgs-unstable unstable
   # nix-channel --update
   unstable = import <unstable> {};
+
+  auto-07p = pkgs.callPackage custom-nix-derivations/auto-07p/default.nix {};
   fteqw = pkgs.callPackage custom-nix-derivations/fteqw/default.nix {};
 in {
   nixpkgs.config.allowUnfree = true;
@@ -32,6 +34,7 @@ in {
     udiskie
     ums
   ]) ++ [
+    auto-07p
     fteqw
   ];
 
