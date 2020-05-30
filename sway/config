@@ -6,7 +6,7 @@ set $down j
 set $up k
 set $right l
 
-set $term termite -e "tmux new-session -A -s main"
+set $term termite -e "tmux new-session -A -s main" -t "Termite"
 set $browser firefox
 
 # Note: pass the final command to swaymsg so that the resulting window can be opened
