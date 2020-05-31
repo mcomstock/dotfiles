@@ -741,6 +741,17 @@ PARAM param"
   :delight (yas-minor-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Custom file-type behavior
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun quakec-mode ()
+  "Mode for QuakeC files."
+  (c-mode)
+  (flycheck-mode 0))
+
+(add-to-list 'auto-mode-alist '("\\.qc\\'" . quakec-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Revert startup performance optimizations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
