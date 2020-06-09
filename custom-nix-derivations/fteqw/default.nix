@@ -20,7 +20,7 @@
 
 stdenv.mkDerivation {
   name = "fteqw";
-  version = "r5696";
+  version = "r5702";
 
   nativeBuildInputs = [
     autoPatchelfHook
@@ -48,8 +48,8 @@ stdenv.mkDerivation {
 
   src = fetchsvn {
     url = "https://svn.code.sf.net/p/fteqw/code/trunk";
-    rev = "5696";
-    sha256 = "05h9f359qyx4d3rjvlba84p4fir5jmpralrc2s9jy098d14r1j5i";
+    rev = "5702";
+    sha256 = "1g31b27g62hwi19xnmbcrydawh6cdqf7dl6bidklmfr5ipm4sx3a";
   };
 
   # The libopus derivation provides the opus.h file under the opus directory, rather than at the top
