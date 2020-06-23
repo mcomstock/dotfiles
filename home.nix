@@ -8,6 +8,7 @@ let
 
   auto-07p = pkgs.callPackage custom-nix-derivations/auto-07p/default.nix {};
   fteqw = pkgs.callPackage custom-nix-derivations/fteqw/default.nix {};
+  qmk-cli = pkgs.callPackage custom-nix-derivations/qmk-cli/default.nix {};
 in {
   nixpkgs.config.allowUnfree = true;
 
@@ -36,6 +37,7 @@ in {
   ]) ++ [
     auto-07p
     fteqw
+    qmk-cli
   ];
 
   xdg.configFile."fontconfig/fonts.conf".source = ~/dotfiles/fonts.conf;
