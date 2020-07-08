@@ -17,6 +17,7 @@ in {
     direnv
     feh
     ffmpeg
+    firefox-wayland
     fontconfig
     gdb
     htop
@@ -50,10 +51,6 @@ in {
   xdg.configFile."zathura/zathurarc".source = ~/dotfiles/zathura/zathurarc;
 
   programs.emacs = {
-    enable = true;
-  };
-
-  programs.firefox = {
     enable = true;
   };
 
