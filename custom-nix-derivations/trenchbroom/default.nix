@@ -9,6 +9,7 @@
 , freeimage
 , freeglut
 , mesa
+, ninja
 , xorg
 , libGL
 , libGLU
@@ -16,7 +17,12 @@
 , glew
 }:
 
-mkDerivation rec {
+let
+  # glew-egl = glew.overrideAttrs (oldAttrs: {
+  #   pname = "glew-egl";
+  #   makeFlags = ["SYSTEM=linux-egl"];
+  # });
+in mkDerivation rec {
   name = "trenchbroom";
   version = "60ba694ccad407d83a6780a6a2a7af612a7878a3";
 
@@ -33,6 +39,7 @@ mkDerivation rec {
     cmake
     git
     makeWrapper
+    ninja
   ];
 
   buildInputs = [
@@ -46,9 +53,8 @@ mkDerivation rec {
     libGL
     libGLU
     freetype
-    # This should theoretically create a Wayland-compatible version of GLEW:
-    # glew-wayland = pkgs.glew.overrideAttrs ( oldAttrs: rec { makeFlags = ["SYSTEM=linux-egl"]; } );
-    # It still crashed, but maybe will work someday so XWayland is no longer necessary here.
+    # The glew-egl versions should supposedly work with Wayland, but it still crashes.
+    # glew-egl
     glew
   ];
 
@@ -57,13 +63,18 @@ mkDerivation rec {
   dontInstall = true;
 
   # GLEW breaks when using Wayland for now, so force X.
-  qtWrapperArgs = [ "--set QT_QPA_PLATFORM xcb" ];
+  qtWrapperArgs = [
+    # "--prefix LD_LIBRARY_PATH : ${glew-egl.out}/lib"
+    "--prefix LD_LIBRARY_PATH : ${glew.out}/lib"
+    # Options: wayland-egl, wayland, wayland-xcomposite-egl, wayland-xcomposite-glx, eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, xcb
+    "--set QT_QPA_PLATFORM xcb"
+  ];
 
   preFixup = ''
     mkdir build
     cd build
 
-    cmake .. -DCMAKE_BUILD_TYPE=Release
+    cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
     cmake --build . --target TrenchBroom-nomanual
 
     cd ..
