@@ -449,7 +449,10 @@ PARAM param"
       (when (and eslint (file-executable-p eslint))
         (setq-local flycheck-javascript-eslint-executable eslint))))
 
-  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules))
+  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
+  (setq flycheck-gfortran-language-standard "gnu")
+  (add-to-list 'flycheck-gfortran-warnings "pedantic"))
 
 (use-package flycheck-inline
   :commands (flycheck-inline-mode))
