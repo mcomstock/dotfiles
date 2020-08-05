@@ -183,7 +183,7 @@ PARAM param"
 ;; ELPA additional repositories
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 
 ;; Rather than calling (package-initialize), manually set the load path.
