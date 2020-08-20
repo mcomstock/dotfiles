@@ -49,3 +49,7 @@ Thumbs.db
 *.aux
 *.out
 *.pdf
+*.bbl
+*.bcf
+*.blg
+*.run.xml
