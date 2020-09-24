@@ -31,6 +31,7 @@ in {
     ttf-envy-code-r
     xfce.thunar
     zathura
+    zip
   ] ++ (with unstable; [
     spotify-tui
     spotifyd
