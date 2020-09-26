@@ -474,7 +474,9 @@ PARAM param"
   (add-hook 'post-command-hook #'init--show-flymake-message))
 
 (use-package gitignore-mode
-  :commands (gitignore-mode))
+  :mode
+  ("\\.gitignore\\'" . gitignore-mode)
+  ("\\gitignore\\'" . gitignore-mode))
 
 (use-package glsl-mode
   :mode
