@@ -14,6 +14,8 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
+    clang
+    clang-tools
     direnv
     feh
     ffmpeg
