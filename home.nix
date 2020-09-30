@@ -55,6 +55,9 @@ in {
 
   programs.emacs = {
     enable = true;
+    extraPackages = epkgs: [
+      epkgs.emacs-libvterm
+    ];
   };
 
   programs.termite = {

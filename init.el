@@ -712,6 +712,9 @@ PARAM param"
   :init
   (add-hook 'typescript-mode-hook #'rainbow-delimiters-mode))
 
+(use-package vterm
+  :commands (vterm))
+
 (use-package vue-mode
   :mode
   ("\\.vue\\'" . vue-mode))
