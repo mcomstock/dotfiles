@@ -22,6 +22,7 @@ in {
     firefox-wayland
     fontconfig
     gdb
+    gnuplot
     htop
     imagemagick
     lhasa
