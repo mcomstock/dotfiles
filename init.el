@@ -68,7 +68,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (evil-collection glsl-mode cmake-mode nix-mode dockerfile-mode typescript-mode flycheck-inline lsp-ui lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
+    (gnuplot evil-collection glsl-mode cmake-mode nix-mode dockerfile-mode typescript-mode flycheck-inline lsp-ui lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -484,6 +484,10 @@ PARAM param"
   ("\\.vert\\'" . glsl-mode)
   ("\\.frag\\'" . glsl-mode)
   ("\\.geom\\'" . glsl-mode))
+
+(use-package gnuplot
+  :mode
+  ("\\.gp\\'" . gnuplot-mode))
 
 (use-package haml-mode
   :mode
