@@ -68,7 +68,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(package-selected-packages
    (quote
-    (gnuplot evil-collection glsl-mode cmake-mode nix-mode dockerfile-mode typescript-mode flycheck-inline lsp-ui lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
+    (direnv gnuplot evil-collection glsl-mode cmake-mode nix-mode dockerfile-mode typescript-mode flycheck-inline lsp-ui lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode)))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -117,9 +117,12 @@ PARAM param"
 ;; Tab indents to positions in tab-stop-list
 (define-key text-mode-map (kbd "<tab>") 'tab-to-tab-stop)
 
-;; for text consoles - don't need menu bar
-(unless window-system
-  (menu-bar-mode 0))
+;; Remove UI elements
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
+
+(set-default-font "Envy Code R 10")
 
 ;; Change cursor shape depending on editing mode
 (defun set-cursor-shape ()
@@ -300,6 +303,10 @@ PARAM param"
 
 (use-package delight
   :commands (delight))
+
+(use-package direnv
+  :config
+  (direnv-mode))
 
 (use-package diff-hl
   :commands (global-diff-hl-mode diff-hl-mode)
