@@ -60,7 +60,7 @@ PARAM param"
  '(css-indent-offset 2)
  '(custom-safe-themes
    (quote
-    ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
+    ("12cd358752e04496a3ace00dd1ea80eccba906f22afce0490280618327e1279a" default)))
  '(elm-indent-offset 2)
  '(evil-want-C-u-scroll t)
  '(js-indent-level 2)
@@ -122,7 +122,7 @@ PARAM param"
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 
-(set-default-font "Envy Code R 10")
+(set-default-font "Envy Code R 9")
 
 ;; Change cursor shape depending on editing mode
 (defun set-cursor-shape ()
