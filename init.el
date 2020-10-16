@@ -97,6 +97,7 @@ PARAM param"
 (setq-default tab-width 4)
 (setq-default fill-column 100)
 (setq-default show-trailing-whitespace t)
+(setq-default tab-always-indent t)
 
 (setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
 (setq line-number-display-limit-width 2000000)
@@ -108,14 +109,12 @@ PARAM param"
 (global-hl-line-mode)
 (show-paren-mode 1)
 (xterm-mouse-mode 1)
+(blink-cursor-mode 0)
 
 ;; Home and End keys
 (global-set-key [home] 'beginning-of-buffer)
 (global-set-key [select] 'end-of-buffer)
 (global-set-key [end] 'end-of-buffer)
-
-;; Tab indents to positions in tab-stop-list
-(define-key text-mode-map (kbd "<tab>") 'tab-to-tab-stop)
 
 ;; Remove UI elements
 (menu-bar-mode 0)
@@ -434,7 +433,7 @@ PARAM param"
   (global-evil-surround-mode 1))
 
 (use-package evil-collection
-  :after evil
+  :after (evil)
   :config
   (evil-collection-init))
 
@@ -582,6 +581,7 @@ PARAM param"
 (use-package lsp-mode
   :commands (lsp)
   :init
+  (add-hook 'lsp-mode-hook #'yas-minor-mode)
   (setq-default lsp-prefer-flymake nil))
 
 (use-package lsp-ui
@@ -724,7 +724,14 @@ PARAM param"
   (add-hook 'typescript-mode-hook #'rainbow-delimiters-mode))
 
 (use-package vterm
-  :commands (vterm))
+  :commands (vterm)
+  :init
+  (add-hook 'vterm-mode-hook
+            (lambda ()
+              (hl-line-mode -1)
+              (setq-local show-trailing-whitespace nil)))
+  :config
+  (setq vterm-shell "zsh"))
 
 (use-package vue-mode
   :mode
@@ -768,7 +775,6 @@ PARAM param"
   :delight (yard-mode))
 
 (use-package yasnippet
-  :defer 1
   :commands yas-minor-mode
   :delight (yas-minor-mode))
 
