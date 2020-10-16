@@ -36,8 +36,10 @@ in {
     zathura
     zip
   ] ++ (with unstable; [
+    python3
     spotify-tui
     spotifyd
+    texlab
     udiskie
     ums
   ]) ++ [
