@@ -121,7 +121,7 @@ PARAM param"
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 
-(set-default-font "Envy Code R 9")
+(set-frame-font "Envy Code R 10")
 
 ;; Change cursor shape depending on editing mode
 (defun set-cursor-shape ()
@@ -183,7 +183,6 @@ PARAM param"
 
 ;; ELPA additional repositories
 (require 'package)
-(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 
@@ -364,6 +363,7 @@ PARAM param"
   (add-hook 'after-init-hook 'init--enable-evil-mode)
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
+  (setq evil-undo-system 'undo-tree)
   :config
   (evil-select-search-module 'evil-search-module 'evil-search)
   ;; Use space like leader key
