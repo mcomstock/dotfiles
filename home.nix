@@ -6,48 +6,56 @@ let
   # nix-channel --update
   unstable = import <unstable> {};
 
-  auto-07p = pkgs.callPackage custom-nix-derivations/auto-07p/default.nix {};
-  fteqw = pkgs.callPackage custom-nix-derivations/fteqw/default.nix {};
-  qmk-cli = pkgs.callPackage custom-nix-derivations/qmk-cli/default.nix {};
-  trenchbroom = pkgs.libsForQt5.callPackage custom-nix-derivations/trenchbroom/default.nix {};
+  # auto-07p = pkgs.callPackage custom-nix-derivations/auto-07p/default.nix {};
+  # fteqw = pkgs.callPackage custom-nix-derivations/fteqw/default.nix {};
+  # qmk-cli = pkgs.callPackage custom-nix-derivations/qmk-cli/default.nix {};
+  # trenchbroom = pkgs.libsForQt5.callPackage custom-nix-derivations/trenchbroom/default.nix {};
 in {
   nixpkgs.config.allowUnfree = true;
 
-  home.packages = with pkgs; [
-    clang
-    clang-tools
-    direnv
-    feh
-    ffmpeg
-    firefox-wayland
-    fontconfig
-    gdb
-    gnuplot
-    htop
-    imagemagick
-    lhasa
-    mpv
-    neofetch
-    ripgrep
-    texlive.combined.scheme-full
-    tmux
-    ttf-envy-code-r
-    xfce.thunar
-    zathura
-    zip
-  ] ++ (with unstable; [
-    python3
-    spotify-tui
-    spotifyd
-    texlab
-    udiskie
-    ums
-  ]) ++ [
-    auto-07p
-    fteqw
-    qmk-cli
-    trenchbroom
-  ];
+  home = {
+    username = "max";
+    stateVersion = "20.09";
+    homeDirectory = "/home/max";
+
+    packages = with pkgs; [
+      clang
+      clang-tools
+      corefonts
+      direnv
+      feh
+      ffmpeg
+      firefox-wayland
+      fontconfig
+      gdb
+      gnuplot
+      htop
+      imagemagick
+      krita
+      lhasa
+      mpv
+      neofetch
+      ripgrep
+      texlive.combined.scheme-full
+      tmux
+      ttf-envy-code-r
+      xfce.thunar
+      zathura
+      zip
+    ] ++ (with unstable; [
+      python3
+      spotify-tui
+      spotifyd
+      texlab
+      udiskie
+      ums
+    ]) ++ [
+      # auto-07p
+      # fteqw
+      # qmk-cli
+      # trenchbroom
+    ];
+  };
 
   xdg.configFile."fontconfig/fonts.conf".source = ~/dotfiles/fonts.conf;
   xdg.configFile."sway/config".source = ~/dotfiles/sway/config;
@@ -59,7 +67,7 @@ in {
   programs.emacs = {
     enable = true;
     extraPackages = epkgs: [
-      epkgs.emacs-libvterm
+      epkgs.vterm
     ];
   };
 
@@ -70,7 +78,7 @@ in {
     backgroundColor = "rgba(0, 0, 0, 1)";
     foregroundColor = "#bf699d";
     clickableUrl = true;
-    font = "Envy Code R 10";
+    font = "Monospace 10";
     cursorBlink = "off";
 
     colorsExtra = ''
