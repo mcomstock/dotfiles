@@ -35,6 +35,14 @@ in {
       lhasa
       mpv
       neofetch
+      # Notes in case processing breaks: Processing requires the Oracle JDK rather than OpenJDK, but
+      # now Oracle requires a login to download the JDK. However, I was able to get the right
+      # version here:
+      # https://download.oracle.com/otn-pub/java/jdk/8u271-b09/61ae65e088624f5aaa0b1d2d801acb16/jdk-8u271-linux-x64.tar.gz
+      # by following this advice:
+      # https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6#gistcomment-3112817 (copy
+      # the download link that redirects to sign-on and replace "otn" with "otn-pub".
+      processing
       ripgrep
       texlive.combined.scheme-full
       tmux
