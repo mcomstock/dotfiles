@@ -51,6 +51,7 @@ in {
       zathura
       zip
     ] ++ (with unstable; [
+      julia
       python3
       spotify-tui
       spotifyd
