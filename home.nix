@@ -29,12 +29,14 @@ in {
       fontconfig
       gdb
       gnuplot
+      grim
       htop
       imagemagick
       krita
       lhasa
       mpv
       neofetch
+      poppler_utils
       # Notes in case processing breaks: Processing requires the Oracle JDK rather than OpenJDK, but
       # now Oracle requires a login to download the JDK. However, I was able to get the right
       # version here:
@@ -43,6 +45,7 @@ in {
       # https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6#gistcomment-3112817 (copy
       # the download link that redirects to sign-on and replace "otn" with "otn-pub".
       processing
+      spotifyd
       ripgrep
       texlive.combined.scheme-full
       tmux
@@ -54,7 +57,6 @@ in {
       julia
       python3
       spotify-tui
-      spotifyd
       texlab
       udiskie
       ums
