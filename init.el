@@ -434,6 +434,10 @@ PARAM param"
   :config
   (evil-collection-init))
 
+(use-package evil-collection-unimpaired
+  :after (evil evil-collection)
+  :delight)
+
 (use-package flycheck
   :commands (flycheck-mode global-flycheck-mode)
   :init

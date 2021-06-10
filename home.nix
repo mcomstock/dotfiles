@@ -32,6 +32,7 @@ in {
       grim
       htop
       imagemagick
+      ispell
       krita
       lhasa
       mpv
@@ -44,9 +45,10 @@ in {
       # by following this advice:
       # https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6#gistcomment-3112817 (copy
       # the download link that redirects to sign-on and replace "otn" with "otn-pub".
-      processing
+      # processing
       spotifyd
       ripgrep
+      slurp
       texlive.combined.scheme-full
       tmux
       ttf-envy-code-r
@@ -54,7 +56,7 @@ in {
       zathura
       zip
     ] ++ (with unstable; [
-      julia
+      julia_16-bin
       python3
       spotify-tui
       texlab
