@@ -21,12 +21,10 @@ in {
     packages = with pkgs; [
       clang
       clang-tools
-      corefonts
       direnv
       feh
       ffmpeg
       firefox-wayland
-      fontconfig
       gdb
       gnuplot
       grim
@@ -37,6 +35,7 @@ in {
       lhasa
       mpv
       neofetch
+      notify-desktop
       poppler_utils
       # Notes in case processing breaks: Processing requires the Oracle JDK rather than OpenJDK, but
       # now Oracle requires a login to download the JDK. However, I was able to get the right
@@ -84,34 +83,64 @@ in {
     ];
   };
 
-  programs.termite = {
+  programs.alacritty = {
     enable = true;
-    allowBold = true;
-    audibleBell = false;
-    backgroundColor = "rgba(0, 0, 0, 1)";
-    foregroundColor = "#bf699d";
-    clickableUrl = true;
-    font = "Monospace 10";
-    cursorBlink = "off";
-
-    colorsExtra = ''
-      color0 = #000000
-      color1 = #bf176d
-      color2 = #73c07a
-      color3 = #c07c63
-      color4 = #068bbf
-      color5 = #908ec0
-      color6 = #02abc0
-      color7 = #bf699d
-      color8 = #585858
-      color9 = #bf176d
-      color10 = #73c07a
-      color11 = #c07c63
-      color12 = #068bbf
-      color13 = #908ec0
-      color14 = #02abc0
-      color15 = #bf699d
-    '';
+    settings = {
+      font = {
+        size = 10.0;
+        normal = {
+          family = "monospace";
+          style = "Regular";
+        };
+        bold = {
+          family = "monospace";
+          style = "Bold";
+        };
+        italic = {
+          family = "monospace";
+          style = "Italic";
+        };
+        bold_italic = {
+          family = "monospace";
+          style = "Bold Italic";
+        };
+      };
+      # Colors (Solarized Dark)
+      colors = {
+        # Default colors
+        primary = {
+          background = "#002b36"; # base03
+          foreground = "#839496"; # base0
+        };
+        # Cursor colors
+        cursor = {
+          text = "#002b36"; # base03
+          cursor = "#839496"; # base0
+        };
+        # Normal colors
+        normal = {
+          black = "#073642"; # base02
+          red = "#dc322f"; # red
+          green = "#859900"; # green
+          yellow = "#b58900"; # yellow
+          blue = "#268bd2"; # blue
+          magenta = "#d33682"; # magenta
+          cyan = "#2aa198"; # cyan
+          white = "#eee8d5"; # base2
+        };
+        # Bright colors
+        bright = {
+          black = "#586e75"; # base01
+          red = "#cb4b16"; # orange
+          green = "#586e75"; # base01
+          yellow = "#657b83"; # base00
+          blue = "#839496"; # base0
+          magenta = "#6c71c4"; # violet
+          cyan = "#93a1a1"; # base1
+          white = "#fdf6e3"; # base3
+        };
+      };
+    };
   };
 
   services.udiskie = {

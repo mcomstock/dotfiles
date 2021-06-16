@@ -66,7 +66,7 @@ PARAM param"
  '(lua-indent-level 4)
  '(org-agenda-files '("~/org"))
  '(package-selected-packages
-   '(julia-mode processing-mode direnv gnuplot evil-collection glsl-mode cmake-mode nix-mode dockerfile-mode typescript-mode flycheck-inline lsp-ui lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode))
+   '(solarized-theme julia-mode processing-mode direnv gnuplot evil-collection glsl-mode cmake-mode nix-mode dockerfile-mode typescript-mode flycheck-inline lsp-ui lsp-mode diff-hl counsel-projectile counsel swiper ivy markdown-mode elixir-mode racer flycheck-rust eglot elm-mode evil-org vue-mode projectile-rails yard-mode gitignore-mode coffee-mode projectile haml-mode evil-nerd-commenter evil-args macrostep evil-anzu winum which-key evil-surround lua-mode use-package js2-mode rjsx-mode haxe-mode evil delight goto-chg toml-mode undo-tree company auto-async-byte-compile async flycheck yasnippet rainbow-delimiters rust-mode haskell-mode yaml-mode rainbow-mode less-css-mode json-mode))
  '(ruby-align-chained-calls t)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-insert-encoding-magic-comment nil)
@@ -629,10 +629,10 @@ PARAM param"
 (use-package org
   :commands (org-mode))
 
-(use-package vice-theme
-  :init
-  (setq custom-theme-directory "~/.emacs.d/themes")
-  (load-theme 'vice t))
+;; (use-package vice-theme
+;;   :init
+;;   (setq custom-theme-directory "~/.emacs.d/themes")
+;;   (load-theme 'vice t))
 
 (use-package processing-mode
   :commands (processing-mode)
@@ -710,6 +710,10 @@ PARAM param"
   :commands (sh-mode)
   :config
   (add-hook 'sh-mode-hook #'rainbow-delimiters-mode))
+
+(use-package solarized-theme
+  :init
+  (load-theme 'solarized-dark t))
 
 (use-package swiper
   :after (ivy)

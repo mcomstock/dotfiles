@@ -6,7 +6,8 @@ set $down j
 set $up k
 set $right l
 
-set $term termite -e "tmux new-session -A -s main" -t "Termite"
+# set $term termite -e "tmux new-session -A -s main" -t "Termite"
+set $term alacritty -e tmux new-session -A -s main
 set $browser firefox
 
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -172,3 +173,4 @@ include @sysconfdir@/sway/config.d/*
 default_border pixel 1
 seat seat0 xcursor_theme default 48
 exec udiskie
+exec mako
